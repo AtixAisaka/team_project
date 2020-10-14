@@ -107,6 +107,7 @@
       <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/vendor/scrivo/highlight.php" />
+      <path value="$PROJECT_DIR$/vendor/laravel/ui" />
     </include_path>
   </component>
   <component name="ProjectId" id="1irilhua9Oa0nZYkAlmPthQAy1v" />
@@ -135,7 +136,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602672263934</updated>
-      <workItem from="1602672268171" duration="83000" />
+      <workItem from="1602672268171" duration="682000" />
     </task>
     <servers />
   </component>

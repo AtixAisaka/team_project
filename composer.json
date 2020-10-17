@@ -52,16 +52,16 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan migrate"
+            "@php artisan migrate:fresh"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan migrate"
+            "@php artisan migrate:fresh"
 
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
-            "@php artisan migrate"
+            "@php artisan migrate:fresh"
 
         ]
     }

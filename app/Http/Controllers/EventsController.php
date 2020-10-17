@@ -29,7 +29,7 @@ class EventsController extends Controller
         $event->end_date = $request['end_date'];
         $event->save();
         \Session::flash('success', 'event pridaný');
-        return redirect::to('/events')
+        return redirect::to('/events');
 
     }
 }

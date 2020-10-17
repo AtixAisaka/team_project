@@ -6,6 +6,7 @@ use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Calendar;
 use Illuminate\Support\Facades\Redirect;
+use App\Event;
 
 class EventsController extends Controller
 {

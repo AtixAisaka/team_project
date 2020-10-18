@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Events;
 use Calendar;
-use Dotenv\Validator;
+use Illuminate\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 

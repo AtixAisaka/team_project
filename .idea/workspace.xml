@@ -140,7 +140,7 @@
       <updated>1602672263934</updated>
       <workItem from="1602672268171" duration="3388000" />
       <workItem from="1602957138410" duration="1248000" />
-      <workItem from="1602971298859" duration="10460000" />
+      <workItem from="1602971298859" duration="10666000" />
     </task>
     <servers />
   </component>
@@ -148,6 +148,10 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="785" y="423" key="#Notifications" timestamp="1602982170057">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="785" y="423" key="#Notifications/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1602982170057" />
     <state x="680" y="315" key="FileChooserDialogImpl" timestamp="1602961187482">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

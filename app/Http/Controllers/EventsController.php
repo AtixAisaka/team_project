@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Dotenv\Validator;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Calendar;
 use app\Events;

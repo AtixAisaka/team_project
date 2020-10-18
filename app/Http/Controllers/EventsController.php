@@ -36,7 +36,7 @@ class EventsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            \Session::flash('warnning','Please enter the valid details');
+            \Session::flash('warnning','Nekompletné alebo nesprávne dáta');
             return Redirect::to('/events')->withInput()->withErrors($validator);
         }
 
@@ -46,7 +46,7 @@ class EventsController extends Controller
         $events->end_date = $request['end_date'];
         $events->save();
 
-        \Session::flash('success','Event added successfully.');
+        \Session::flash('success','Event Pridaný');
         return Redirect::to('/events');
 
     }

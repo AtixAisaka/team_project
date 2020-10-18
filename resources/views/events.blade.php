@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <head>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+    </head>
     <div class="container">
 
         <div class="panel panel-primary">
@@ -61,10 +64,20 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Informácie eventu</div>
             <div class="panel-body" >
-            <!--  {!! $calendar_details->calendar() !!} -->
-                <div class="col-md-12">
-                    <Fullcalendar :plugins="calendarPlugins" :events="events" />
-                </div>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+
+                <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/lang-all.js"></script>
+
+                <script type="text/javascript">
+                    $(document).ready(function(){
+
+                        $('#calendar').fullCalendar({
+                            // for v2
+                            lang: 'en',
+                        });
+                    });
+                </script>
             </div>
         </div>
 

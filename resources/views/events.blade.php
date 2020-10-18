@@ -61,7 +61,10 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Informácie eventu</div>
             <div class="panel-body" >
-                {!! $calendar_details->calendar() !!}
+            <!--  {!! $calendar_details->calendar() !!} -->
+                <div class="col-md-12">
+                    <Fullcalendar :plugins="calendarPlugins" :events="events" />
+                </div>
             </div>
         </div>
 

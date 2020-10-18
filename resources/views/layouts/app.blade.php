@@ -81,6 +81,6 @@
             @yield('content')
         </main>
     </div>
-    {!! $calendar->calendar() !!} <script src="{{ asset('vendor/jquery/jquery-3.2.1.min.js') }}"></script> <script src="{{ asset('js/moment.js') }}"></script> <script src="{{ asset('vendor/fullcalendar/fullcalendar.min.js') }}"></script> {!! $calendar->script() !!}
+
 </body>
 </html>

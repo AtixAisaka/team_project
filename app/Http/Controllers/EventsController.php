@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Events;
+use Calendar;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
-use Calendar;
-use app\Events;
 use Illuminate\Support\Facades\Redirect;
 
 class EventsController extends Controller
@@ -39,7 +40,7 @@ class EventsController extends Controller
             return Redirect::to('/events')->withInput()->withErrors($validator);
         }
 
-        $events = new Events();
+        $events = new Events;
         $events->event_name = $request['event_name'];
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];

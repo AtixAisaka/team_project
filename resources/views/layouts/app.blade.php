@@ -12,8 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+
 
 
     <!-- Fonts -->
@@ -79,8 +78,22 @@
 
         <main class="py-4">
             @yield('content')
+            <div id="calendar"></div>
         </main>
     </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/lang-all.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $('#calendar').fullCalendar({
+                // for v2
+                lang: 'ar',
+            });
+        });
+    </script>
 </body>
 </html>

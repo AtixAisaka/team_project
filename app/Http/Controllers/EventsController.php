@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Dotenv\Validator;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Calendar;
 use app\Events;
@@ -13,12 +14,12 @@ class EventsController extends Controller
     public function index(){
         $events = Events::get();
         $event_list = [];
-        foreach ($events as $key => $event) {
+        foreach ($events as $key => $events) {
             $event_list[] = Calendar::event(
-                $event->event_name,
+                $events->event_name,
                 true,
-                new \DateTime($event->start_date),
-                new \DateTime($event->end_date.' +1 day')
+                new \DateTime($events->start_date),
+                new \DateTime($events->end_date.' +1 day')
             );
         }
         $calendar_details = Calendar::addEvents($event_list);
@@ -39,11 +40,11 @@ class EventsController extends Controller
             return Redirect::to('/events')->withInput()->withErrors($validator);
         }
 
-        $event = new Events();
-        $event->event_name = $request['event_name'];
-        $event->start_date = $request['start_date'];
-        $event->end_date = $request['end_date'];
-        $event->save();
+        $events = new Events();
+        $events->event_name = $request['event_name'];
+        $events->start_date = $request['start_date'];
+        $events->end_date = $request['end_date'];
+        $events->save();
 
         \Session::flash('success','Event added successfully.');
         return Redirect::to('/events');

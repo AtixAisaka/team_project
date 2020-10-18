@@ -25,7 +25,7 @@
 
                     <div class="col-xs-4 col-sm-4 col-md-4">
                         <div class="form-group">
-                            {!! Form::label('začiatok eventu','koniec eventu') !!}
+                            {!! Form::label('Meno eventu','Meno eventu') !!}
                             <div class="">
                                 {!! Form::text('event_name', null, ['class' => 'form-control']) !!}
                                 {!! $errors->first('event_name', '<p class="alert alert-danger">:message</p>') !!}
@@ -35,7 +35,7 @@
 
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <div class="form-group">
-                            {!! Form::label('začiatok eventu','koniec eventu') !!}
+                            {!! Form::label('začiatok eventu','začiatok eventu') !!}
                             <div class="">
                                 {!! Form::date('start_date', null, ['class' => 'form-control']) !!}
                                 {!! $errors->first('start_date', '<p class="alert alert-danger">:message</p>') !!}
@@ -45,7 +45,7 @@
 
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <div class="form-group">
-                            {!! Form::label('začiatok eventu','koniec eventu') !!}
+                            {!! Form::label('koniec eventu','koniec eventu') !!}
                             <div class="">
                                 {!! Form::date('end_date', null, ['class' => 'form-control']) !!}
                                 {!! $errors->first('end_date', '<p class="alert alert-danger">:message</p>') !!}

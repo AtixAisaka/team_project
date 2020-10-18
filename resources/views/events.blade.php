@@ -66,5 +66,4 @@
         </div>
 
     </div>
-    {!! $calendar_details->script() !!}
 @endsection

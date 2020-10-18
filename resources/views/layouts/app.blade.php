@@ -81,6 +81,5 @@
             @yield('content')
         </main>
     </div>
-    {!! $calendar_details->script() !!}
 </body>
 </html>

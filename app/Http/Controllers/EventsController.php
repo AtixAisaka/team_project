@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 class EventsController extends Controller
 {
     public function index(){
-        $events = Event::get();
+        $events = Events::get();
         $event_list = [];
         foreach ($events as $key => $event) {
             $event_list[] = Calendar::event(
@@ -39,7 +39,7 @@ class EventsController extends Controller
             return Redirect::to('/events')->withInput()->withErrors($validator);
         }
 
-        $event = new Event;
+        $event = new Events();
         $event->event_name = $request['event_name'];
         $event->start_date = $request['start_date'];
         $event->end_date = $request['end_date'];

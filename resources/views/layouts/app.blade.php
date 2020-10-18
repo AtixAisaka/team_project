@@ -78,23 +78,7 @@
 
         <main class="py-4">
             @yield('content')
-
         </main>
     </div>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/lang-all.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-
-            $('#calendar').fullCalendar({
-                // for v2
-                lang: 'ar',
-            });
-        });
-    </script>
-    <div id="calendar"></div>
 </body>
 </html>

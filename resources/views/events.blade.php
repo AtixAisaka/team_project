@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+    </head>
     <div class="container">
 
         <div class="panel panel-primary">
@@ -61,8 +66,12 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Informácie eventu</div>
             <div class="panel-body" >
-             {!! $calendar_details->calendar() !!}
+                <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+                {!! $calendar_details->calendar() !!}
+            </div>
+
         </div>
 
-    </div>
 @endsection

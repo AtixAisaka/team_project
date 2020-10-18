@@ -78,7 +78,7 @@
 
         <main class="py-4">
             @yield('content')
-            <div id="calendar"></div>
+
         </main>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
@@ -95,5 +95,6 @@
             });
         });
     </script>
+    <div id="calendar"></div>
 </body>
 </html>

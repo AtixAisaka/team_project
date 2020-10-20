@@ -17,8 +17,22 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', [
+    "as" => "home", "uses" => 'HomeController@index'
+]);
 
-Auth::routes();
+Route::get('events', [
+    "as" => "events.index", "uses" => 'EventsController@index'
+]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+Route::get('eventlist', [
+    "as" => "eventlist", "uses" => 'EventsController@showEventList'
+]);
+
+Route::post('events', [
+    "as" => "events.add", "uses" => 'EventsController@addEvent'
+]);
+
+

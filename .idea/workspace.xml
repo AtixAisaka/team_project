@@ -41,6 +41,7 @@
       <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/flare.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/database/migrations/2020_10_17_223201_create_events_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_10_17_223201_create_events_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/events.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
@@ -6996,7 +6997,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -7028,6 +7029,7 @@
       <workItem from="1603197966449" duration="4763000" />
       <workItem from="1603219958185" duration="7599000" />
       <workItem from="1603228770436" duration="726000" />
+      <workItem from="1603287926795" duration="5310000" />
     </task>
     <servers />
   </component>
@@ -7056,6 +7058,10 @@
     </state>
     <state x="595" y="306" key="FileChooserDialogImpl/0.0.1680.1010@0.0.1680.1010" timestamp="1603226849723" />
     <state x="680" y="315" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1602961187482" />
+    <state x="505" y="229" key="run.anything.popup" timestamp="1603289052162">
+      <screen x="0" y="0" width="1680" height="1010" />
+    </state>
+    <state x="505" y="229" key="run.anything.popup/0.0.1680.1010@0.0.1680.1010" timestamp="1603289052162" />
     <state x="563" y="280" width="672" height="678" key="search.everywhere.popup" timestamp="1602985139781">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -2,15 +2,12 @@
 @section('content')
     <html lang="en">
     <head>
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
     </head>
     <div class="container">
 
-        <div class="panel panel-primary">
-
-            <div class="panel-body">
-
+        <div class="breadcrumb">
 
                     <form method="post" action="{{action('EventsController@addEvent')}}">
                 <div class="row">
@@ -57,12 +54,35 @@
                     <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="userid" value="{{$user -> id}}">
+                        <input type="hidden" name="helper" value="1">
                         <input type="submit" name="submit" value="Pridať event"><br>
                     </div>
                 </div>
             </form>
 
             </div>
+    </div>
+
+    <div class="container">
+        <div class="jumbotron">
+                <table>
+                    @foreach($events as $event)
+                        <tr>
+                            <td> Meno: {{$event-> event_name}}, &nbsp; Zakladateľ: {{$user->name}}, &nbsp; </td>
+                            <td> Od: {{$event-> start_date}}, &nbsp; Do: {{$event-> end_date}}.</td>
+                            @if($event->userid == $user->id)
+                                <td>
+                                    <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id]) }}">&nbsp; Editovať &nbsp;</a>
+                                </td>
+                                <td>
+                                    <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}"> Mazať</a>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        </div>
 
 
 

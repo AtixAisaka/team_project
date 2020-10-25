@@ -13,9 +13,9 @@
                     Nazov eventu:<br>
                     <input type="text" name="event_name" value="{{ $event->event_name }}"><br>
                     Od:<br>
-                    <input type="date" name="start_date" value="{{ $event->start_date }}"><br>
+                    <input type="text" name="start_date" value="{{ $event->start_date }}"><br>
                     Do:<br>
-                    <input type="date" name="end_date" value="{{ $event->end_date }}"><br>
+                    <input type="text" name="end_date" value="{{ $event->end_date }}"><br>
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="submit" name="submit" value="Uložiť"><br>
                 </form>

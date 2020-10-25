@@ -9,38 +9,46 @@ use Calendar;
 use \Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use DB;
 
 class EventsController extends Controller
 {
 
     public function index(){
-        if (Auth::check())
-        {
-            $user = Auth::user();
-            $events = Events::get();
-            $event_list = [];
-            foreach ($events as $key => $events) {
-                $event_list[] = Calendar::event(
-                    $events->event_name,
-                    true,
-                    new \DateTime($events->start_date),
-                    new \DateTime($events->end_date.' +1 day')
-                );
-            }
-            $calendar_details = Calendar::addEvents($event_list);
+        $events = Events::get();
+        $event_list = [];
+        foreach ($events as $key => $events) {
+            $event_list[] = Calendar::event(
+                $events->event_name,
+                true,
+                new \DateTime($events->start_date),
+                new \DateTime($events->end_date.' +1 day')
+            );
+        }
+        $calendar_details = Calendar::addEvents($event_list);
 
-            return view('events', compact('calendar_details'), ["user" => $user]);
-        } else return view("welcome");
+        if (Auth::check()) {
+            $user = Auth::user();
+            return view('events', compact('calendar_details', "user"));
+        } else {
+            return view('events', compact('calendar_details'));
+        }
+    }
+
+    function getUsername($userId) {
+        return \DB::table('users')->where('user_id', $userId)->first()->name;
     }
 
     public function showEventList(){
+        $events = Events::all();
+        $users = DB::table('users')->get();
         if (Auth::check())
         {
-            $user = Auth::user();
-            $events = Events::all();
-
-            return view('eventlist', ["events" => $events], ["user" => $user]);
-        } else return view("welcome");
+            $authuser = Auth::user();
+            return view('eventlist', compact("events", "users", "authuser"));
+        } else {
+            return view('eventlist', compact("events", "users"));
+        }
     }
 
     public function addEvent(Request $request)

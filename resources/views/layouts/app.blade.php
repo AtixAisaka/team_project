@@ -41,6 +41,12 @@
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item">
+                            <a class="nav-link" href="{{action("EventsController@index")}}">Show Event Calendar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{action("EventsController@showEventList")}}">Show Event List</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                         @if (Route::has('register'))

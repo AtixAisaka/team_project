@@ -9,21 +9,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            @auth
                 <li class="nav-item">
                     <a class="nav-link" href="{{action("EventsController@index")}}">Show Event Calendar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{action("EventsController@showEventList")}}">Show Event List</a>
                 </li>
-            @else
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('login')}}">Login</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{route('register')}}">Register </a>
             </li>
-            @endauth
         </ul>
     </div>
 </nav>

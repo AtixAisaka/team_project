@@ -39,11 +39,23 @@ Route::get('/showEdit/{id}', [
     "as" => "showEdit", "uses" => 'EventsController@showEditEvent'
 ]);
 
+Route::get('/showEventInfo/{id}', [
+    "as" => "showInfo", "uses" => 'EventsController@showEventInfo'
+]);
+
 Route::post('/update/{id}', [
     "as" => "update", "uses" => 'EventsController@updateEventAction'
 ]);
 
 Route::get('/delete/{id}', [
     "as" => "delete", "uses" => 'EventsController@deleteEventAction'
+]);
+
+Route::get('/addUserToEvent/{id}', [
+    "as" => "addUserEvent", "uses" => 'EventsController@addUserToEvent'
+]);
+
+Route::get('/removeUserFromEvent/{id}', [
+    "as" => "removeUserEvent", "uses" => 'EventsController@removeUserFromEvent'
 ]);
 

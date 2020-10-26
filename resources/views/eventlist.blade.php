@@ -80,13 +80,37 @@
                             @auth
                                 @if($event->userid == $authuser->id)
                                     <td>
-                                        <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id]) }}">&nbsp; Editovať &nbsp;</a>
+                                        <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id]) }}">&nbsp; Editovať</a>
                                     </td>
                                     <td>
-                                        <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}"> Mazať</a>
+                                        <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
                                     </td>
+                                @else
+                                    @php
+                                        $helper = 0
+                                    @endphp
+                                    @foreach($helpertable as $row)
+                                        @if ($row->userid == $authuser->id && $row->eventid == $event->id)
+                                            @php
+                                                $helper = 1
+                                            @endphp
+                                            @break
+                                        @endif
+                                    @endforeach
+                                    @if($helper == 0)
+                                        <td>
+                                            <a href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}">&nbsp; Zúčastniť sa</a>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <a href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}">&nbsp; Zrušiť účasť</a>
+                                        </td>
+                                    @endif
                                 @endif
                             @endauth
+                            <td>
+                                <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Pozrieť účasť</a>
+                            </td>
                         </tr>
                     @endforeach
                 </table>

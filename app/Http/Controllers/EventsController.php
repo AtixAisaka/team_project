@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Events;
+use App\UsersGoingEvents;
 use Auth;
 use Calendar;
 use \Validator;
@@ -35,17 +36,14 @@ class EventsController extends Controller
         }
     }
 
-    function getUsername($userId) {
-        return \DB::table('users')->where('user_id', $userId)->first()->name;
-    }
-
     public function showEventList(){
         $events = Events::all();
         $users = DB::table('users')->get();
         if (Auth::check())
         {
             $authuser = Auth::user();
-            return view('eventlist', compact("events", "users", "authuser"));
+            $helpertable = UsersGoingEvents::all();
+            return view('eventlist', compact("events", "users", "authuser", "helpertable"));
         } else {
             return view('eventlist', compact("events", "users"));
         }
@@ -87,6 +85,29 @@ class EventsController extends Controller
         return view("editevent", ["event" => $event]);
     }
 
+    public function showEventInfo($id) {
+        $event = Events::find($id);
+        $usereventtable = UsersGoingEvents::all();
+        $count = 0;
+        $usersgoing = "";
+
+        foreach($usereventtable as $row) {
+            if($row->eventid == $id ) {
+                $count++;
+            }
+        }
+
+        $helpercnt = 0;
+        foreach($usereventtable as $row) {
+            if($row->eventid == $id ) {
+                if($helpercnt == $count-1) $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").".";
+                else $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
+                $helpercnt++;
+            }
+        }
+        return view("showeventinfo", compact( "usersgoing", "count", "event"));
+    }
+
     public function updateEventAction($id, Request $request) {
         $events = Events::find($id);
         $events->event_name = $request['event_name'];
@@ -100,6 +121,31 @@ class EventsController extends Controller
     public function deleteEventAction($id) {
         $event = Events::find($id);
         $event->delete();
+
+        return Redirect::to('/eventlist');
+    }
+
+    public function addUserToEvent($id) {
+        $eventid = $id;
+        $userid = Auth::id();
+
+        $add = new UsersGoingEvents();
+        $add->userid = $userid;
+        $add->eventid = $eventid;
+        $add->save();
+
+        return Redirect::to('/eventlist');
+    }
+
+    public function removeUserFromEvent($id) {
+        $eventid = $id;
+        $userid = Auth::id();
+
+        $remove = UsersGoingEvents::where([
+            ['userid', '=', $userid],
+            ['eventid', '=', $eventid]
+        ]);
+        $remove->delete();
 
         return Redirect::to('/eventlist');
     }

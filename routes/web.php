@@ -17,45 +17,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [
-    "as" => "home", "uses" => 'HomeController@index'
-]);
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('events', [
-    "as" => "events.index", "uses" => 'EventsController@index'
-]);
+Auth::routes();
 
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('eventlist', [
-    "as" => "eventlist", "uses" => 'EventsController@showEventList'
-]);
-
-Route::post('events', [
-    "as" => "events.add", "uses" => 'EventsController@addEvent'
-]);
-
-Route::get('/showEdit/{id}', [
-    "as" => "showEdit", "uses" => 'EventsController@showEditEvent'
-]);
-
-Route::get('/showEventInfo/{id}', [
-    "as" => "showInfo", "uses" => 'EventsController@showEventInfo'
-]);
-
-Route::post('/update/{id}', [
-    "as" => "update", "uses" => 'EventsController@updateEventAction'
-]);
-
-Route::get('/delete/{id}', [
-    "as" => "delete", "uses" => 'EventsController@deleteEventAction'
-]);
-
-Route::get('/addUserToEvent/{id}', [
-    "as" => "addUserEvent", "uses" => 'EventsController@addUserToEvent'
-]);
-
-Route::get('/removeUserFromEvent/{id}', [
-    "as" => "removeUserEvent", "uses" => 'EventsController@removeUserFromEvent'
-]);
-
+Route::get('events', 'EventsController@index')->name('events.index');
+Route::post('events', 'EventsController@addEvent')->name('events.add');

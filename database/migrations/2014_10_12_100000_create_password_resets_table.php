@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersGoingEventsTable extends Migration
+class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateUsersGoingEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_going_events', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
-            $table->integer('userid');
-            $table->integer('eventid');
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateUsersGoingEventsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_going_events');
+        Schema::dropIfExists('password_resets');
     }
 }

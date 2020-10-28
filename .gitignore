@@ -4,6 +4,7 @@
 /storage/*.key
 /config/flare.php
 .env.backup
+/vendor
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

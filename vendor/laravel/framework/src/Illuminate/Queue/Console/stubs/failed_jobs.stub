@@ -4,7 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+<<<<<<< HEAD:vendor/laravel/framework/src/Illuminate/Queue/Console/stubs/failed_jobs.stub
 class Create{{tableClassName}}Table extends Migration
+=======
+class CreateEventsTable extends Migration
+>>>>>>> feature/TEAM-15-User_implementation_and_gui_change:database/migrations/2020_10_17_223201_create_events_table.php
 {
     /**
      * Run the migrations.
@@ -13,13 +17,17 @@ class Create{{tableClassName}}Table extends Migration
      */
     public function up()
     {
+<<<<<<< HEAD:vendor/laravel/framework/src/Illuminate/Queue/Console/stubs/failed_jobs.stub
         Schema::create('{{table}}', function (Blueprint $table) {
+=======
+        Schema::create('events', function (Blueprint $table) {
+>>>>>>> feature/TEAM-15-User_implementation_and_gui_change:database/migrations/2020_10_17_223201_create_events_table.php
             $table->bigIncrements('id');
-            $table->text('connection');
-            $table->text('queue');
-            $table->longText('payload');
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
+            $table->timestamps();
+            $table->integer('userid');
+            $table->string('event_name');
+            $table->date('start_date');
+            $table->date('end_date');
         });
     }
 
@@ -30,6 +38,10 @@ class Create{{tableClassName}}Table extends Migration
      */
     public function down()
     {
+<<<<<<< HEAD:vendor/laravel/framework/src/Illuminate/Queue/Console/stubs/failed_jobs.stub
         Schema::dropIfExists('{{table}}');
+=======
+        Schema::dropIfExists('events');
+>>>>>>> feature/TEAM-15-User_implementation_and_gui_change:database/migrations/2020_10_17_223201_create_events_table.php
     }
 }

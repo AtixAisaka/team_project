@@ -7,9 +7,8 @@
     </head>
     @auth
     <div class="container">
-        <div class="breadcrumb">
-
-                    <form method="post" action="{{action('EventsController@addEvent')}}">
+        <div class="breadcrumb border border-primary">
+            <form method="post" action="{{action('EventsController@addEvent')}}">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         @if (Session::has('success'))
@@ -60,66 +59,114 @@
                 </div>
             </form>
 
-            </div>
+        </div>
     </div>
     @endauth
 
-    <div class="container">
-        <div class="jumbotron">
-                <table>
-                    @foreach($events as $event)
-                        <tr>
-                            <td> Meno: {{$event-> event_name}}, &nbsp; Zakladateľ:
-                                @foreach($users as $user)
-                                    @if ($user->id == $event->userid)
-                                        {{$user->name}},
-                                        @break
-                                    @endif
-                                @endforeach </td>
-                            <td> Od: {{$event-> start_date}}, &nbsp; Do: {{$event-> end_date}}.</td>
-                            @auth
-                                @if($event->userid == $authuser->id)
-                                    <td>
-                                        <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id]) }}">&nbsp; Editovať</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
-                                    </td>
-                                @else
-                                    @php
-                                        $helper = 0
-                                    @endphp
-                                    @foreach($helpertable as $row)
-                                        @if ($row->userid == $authuser->id && $row->eventid == $event->id)
-                                            @php
-                                                $helper = 1
-                                            @endphp
-                                            @break
-                                        @endif
-                                    @endforeach
-                                    @if($helper == 0)
-                                        <td>
-                                            <a href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}">&nbsp; Zúčastniť sa</a>
-                                        </td>
-                                    @else
-                                        <td>
-                                            <a href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}">&nbsp; Zrušiť účasť</a>
-                                        </td>
-                                    @endif
-                                @endif
-                            @endauth
-                            <td>
-                                <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Pozrieť účasť</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
+    <div class="container border border-dark">
+        @auth
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="text-center">
+                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory", ["value" => 0])  }}" role="button">Moje minulé eventy</a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="text-center">
+                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory", ["value" => 1]) }}" role="button">Moje súčasné eventy</a>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="text-center">
+                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory", ["value" => 2]) }}" role="button">Moje budúce eventy</a>
+                </div>
             </div>
         </div>
+        @endauth
+        <div class="row justify-content-center">
+            <div class="breadcrumb border border-primary">
+                <div class="col">
+                    <h4>Skončené eventy</h4>
+                    <table>
+                        @foreach($passedevents as $event)
+                            <tr>
+                                <td> {{$event-> event_name}} </td>
+                                <td>
+                                    <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Detaily</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+            <div class="breadcrumb border border-primary">
+                <div class="col">
+                    <h4>Prebiehajúce eventy</h4>
+                    <table>
+                        @foreach($activeevents as $event)
+                            <tr>
+                                <td> {{$event-> event_name}} </td>
+                                <td>
+                                    <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Detaily</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+            <div class="breadcrumb border border-primary">
+                <div class="col">
+                    <h4>Nadchádzajúce eventy</h4>
+                    <table>
+                        @foreach($futureevents as $event)
+                            <tr>
+                                <td> {{$event-> event_name}}</td>
+                                @auth
+                                    @if($event->userid == $authuser->id)
+                                        <td>
+                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id]) }}">&nbsp; Editovať</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
+                                        </td>
+                                    @else
+                                        @php
+                                            $helper = 0
+                                        @endphp
+                                        @foreach($helpertable as $row)
+                                            @if ($row->userid == $authuser->id && $row->eventid == $event->id)
+                                                @php
+                                                    $helper = 1
+                                                @endphp
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if($helper == 0)
+                                            <td>
+                                                <a href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}">&nbsp; Zúčastniť sa</a>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <a href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}">&nbsp; Zrušiť účasť</a>
+                                            </td>
+                                        @endif
+                                    @endif
+                                @endauth
+                                <td>
+                                    <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Detaily</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
 @endsection

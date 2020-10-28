@@ -31,6 +31,10 @@ Route::get('eventlist', [
     "as" => "eventlist", "uses" => 'EventsController@showEventList'
 ]);
 
+Route::get('/eventhistory/{value}', [
+    "as" => "eventhistory", "uses" => 'EventsController@showEventsHistory'
+]);
+
 Route::post('events', [
     "as" => "events.add", "uses" => 'EventsController@addEvent'
 ]);

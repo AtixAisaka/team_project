@@ -11,6 +11,8 @@ use \Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use DB;
+use Carbon\Carbon;
+use Route;
 
 class EventsController extends Controller
 {
@@ -37,15 +39,19 @@ class EventsController extends Controller
     }
 
     public function showEventList(){
-        $events = Events::all();
-        $users = DB::table('users')->get();
+        $today = Carbon::now();
+        $passedevents = Events::whereDate('end_date', '<', $today->format('Y-m-d'))->get();
+        $futureevents = Events::whereDate('start_date', '>', $today->format('Y-m-d'))->get();
+        $activeevents = Events::whereDate('start_date', '<', $today->format('Y-m-d'))
+            ->whereDate('end_date', '>', $today->format('Y-m-d'))
+            ->get();
         if (Auth::check())
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
-            return view('eventlist', compact("events", "users", "authuser", "helpertable"));
+            return view('eventlist', compact("passedevents", "futureevents", "activeevents", "authuser", "helpertable"));
         } else {
-            return view('eventlist', compact("events", "users"));
+            return view('eventlist', compact("passedevents", "futureevents", "activeevents"));
         }
     }
 
@@ -85,27 +91,44 @@ class EventsController extends Controller
         return view("editevent", ["event" => $event]);
     }
 
+    public function showEventsHistory($value) {
+        $id = Auth::id();
+        $events = null;
+        $allevents = null;
+        $today = Carbon::now();
+        if($value == 0) {
+            $events = UsersGoingEvents::where("userid", "=", $id)->get();
+            $allevents = Events::whereDate('end_date', '<', $today->format('Y-m-d'))->get();
+        }
+        else if($value == 1) {
+            $events = UsersGoingEvents::where("userid", "=", $id)->get();
+            $allevents = Events::whereDate('start_date', '<', $today->format('Y-m-d'))
+                ->whereDate('end_date', '>', $today->format('Y-m-d'))
+                ->get();
+        }
+        else if($value == 2) {
+            $events = UsersGoingEvents::where("userid", "=", $id)->get();
+            $allevents = Events::whereDate('start_date', '>', $today->format('Y-m-d'))->get();
+        };
+
+        return view("eventhistory", compact( "events", "allevents"));
+    }
+
     public function showEventInfo($id) {
         $event = Events::find($id);
-        $usereventtable = UsersGoingEvents::all();
-        $count = 0;
+        $usereventtable = UsersGoingEvents::where("eventid", "=", $id)->get();
+        $count = UsersGoingEvents::where("eventid", "=", $id)->count();
         $usersgoing = "";
+        $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
 
         foreach($usereventtable as $row) {
-            if($row->eventid == $id) {
-                $count++;
-            }
+            if($usereventtable->last() == $row)
+                $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").".";
+            else
+                $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
         }
 
-        $helpercnt = 0;
-        foreach($usereventtable as $row) {
-            if($row->eventid == $id) {
-                if($helpercnt == $count-1) $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").".";
-                else $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
-                $helpercnt++;
-            }
-        }
-        return view("showeventinfo", compact( "usersgoing", "count", "event"));
+        return view("showeventinfo", compact( "usersgoing", "count", "eventowner", "event"));
     }
 
     public function updateEventAction($id, Request $request) {

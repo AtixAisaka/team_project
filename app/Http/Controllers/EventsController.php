@@ -121,6 +121,7 @@ class EventsController extends Controller
         $count = UsersGoingEvents::where("eventid", "=", $id)->count();
         $usersgoing = "";
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
+        $eventsImages = events_image::where("event_id", "=", $id)->get();
 
         foreach($usereventtable as $row) {
             if($usereventtable->last() == $row)
@@ -129,7 +130,7 @@ class EventsController extends Controller
                 $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
         }
 
-        return view("showeventinfo", compact( "usersgoing", "count", "eventowner", "event"));
+        return view("showeventinfo", compact( "usersgoing", "count", "eventowner", "event", "eventsImages"));
     }
 
     public function updateEventAction($id, Request $request) {
@@ -196,7 +197,7 @@ class EventsController extends Controller
         if ($validator->fails()) {
             if($request["helper"] == 0) {
                 \Session::flash('warnning', 'Chýbajuci obrázok');
-                return Redirect::to('/uploadImage/'.$request['userId'])->withInput()->withErrors($validator);
+                return Redirect::to('/uploadImage/'.$request['event'])->withInput()->withErrors($validator);
             } else return Redirect::to('/upload');
         }
         $image = $request->file('image');
@@ -211,7 +212,7 @@ class EventsController extends Controller
 
         if($request["helper"] == 0) {
             \Session::flash('success', 'Obrázok pridaný');
-             return Redirect::to('/uploadImage/'.$request['userId']);
+             return Redirect::to('/uploadImage/'.$request['event']);
         } else return Redirect::to('/eventlist');
     }
 

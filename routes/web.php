@@ -63,3 +63,11 @@ Route::get('/removeUserFromEvent/{id}', [
     "as" => "removeUserEvent", "uses" => 'EventsController@removeUserFromEvent'
 ]);
 
+Route::get('/uploadImage/{id}', [
+    "as" => "uploadImage", "uses" => 'EventsController@openImageUpload'
+]);
+
+Route::post('/upload', [
+    "as" => "upload", "uses" => 'EventsController@uploadImage'
+]);
+

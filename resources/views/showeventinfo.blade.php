@@ -42,6 +42,21 @@
                     </table>
                 </div>
             </div>
+            <div class="col">
+                <div class="breadcrumb">
+                    <table>
+
+                        <tr>
+                            <td class="text-center"><a href="{{ action("EventsController@openImageUpload", ["id" => $event->id]) }}">Upload Obrázkov</a><h3>Obrázky udalosti: </h3></td>
+                        </tr>
+                        @foreach($eventsImages as $eventImage)
+                        <tr>
+                            <td><img width="250px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col text-center">
             <a class="btn btn-primary btn-lg" href="{{ route('eventlist') }}" role="button">Späť</a>

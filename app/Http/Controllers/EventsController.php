@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Events;
 use App\UsersGoingEvents;
+use App\events_image;
 use Auth;
 use Calendar;
 use \Validator;
@@ -120,6 +121,7 @@ class EventsController extends Controller
         $count = UsersGoingEvents::where("eventid", "=", $id)->count();
         $usersgoing = "";
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
+        $eventsImages = events_image::where("event_id", "=", $id)->get();
 
         foreach($usereventtable as $row) {
             if($usereventtable->last() == $row)
@@ -128,7 +130,7 @@ class EventsController extends Controller
                 $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
         }
 
-        return view("showeventinfo", compact( "usersgoing", "count", "eventowner", "event"));
+        return view("showeventinfo", compact( "usersgoing", "count", "eventowner", "event", "eventsImages"));
     }
 
     public function updateEventAction($id, Request $request) {
@@ -172,5 +174,47 @@ class EventsController extends Controller
 
         return Redirect::to('/eventlist');
     }
+
+    public function openImageUpload($id){
+        if (Auth::check()) {
+            $event = Events::find($id);
+            $userId = Auth::id();
+            $eventName = Events::where("id", "=", $id)->value("event_name");
+            return view('upload', compact("eventName", "userId", "event"));
+        } else {
+            return view('events');
+        }
+
+    }
+    public function uploadImage(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'event' => 'required',
+            'userId' => 'required',
+            'image' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            if($request["helper"] == 0) {
+                \Session::flash('warnning', 'Chýbajuci obrázok');
+                return Redirect::to('/uploadImage/'.$request['event'])->withInput()->withErrors($validator);
+            } else return Redirect::to('/upload');
+        }
+        $image = $request->file('image');
+        $destination_path = 'public/images/users';
+        $image_name = $image->getClientOriginalName();
+        $path = $request->file('image')->storeAs($destination_path,$image_name);
+        $events_image = new events_image;
+        $events_image->image = $image_name;
+        $events_image->event_id = $request['event'];
+        $events_image->user_id = $request['userId'];
+        $events_image->save();
+
+        if($request["helper"] == 0) {
+            \Session::flash('success', 'Obrázok pridaný');
+             return Redirect::to('/uploadImage/'.$request['event']);
+        } else return Redirect::to('/eventlist');
+    }
+
 }
 

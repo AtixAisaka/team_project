@@ -11,6 +11,13 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -121,6 +128,17 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\x\team_project\public\img" />
+      <recent name="C:\xampp\htdocs\x\team_project\public\css" />
+      <recent name="C:\xampp\htdocs\x\team_project\resources\views\layouts" />
+      <recent name="C:\xampp\htdocs\x\team_project\resources\views" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -128,6 +146,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -146,11 +165,16 @@
       <workItem from="1603226956801" duration="117000" />
       <workItem from="1603228790706" duration="859000" />
       <workItem from="1603706261335" duration="1365000" />
+      <workItem from="1604140611750" duration="7128000" />
+      <workItem from="1604189454923" duration="2011000" />
+      <workItem from="1604235282726" duration="9053000" />
+      <workItem from="1604250179232" duration="2000" />
+      <workItem from="1604250197105" duration="11023000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
     <state x="785" y="423" key="#Notifications" timestamp="1602982170057">
@@ -161,6 +185,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="680" y="315" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1602961187482" />
+    <state x="795" y="448" key="NewPhpFileDialog" timestamp="1604189961019">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="795" y="448" key="NewPhpFileDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1604189961019" />
     <state x="563" y="280" width="672" height="678" key="search.everywhere.popup" timestamp="1602985139781">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

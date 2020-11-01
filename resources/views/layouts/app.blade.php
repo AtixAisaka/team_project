@@ -43,27 +43,21 @@
         {
             box-sizing: border-box;
         }
-
-
-
         /* Full-width input fields */
         input[type=text], input[type=password], input[type=email] {
             padding: 15px;
             border: none;
             background: #f1f1f1;
         }
-
         input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
             background-color: #ddd;
             outline: none;
         }
-
         /* Overwrite default styles of hr */
         hr {
             border: 1px solid #f1f1f1;
             margin-bottom: 25px;
         }
-
         /* Set a style for the submit button */
         .registerbtn {
             background-color: #4CAF50;
@@ -75,27 +69,29 @@
             width: 150px;
             opacity: 1.0;
         }
-
         .registerbtn:hover {
             opacity: 1;
         }
-
         /* Add a blue text color to links */
         a {
             color: dodgerblue;
         }
-
         /* Set a grey background color and center the text of the "sign in" section */
         .signin {
             background-color: #f1f1f1;
             text-align: center;
         }
+        .wrapper{
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+       main{flex: 1;}
 
     </style>
 
 </head>
 <body>
-
 
 <div class="container">
     <div class="row">
@@ -135,18 +131,12 @@
                         @guest
                             <li class="dropdown">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Sign in <b class="caret"></b></a>
-
-
-
-
                                 <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
                                     <li>
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <form class="form" role="form" method="post" action="{{ route('login') }}" accept-charset="UTF-8" id="login-nav">
                                                     @csrf
-
-
 
                                                     <div class="form-group">
                                                         <input id="email" type="email" placeholder="Email address" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -157,8 +147,6 @@
                                                         @enderror
                                                     </div>
 
-
-
                                                     <div class="form-group">
                                                         <input id="password" type="password"  placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                                         @error('password')
@@ -167,8 +155,6 @@
                                                          </span>
                                                         @enderror
                                                     </div>
-
-
 
                                                     <div class="checkbox">
                                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -180,7 +166,6 @@
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-success btn-block">Sign in</button>
                                                     </div>
-
 
                                                 </form>
                                             </div>
@@ -224,17 +209,13 @@
         </div>
     </div>
 </div>
-
-
-
-
+<div class="wrapper">
 <main class="py-4">
     @yield('content')
 </main>
 
+@include('layouts.footer')
 
-
-
-
+</div>
 </body>
 </html>

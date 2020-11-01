@@ -6,7 +6,6 @@
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
     </head>
-    if(
     <div class="container">
 
         <div class="panel panel-primary">
@@ -77,3 +76,4 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     {!! $calendar_details->script() !!}
 @endsection
+

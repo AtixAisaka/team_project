@@ -97,6 +97,8 @@ class EventsController extends Controller
         $events = null;
         $allevents = null;
         $today = Carbon::now();
+        $param = Route::current()->parameter('value');
+
         if($value == 0) {
             $events = UsersGoingEvents::where("userid", "=", $id)->get();
             $allevents = Events::whereDate('end_date', '<', $today->format('Y-m-d'))->get();
@@ -112,16 +114,25 @@ class EventsController extends Controller
             $allevents = Events::whereDate('start_date', '>', $today->format('Y-m-d'))->get();
         };
 
-        return view("eventhistory", compact( "events", "allevents"));
+        return view("eventhistory", compact( "events", "allevents", "param"));
     }
 
-    public function showEventInfo($id) {
+    public function showEventInfo(Request $request) {
+        $id = $request["id"];
+        $helper = $request["helper"];
+        $param = $request["param"];
+
         $event = Events::find($id);
         $usereventtable = UsersGoingEvents::where("eventid", "=", $id)->get();
         $count = UsersGoingEvents::where("eventid", "=", $id)->count();
         $usersgoing = "";
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
         $eventsImages = events_image::where("event_id", "=", $id)->get();
+        $today = Carbon::now();
+
+        $value = 0;
+        if(Events::whereDate('end_date', '<', $today->format('Y-m-d'))->
+        where("id", "=", $id)->exists()) $value = 1;
 
         foreach($usereventtable as $row) {
             if($usereventtable->last() == $row)
@@ -130,7 +141,8 @@ class EventsController extends Controller
                 $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
         }
 
-        return view("showeventinfo", compact( "usersgoing", "count", "eventowner", "event", "eventsImages"));
+        return view("showeventinfo", compact( "usersgoing", "count", "eventowner",
+            "event", "eventsImages", "value", "helper", "param"));
     }
 
     public function updateEventAction($id, Request $request) {

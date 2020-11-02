@@ -42,6 +42,8 @@
                     </table>
                 </div>
             </div>
+            @auth
+            @if($value == 1)
             <div class="col">
                 <div class="breadcrumb">
                     <table>
@@ -57,9 +59,15 @@
                     </table>
                 </div>
             </div>
+            @endif
+            @endauth
         </div>
         <div class="col text-center">
-            <a class="btn btn-primary btn-lg" href="{{ route('eventlist') }}" role="button">Späť</a>
+            @if($helper != 0)
+                <a class="btn btn-primary btn-lg" href="{{ action("EventsController@showEventsHistory", ["value" => $param])  }}" role="button">Späť</a>
+            @else
+                <a class="btn btn-primary btn-lg" href="{{route('eventlist') }}" role="button">Späť</a>
+            @endif
         </div>
     </div>
 

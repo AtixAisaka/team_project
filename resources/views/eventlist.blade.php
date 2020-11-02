@@ -94,7 +94,13 @@
                             <tr>
                                 <td> {{$event-> event_name}} </td>
                                 <td>
-                                    <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Detaily</a>
+                                    <form action="{{ action("EventsController@showEventInfo") }}" method="POST">
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <input type="hidden" name="id" value="{{$event->id}}">
+                                        <input type="hidden" name="helper" value="0">
+                                        <input type="hidden" name="param" value="">
+                                        <input type="submit" name="submit" value="Detaily"><br>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -109,7 +115,13 @@
                             <tr>
                                 <td> {{$event-> event_name}} </td>
                                 <td>
-                                    <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Detaily</a>
+                                    <form action="{{ action("EventsController@showEventInfo") }}" method="POST">
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <input type="hidden" name="id" value="{{$event->id}}">
+                                        <input type="hidden" name="helper" value="0">
+                                        <input type="hidden" name="param" value="">
+                                        <input type="submit" name="submit" value="Detaily"><br>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -155,7 +167,13 @@
                                     @endif
                                 @endauth
                                 <td>
-                                    <a href="{{ action("EventsController@showEventInfo", ["id" => $event->id]) }}">&nbsp; Detaily</a>
+                                    <form action="{{ action("EventsController@showEventInfo") }}" method="POST" style="float:right">
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <input type="hidden" name="id" value="{{$event->id}}">
+                                        <input type="hidden" name="helper" value="0">
+                                        <input type="hidden" name="param" value="">
+                                        <input type="submit" name="submit" value="Detaily"><br>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

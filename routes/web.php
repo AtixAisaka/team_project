@@ -43,7 +43,7 @@ Route::get('/showEdit/{id}', [
     "as" => "showEdit", "uses" => 'EventsController@showEditEvent'
 ]);
 
-Route::get('/showEventInfo/{id}', [
+Route::post('/showEventInfo', [
     "as" => "showInfo", "uses" => 'EventsController@showEventInfo'
 ]);
 

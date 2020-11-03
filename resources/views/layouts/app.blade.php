@@ -32,6 +32,17 @@
 <body>
 <div id="app">
     <nav class="navbar navbar-dark bg-primary">
+        <div class="navbar-brand valign-center">
+            @guest
+                Neprihlásený úžívateľ
+            @else
+                @if(Auth::user()->role==4)
+                    Administrátor, {{Auth::user()->name}}
+                @else
+                    Užívateľ, {{Auth::user()->name}}
+                @endif
+            @endguest
+        </div>
         <button class="navbar-toggler text" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,36 +52,48 @@
                     <!-- Authentication Links -->
                     @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action("EventsController@index")}}">Show Event Calendar</a>
+                            <a class="nav-link" href="{{action("EventsController@index")}}">Kalendár udalostí</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{action("EventsController@showEventList")}}">Show Event List</a>
+                            <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Prihlásiť') }}</a>
                         </li>
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Registrovať') }}</a>
                             </li>
                         @endif
                     @else
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{action("EventsController@index")}}">Show Event Calendar</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{action("EventsController@showEventList")}}">Show Event List</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form><a class="nav-link" href="{{route("logout")}}">Logout</a>
-                                    </li>
-
-                                </ul>
-                            </div>
+                        @if(Auth::user()->role==4)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form><a class="nav-link" href="{{route("logout")}}">Odhlásiť</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("EventsController@index")}}">Kalendár udalostí</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form><a class="nav-link" href="{{route("logout")}}">Odhlásiť</a>
+                            </li>
+                        @endif
                     @endguest
                 </ul>
+            </div>
     </nav>
 
     <main class="py-4">

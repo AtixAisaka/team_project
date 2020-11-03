@@ -65,25 +65,28 @@
 
     <div class="container border border-dark">
         @auth
-        <div class="row justify-content-center">
-            <div class="col">
-                <div class="text-center">
-                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory", ["value" => 0])  }}" role="button">Moje minulé eventy</a>
+            <div class="row justify-content-center">
+                <div class="col">
+                    <div class="text-center">
+                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
+                                ["value" => 0, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje minulé eventy</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col">
-                <div class="text-center">
-                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory", ["value" => 1]) }}" role="button">Moje súčasné eventy</a>
+                <div class="col">
+                    <div class="text-center">
+                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
+                                ["value" => 1, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje súčasné eventy</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col">
-                <div class="text-center">
-                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory", ["value" => 2]) }}" role="button">Moje budúce eventy</a>
+                <div class="col">
+                    <div class="text-center">
+                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
+                                ["value" => 2, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje budúce eventy</a>
+                    </div>
                 </div>
             </div>
-        </div>
         @endauth
         <div class="row justify-content-center">
             <div class="breadcrumb border border-primary">
@@ -93,14 +96,20 @@
                         @foreach($passedevents as $event)
                             <tr>
                                 <td> {{$event-> event_name}} </td>
+                                @auth
+                                    @if(Auth::user()->role==4)
+                                        <td>
+                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
+                                        "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
+                                        </td>
+                                    @endif
+                                @endauth
                                 <td>
-                                    <form action="{{ action("EventsController@showEventInfo") }}" method="POST">
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                        <input type="hidden" name="id" value="{{$event->id}}">
-                                        <input type="hidden" name="helper" value="0">
-                                        <input type="hidden" name="param" value="">
-                                        <input type="submit" name="submit" value="Detaily"><br>
-                                    </form>
+                                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
+                                            ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -114,14 +123,20 @@
                         @foreach($activeevents as $event)
                             <tr>
                                 <td> {{$event-> event_name}} </td>
+                                @auth
+                                    @if(Auth::user()->role==4)
+                                        <td>
+                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
+                                        "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
+                                        </td>
+                                    @endif
+                                @endauth
                                 <td>
-                                    <form action="{{ action("EventsController@showEventInfo") }}" method="POST">
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                        <input type="hidden" name="id" value="{{$event->id}}">
-                                        <input type="hidden" name="helper" value="0">
-                                        <input type="hidden" name="param" value="">
-                                        <input type="submit" name="submit" value="Detaily"><br>
-                                    </form>
+                                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
+                                            ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -136,14 +151,16 @@
                             <tr>
                                 <td> {{$event-> event_name}}</td>
                                 @auth
-                                    @if($event->userid == $authuser->id)
+                                    @if($event->userid == $authuser->id || Auth::user()->role==4)
                                         <td>
-                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id]) }}">&nbsp; Editovať</a>
+                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
+                                        "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať</a>
                                         </td>
                                         <td>
                                             <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
                                         </td>
-                                    @else
+                                    @endif
+                                    @if($event->userid != $authuser->id)
                                         @php
                                             $helper = 0
                                         @endphp
@@ -167,13 +184,8 @@
                                     @endif
                                 @endauth
                                 <td>
-                                    <form action="{{ action("EventsController@showEventInfo") }}" method="POST" style="float:right">
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                        <input type="hidden" name="id" value="{{$event->id}}">
-                                        <input type="hidden" name="helper" value="0">
-                                        <input type="hidden" name="param" value="">
-                                        <input type="submit" name="submit" value="Detaily"><br>
-                                    </form>
+                                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
+                                            ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -31,7 +31,7 @@ Route::get('eventlist', [
     "as" => "eventlist", "uses" => 'EventsController@showEventList'
 ]);
 
-Route::get('/eventhistory/{value}', [
+Route::get('/eventhistory/{value}&{id}&{admin}', [
     "as" => "eventhistory", "uses" => 'EventsController@showEventsHistory'
 ]);
 
@@ -39,11 +39,11 @@ Route::post('events', [
     "as" => "events.add", "uses" => 'EventsController@addEvent'
 ]);
 
-Route::get('/showEdit/{id}', [
+Route::get('/showEdit/{id}&{param}&{userid}&{admin}', [
     "as" => "showEdit", "uses" => 'EventsController@showEditEvent'
 ]);
 
-Route::post('/showEventInfo', [
+Route::get('/showEventInfo/{id}&{param}&{userid}&{admin}', [
     "as" => "showInfo", "uses" => 'EventsController@showEventInfo'
 ]);
 
@@ -53,6 +53,10 @@ Route::post('/update/{id}', [
 
 Route::get('/delete/{id}', [
     "as" => "delete", "uses" => 'EventsController@deleteEventAction'
+]);
+
+Route::post('/deleteUserGoingEvent', [
+    "as" => "deleteUserGoingEvent", "uses" => 'EventsController@deleteUserGoingEvent'
 ]);
 
 Route::get('/addUserToEvent/{id}', [
@@ -67,7 +71,27 @@ Route::get('/uploadImage/{id}', [
     "as" => "uploadImage", "uses" => 'EventsController@openImageUpload'
 ]);
 
+Route::post('/deleteImage/{id}&{eventid}&{param}&{userid}&{admin}', [
+    "as" => "deleteImage", "uses" => 'EventsController@deleteImage'
+]);
+
 Route::post('/upload', [
     "as" => "upload", "uses" => 'EventsController@uploadImage'
 ]);
 
+
+Route::get('/showEditUser/{id}', [
+    "as" => "showEditUser", "uses" => 'UsersController@showEditUser'
+]);
+
+Route::post('/updateUser', [
+    "as" => "updateUser", "uses" => 'UsersController@updateUserAction'
+]);
+
+Route::get('userlist', [
+    "as" => "userlist", "uses" => 'UsersController@showUserList'
+]);
+
+Route::get('deleteUserAction/{id}', [
+    "as" => "deleteUserAction", "uses" => 'UsersController@deleteUserAction'
+]);

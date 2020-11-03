@@ -54,6 +54,13 @@
                         @foreach($eventsImages as $eventImage)
                         <tr>
                             <td><img width="250px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></td>
+                            @if(Auth::User()->id == $eventImage->user_id || Auth::User()->role == 4)
+                                <td>
+                                    <a class="btn btn-primary btn" href="{{ action("EventsController@deleteImage",
+                                        ["id" => $eventImage->id], ["eventid" => $event->eventid, "param" => $param,
+                                         "userid" => $userid, "admin" => $admin]) }}" role="button">Vymazať</a>
+                                </td>
+                            @endif
                         </tr>
                         @endforeach
                     </table>
@@ -63,8 +70,9 @@
             @endauth
         </div>
         <div class="col text-center">
-            @if($helper != 0)
-                <a class="btn btn-primary btn-lg" href="{{ action("EventsController@showEventsHistory", ["value" => $param])  }}" role="button">Späť</a>
+            @if($param != -1)
+                <a class="btn btn-primary btn-lg" href="{{ action("EventsController@showEventsHistory",
+                    ["value" => $param, "id" => $userid, "admin" => $admin])  }}" role="button">Späť</a>
             @else
                 <a class="btn btn-primary btn-lg" href="{{route('eventlist') }}" role="button">Späť</a>
             @endif

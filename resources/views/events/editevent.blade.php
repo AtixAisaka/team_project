@@ -17,6 +17,9 @@
                     Do:<br>
                     <input type="text" name="end_date" value="{{ $event->end_date }}"><br>
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <input type="hidden" name="param" value="{{$param}}">
+                    <input type="hidden" name="userid" value="{{$userid}}">
+                    <input type="hidden" name="admin" value="{{$admin}}">
                     <input type="submit" name="submit" value="Uložiť"><br>
                 </form>
         </div>

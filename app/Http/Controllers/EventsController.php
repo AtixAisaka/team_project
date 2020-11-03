@@ -17,7 +17,6 @@ use Route;
 
 class EventsController extends Controller
 {
-
     public function index(){
         $events = Events::get();
         $event_list = [];
@@ -33,9 +32,9 @@ class EventsController extends Controller
 
         if (Auth::check()) {
             $user = Auth::user();
-            return view('events', compact('calendar_details', "user"));
+            return view('events/events', compact('calendar_details', "user"));
         } else {
-            return view('events', compact('calendar_details'));
+            return view('events/events', compact('calendar_details'));
         }
     }
 
@@ -50,9 +49,9 @@ class EventsController extends Controller
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
-            return view('eventlist', compact("passedevents", "futureevents", "activeevents", "authuser", "helpertable"));
+            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents", "authuser", "helpertable"));
         } else {
-            return view('eventlist', compact("passedevents", "futureevents", "activeevents"));
+            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents"));
         }
     }
 
@@ -87,17 +86,16 @@ class EventsController extends Controller
         } else return Redirect::to('/eventlist');
     }
 
-    public function showEditEvent($id) {
+    public function showEditEvent($id, $param, $userid, $admin) {
         $event = Events::find($id);
-        return view("editevent", ["event" => $event]);
+        return view("events/editevent", compact("event", "param", "userid", "admin"));
     }
 
-    public function showEventsHistory($value) {
-        $id = Auth::id();
+    public function showEventsHistory($value, $id, $admin) {
         $events = null;
         $allevents = null;
         $today = Carbon::now();
-        $param = Route::current()->parameter('value');
+        $param = $value;
 
         if($value == 0) {
             $events = UsersGoingEvents::where("userid", "=", $id)->get();
@@ -112,16 +110,12 @@ class EventsController extends Controller
         else if($value == 2) {
             $events = UsersGoingEvents::where("userid", "=", $id)->get();
             $allevents = Events::whereDate('start_date', '>', $today->format('Y-m-d'))->get();
-        };
+        }
 
-        return view("eventhistory", compact( "events", "allevents", "param"));
+        return view("events/eventhistory", compact( "events", "allevents", "param", "id", "admin"));
     }
 
-    public function showEventInfo(Request $request) {
-        $id = $request["id"];
-        $helper = $request["helper"];
-        $param = $request["param"];
-
+    public function showEventInfo($id, $param, $userid, $admin) {
         $event = Events::find($id);
         $usereventtable = UsersGoingEvents::where("eventid", "=", $id)->get();
         $count = UsersGoingEvents::where("eventid", "=", $id)->count();
@@ -141,8 +135,8 @@ class EventsController extends Controller
                 $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
         }
 
-        return view("showeventinfo", compact( "usersgoing", "count", "eventowner",
-            "event", "eventsImages", "value", "helper", "param"));
+        return view("events/showeventinfo", compact( "usersgoing", "count", "eventowner",
+            "event", "eventsImages", "value", "param", "admin", "userid"));
     }
 
     public function updateEventAction($id, Request $request) {
@@ -151,8 +145,10 @@ class EventsController extends Controller
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
         $events->save();
+        $param = $request->param;
 
-        return Redirect::to('/eventlist');
+        if($param != -1) return Redirect::to('/eventhistory/'.$param."&".$request->userid."&".$request->admin);
+        else return Redirect::to('/eventlist');
     }
 
     public function deleteEventAction($id) {
@@ -160,6 +156,19 @@ class EventsController extends Controller
         $event->delete();
 
         return Redirect::to('/eventlist');
+    }
+
+    public function deleteUserGoingEvent(Request $request) {
+        $eventid = $request["eventid"];
+        $userid = $request["userid"];
+        $admin = $request["admin"];
+        $value = $request["value"];
+
+        UsersGoingEvents::where("eventid", "=", $eventid)
+            ->where("userid", "=", $userid)
+            ->delete();
+
+        return Redirect::to('/eventhistory/'.$value."&".$userid."&".$admin);
     }
 
     public function addUserToEvent($id) {
@@ -171,7 +180,7 @@ class EventsController extends Controller
         $add->eventid = $eventid;
         $add->save();
 
-        return Redirect::to('/eventlist');
+        return Redirect::to('eventlist');
     }
 
     public function removeUserFromEvent($id) {
@@ -184,7 +193,7 @@ class EventsController extends Controller
         ]);
         $remove->delete();
 
-        return Redirect::to('/eventlist');
+        return Redirect::to('eventlist');
     }
 
     public function openImageUpload($id){
@@ -192,12 +201,20 @@ class EventsController extends Controller
             $event = Events::find($id);
             $userId = Auth::id();
             $eventName = Events::where("id", "=", $id)->value("event_name");
-            return view('upload', compact("eventName", "userId", "event"));
+            return view('events/upload', compact("eventName", "userId", "event"));
         } else {
-            return view('events');
+            return view('events/events');
         }
 
     }
+
+    public function deleteImage($id, $eventid, $param, $userid, $admin) {
+        $image = events_image::find($id);
+        $image->delete();
+
+        return Redirect::to('/showEventInfo/'.$eventid."&".$param."&".$userid."&".$admin);
+    }
+
     public function uploadImage(Request $request){
 
         $validator = Validator::make($request->all(), [
@@ -209,8 +226,8 @@ class EventsController extends Controller
         if ($validator->fails()) {
             if($request["helper"] == 0) {
                 \Session::flash('warnning', 'Chýbajuci obrázok');
-                return Redirect::to('/uploadImage/'.$request['event'])->withInput()->withErrors($validator);
-            } else return Redirect::to('/upload');
+                return Redirect::to('uploadImage/'.$request['event'])->withInput()->withErrors($validator);
+            } else return Redirect::to('upload');
         }
         $image = $request->file('image');
         $destination_path = 'public/images/users';

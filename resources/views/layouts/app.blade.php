@@ -13,153 +13,93 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="http://code.jquery.com/jquery.js"></script>
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-    <script>
-        $(document).ready(function(){
-            //Handles menu drop down
-            $('.dropdown-menu').find('form').click(function (e) {
-                e.stopPropagation();
-            });
-        });
-    </script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
 <body>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <nav class="navbar navbar-default" role="navigation">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ url('/landing_page') }}"><img width="150px" height="auto" src="{{asset('img/scheduletap_icon.png')}}"></a>
-
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="">Home</a></li>
-                        <li><a href="">About Us</a></li>
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">Pages <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="">Action</a></li>
-                                <li><a href="">Action</a></li>
-                                <li><a href="">Action</a></li>
-                                <li class="divider"></li>
-                                <li><a href="">Actionk</a></li>
-                                <li class="divider"></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="dropdown">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown">Sign in <b class="caret"></b></a>
-                                <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <form class="form" role="form" method="post" action="{{ route('login') }}" accept-charset="UTF-8" id="login-nav">
-                                                    @csrf
-
-                                                    <div class="form-group">
-                                                        <input id="email" type="email" placeholder="Email address" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                                        @error('email')
-                                                        <span class="invalid-feedback" role="alert">
-                                                                 <strong>{{ $message }}</strong>
-                                                         </span>
-                                                        @enderror
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <input id="password" type="password"  placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                                                        @error('password')
-                                                        <span class="invalid-feedback" role="alert">
-                                                                 <strong>{{ $message }}</strong>
-                                                         </span>
-                                                        @enderror
-                                                    </div>
-
-                                                    <div class="checkbox">
-                                                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="remember">Remember me</label>
-                                                    </div>
-
-
-
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-success btn-block">Sign in</button>
-                                                    </div>
-
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="divider"></li>
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
-                                </ul>
-                            </li>
-                            @if (Route::has('register'))
-                                <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-
-                </div>
-                <!-- /.navbar-collapse -->
-            </nav>
+<div id="app">
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="navbar-brand valign-center">
+            @guest
+                Neprihlásený úžívateľ
+            @else
+                @if(Auth::user()->role==4)
+                    Administrátor, {{Auth::user()->name}}
+                @else
+                    Užívateľ, {{Auth::user()->name}}
+                @endif
+            @endguest
         </div>
-    </div>
-</div>
-<div class="wrapper">
-<main class="py-4">
-    @yield('content')
-</main>
+        <button class="navbar-toggler text" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
 
-@include('layouts.footer')
+                <ul class="navbar-nav">
+                    <!-- Authentication Links -->
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{action("EventsController@index")}}">Kalendár udalostí</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Prihlásiť') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Registrovať') }}</a>
+                            </li>
+                        @endif
+                    @else
+                        @if(Auth::user()->role==4)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form><a class="nav-link" href="{{route("logout")}}">Odhlásiť</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("EventsController@index")}}">Kalendár udalostí</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form><a class="nav-link" href="{{route("logout")}}">Odhlásiť</a>
+                            </li>
+                        @endif
+                    @endguest
+                </ul>
+            </div>
+    </nav>
 
+    <main class="py-4">
+        @yield('content')
+    </main>
 </div>
 </body>
 </html>
+

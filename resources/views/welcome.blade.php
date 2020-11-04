@@ -1,104 +1,89 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('content')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/landing_page.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/hover_button.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/retro_button.css')}}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <style>
+        body {
+            background: url("{{asset('img/landing_page.jpg')}}");
+            background-size: 100% 100%;
+            /*background: rgb(144,144,144);
+            background: linear-gradient(0deg, rgba(144,144,144,1) 16%, rgba(145,193,150,1) 37%, rgba(113,217,115,1) 60%, rgba(47,203,50,1) 100%);*/
+        }
+    </style>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="http://code.jquery.com/jquery.js"></script>
+    <div class="container">
 
-
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-</head>
-<body>
-<div id="app">
-    <nav class="navbar navbar-dark bg-primary">
-        <div class="navbar-brand valign-center">
-            @guest
-                Neprihlásený úžívateľ
-            @else
-                @if(Auth::user()->role==4)
-                    Administrátor, {{Auth::user()->name}}
-                @else
-                    Užívateľ, {{Auth::user()->name}}
-                @endif
-            @endguest
+        <div class="container_img">
+            <img width="400" height="auto" src="{{asset('img/calendar_icon.png')}}">
         </div>
-        <button class="navbar-toggler text" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        @guest
+        <div class="container_join">
+            <div class="button_container">
+                <h1>Join ScheduleTap Today.</h1>
+                <a href="{{ route('register') }}">
+                    <button  class="hover_btn"><span>{{ __('Register') }}</span></button>
+                </a>
+                <a href="{{ route('login') }}">
+                    <button  class="hover_btn2"><span>{{ __('Sign In') }}</span></button>
+                </a>
+                <a href="{{ url('/events') }}"><h2>Pokračovať bez registrácie.</h2></a>
+            </div>
+        </div>
+@else
+        <div class="container_join">
+            <div class="button_container">
+                <h1>You are signed in</h1>
+                <a href="{{ url('/events') }}">
+                    <button  class="hover_btn"><span>{{ __('Open Callendar') }}</span></button>
+                </a>
 
-            <ul class="navbar-nav">
-                <!-- Authentication Links -->
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{action("EventsController@index")}}">Kalendár udalostí</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Prihlásiť') }}</a>
-                    </li>
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Registrovať') }}</a>
-                        </li>
-                    @endif
-                @else
-                    @if(Auth::user()->role==4)
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a>
-                        </li>
-                        <li class="nav-item">
-                            <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form><a class="nav-link" href="{{route("logout")}}">Odhlásiť</a>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{action("EventsController@index")}}">Kalendár udalostí</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a>
-                        </li>
-                        <li class="nav-item">
-                            <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form><a class="nav-link" href="{{route("logout")}}">Odhlásiť</a>
-                        </li>
-                    @endif
                 @endguest
-            </ul>
+            </div>
         </div>
-    </nav>
 
-    <main class="py-4">
-        @yield('content')
-    </main>
-</div>
-</body>
-</html>
+
+
+
+
+
+    </div>
+
+    <div class="container">
+        <div class="container_text">
+            <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
+        </div>
+        <div class="container_text">
+            <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
+        </div>
+        <div class="container_text">
+            <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
+        </div>
+    </div>
+
+    {{--<section id="intro">
+        <div id="intro-content" class="center-content">
+            <div class="center-content-inner">
+                <div class="content-section content-section-margin">
+                    <div class="content-section-grid clearfix">
+                        <a href="#" class="button nav-link" style="text-decoration: none">
+                            <div class="bottom"></div>
+                            <div class="top">
+                                <div class="label">Go Retro Baby</div>
+                                <div class="button-border button-border-left"></div>
+                                <div class="button-border button-border-top"></div>
+                                <div class="button-border button-border-right"></div>
+                                <div class="button-border button-border-bottom"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>--}}
+
+
+
+@endsection

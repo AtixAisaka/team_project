@@ -25,7 +25,13 @@ class EventsController extends Controller
                 $events->event_name,
                 true,
                 new \DateTime($events->start_date),
-                new \DateTime($events->end_date.' +1 day')
+                new \DateTime($events->end_date.' +1 day'),
+                null,
+                // Add color and link on event
+                [
+                    'color' => '#32CD32',
+                    'url' => url("/showEventInfo/{$events->id}")."&-1&-1&-1",
+                ]
             );
         }
         $calendar_details = Calendar::addEvents($event_list);

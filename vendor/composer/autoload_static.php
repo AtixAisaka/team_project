@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita90ce6a3929ea58d6ab0861b410cade1
+class ComposerStaticInit52f1bca8ef9b7a148c216d833f0708e2
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -474,6 +474,8 @@ class ComposerStaticInita90ce6a3929ea58d6ab0861b410cade1
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'App\\UsersGoingEvents' => __DIR__ . '/../..' . '/app/UsersGoingEvents.php',
+        'App\\events_image' => __DIR__ . '/../..' . '/app/events_image.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
@@ -4733,10 +4735,10 @@ class ComposerStaticInita90ce6a3929ea58d6ab0861b410cade1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita90ce6a3929ea58d6ab0861b410cade1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita90ce6a3929ea58d6ab0861b410cade1::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita90ce6a3929ea58d6ab0861b410cade1::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita90ce6a3929ea58d6ab0861b410cade1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit52f1bca8ef9b7a148c216d833f0708e2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit52f1bca8ef9b7a148c216d833f0708e2::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit52f1bca8ef9b7a148c216d833f0708e2::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit52f1bca8ef9b7a148c216d833f0708e2::$classMap;
 
         }, null, ClassLoader::class);
     }

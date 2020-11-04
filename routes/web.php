@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/landing_page', function () {
+    return view('layouts.landing_page');
+});
+
 
 Auth::routes();
 
@@ -25,4 +29,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('events', 'EventsController@index')->name('events.index');
+
 Route::post('events', 'EventsController@addEvent')->name('events.add');

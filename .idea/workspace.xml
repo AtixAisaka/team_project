@@ -14,6 +14,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JavaScript File" />
+        <option value="SCSS File" />
         <option value="CSS File" />
       </list>
     </option>
@@ -128,8 +130,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="watcher.settings" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -138,6 +141,9 @@
       <recent name="C:\xampp\htdocs\x\team_project\public\css" />
       <recent name="C:\xampp\htdocs\x\team_project\resources\views\layouts" />
       <recent name="C:\xampp\htdocs\x\team_project\resources\views" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\x\team_project\public\img" />
     </key>
   </component>
   <component name="RunManager">
@@ -169,7 +175,9 @@
       <workItem from="1604189454923" duration="2011000" />
       <workItem from="1604235282726" duration="9053000" />
       <workItem from="1604250179232" duration="2000" />
-      <workItem from="1604250197105" duration="11023000" />
+      <workItem from="1604250197105" duration="19036000" />
+      <workItem from="1604325203663" duration="3830000" />
+      <workItem from="1604453168612" duration="7082000" />
     </task>
     <servers />
   </component>
@@ -185,10 +193,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="680" y="315" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1602961187482" />
-    <state x="795" y="448" key="NewPhpFileDialog" timestamp="1604189961019">
+    <state x="795" y="448" key="NewPhpFileDialog" timestamp="1604274481157">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="795" y="448" key="NewPhpFileDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1604189961019" />
+    <state x="795" y="448" key="NewPhpFileDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1604274481157" />
+    <state x="461" y="170" key="SettingsEditor" timestamp="1604280329506">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="461" y="170" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1604280329506" />
     <state x="563" y="280" width="672" height="678" key="search.everywhere.popup" timestamp="1602985139781">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

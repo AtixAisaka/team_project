@@ -4,7 +4,6 @@
 
 <footer class="footer">
     <div class="inner_footer">
-
         <div class="logo_container">
             <img width="230px" height="auto" src="{{asset('img/large_scheduletap.png')}}">
             <a href="https://www.ukf.sk/"><img width="150px" height="auto" src="{{asset('img/ukf_logo_white.png')}}"></a>

@@ -60,6 +60,7 @@
                 <hr>
 
                 <button type="submit" class="registerbtn">Register</button>
+            </form>
 
 
         </div>

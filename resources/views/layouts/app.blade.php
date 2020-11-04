@@ -17,10 +17,6 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-
-
-
-
     <script>
         $(document).ready(function(){
             //Handles menu drop down
@@ -35,60 +31,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
-
-    <style>
-        #login-nav input { margin-bottom: 15px; }
-        {
-            box-sizing: border-box;
-        }
-        /* Full-width input fields */
-        input[type=text], input[type=password], input[type=email] {
-            padding: 15px;
-            border: none;
-            background: #f1f1f1;
-        }
-        input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-        /* Overwrite default styles of hr */
-        hr {
-            border: 1px solid #f1f1f1;
-            margin-bottom: 25px;
-        }
-        /* Set a style for the submit button */
-        .registerbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 150px;
-            opacity: 1.0;
-        }
-        .registerbtn:hover {
-            opacity: 1;
-        }
-        /* Add a blue text color to links */
-        a {
-            color: dodgerblue;
-        }
-        /* Set a grey background color and center the text of the "sign in" section */
-        .signin {
-            background-color: #f1f1f1;
-            text-align: center;
-        }
-        .wrapper{
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-       main{flex: 1;}
-
-    </style>
 
 </head>
 <body>
@@ -105,7 +49,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'Laravel') }}</a>
+                    <a class="navbar-brand" href="{{ url('/landing_page') }}"><img width="150px" height="auto" src="{{asset('img/scheduletap_icon.png')}}"></a>
 
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->

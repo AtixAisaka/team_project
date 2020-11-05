@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Events;
+use App\Fakulty;
+use App\Katedry;
+use App\Tags;
+use App\EventsHasTags;
 use App\UsersGoingEvents;
 use App\events_image;
 use Auth;
@@ -19,6 +23,9 @@ class EventsController extends Controller
 {
     public function index(){
         $events = Events::get();
+        $fakulty = Fakulty::get();
+        $katedry = Katedry::get();
+        $tags = Tags::get();
         $event_list = [];
         foreach ($events as $key => $events) {
             $event_list[] = Calendar::event(
@@ -38,9 +45,9 @@ class EventsController extends Controller
 
         if (Auth::check()) {
             $user = Auth::user();
-            return view('events/events', compact('calendar_details', "user"));
+            return view('events/events', compact('calendar_details', "user", "fakulty", "katedry", "tags"));
         } else {
-            return view('events/events', compact('calendar_details'));
+            return view('events/events', compact("calendar_details", "fakulty", "katedry", "tags"));
         }
     }
 
@@ -48,16 +55,90 @@ class EventsController extends Controller
         $today = Carbon::now();
         $passedevents = Events::whereDate('end_date', '<', $today->format('Y-m-d'))->get();
         $futureevents = Events::whereDate('start_date', '>', $today->format('Y-m-d'))->get();
-        $activeevents = Events::whereDate('start_date', '<', $today->format('Y-m-d'))
-            ->whereDate('end_date', '>', $today->format('Y-m-d'))
+        $activeevents = Events::whereDate('start_date', '<=', $today->format('Y-m-d'))
+            ->whereDate('end_date', '>=', $today->format('Y-m-d'))
             ->get();
+
+        $fakulty = Fakulty::get();
+        $katedry = Katedry::get();
+        $tags = Tags::get();
+
         if (Auth::check())
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
-            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents", "authuser", "helpertable"));
+            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+                "fakulty", "katedry", "tags", "authuser", "helpertable"));
         } else {
-            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents"));
+            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+                "fakulty", "katedry", "tags"));
+        }
+    }
+
+    public function filterEvents(Request $request){
+        $today = Carbon::now();
+        $type = $request["type"];
+        $pracovisko = $request["pracovisko"];
+        $start_date = $request["start_date"];
+        $end_date = $request["end_date"];
+        $tags = $request["tags"];
+
+        //query builder ty kokos
+        $querypassedevents = Events::query();
+        $queryfutureevents = Events::query();
+        $queryactiveevents = Events::query();
+        $querypassedevents= $querypassedevents->whereDate('end_date', '<', $today->format('Y-m-d'));
+        $queryfutureevents= $queryfutureevents->whereDate('start_date', '>', $today->format('Y-m-d'));
+        $queryactiveevents= $queryactiveevents->whereDate('start_date', '<=', $today->format('Y-m-d'))
+            ->whereDate('end_date', '>=', $today->format('Y-m-d'));
+
+        if($type!=""){
+            $querypassedevents = $querypassedevents->where("type", "=", $type);
+            $queryfutureevents = $queryfutureevents->where("type", "=", $type);
+            $queryactiveevents = $queryactiveevents->where("type", "=", $type);
+        }
+        if($pracovisko!=""){
+            if(substr($pracovisko, 0, 1) == ".") {
+                $pracovisko = substr($pracovisko, 1);
+                $querypassedevents = $querypassedevents->where("idkatedry", "=", $pracovisko);
+                $queryfutureevents = $queryfutureevents->where("idkatedry", "=", $pracovisko);
+                $queryactiveevents = $queryactiveevents->where("idkatedry", "=", $pracovisko);
+            } else {
+                $querypassedevents = $querypassedevents->where("idfakulty", "=", $pracovisko);
+                $queryfutureevents = $queryfutureevents->where("idfakulty", "=", $pracovisko);
+                $queryactiveevents = $queryactiveevents->where("idfakulty", "=", $pracovisko);
+            }
+        }
+        if($start_date!=""){
+            $querypassedevents = $querypassedevents->whereDate('start_date', '>=', $start_date);
+            $queryfutureevents = $queryfutureevents->whereDate('start_date', '>=', $start_date);
+            $queryactiveevents = $queryactiveevents->whereDate('start_date', '>=', $start_date);
+        }
+        if($end_date!=""){
+            $querypassedevents = $querypassedevents->whereDate('end_date', '<=', $end_date);
+            $queryfutureevents = $queryfutureevents->whereDate('end_date', '<=', $end_date);
+            $queryactiveevents = $queryactiveevents->whereDate('end_date', '<=', $end_date);
+        }
+        if($tags!=""){
+        }
+
+        $passedevents = $querypassedevents->get();
+        $futureevents = $queryfutureevents->get();
+        $activeevents = $queryactiveevents->get();
+
+        $fakulty = Fakulty::get();
+        $katedry = Katedry::get();
+        $tags = Tags::get();
+
+        if (Auth::check())
+        {
+            $authuser = Auth::user();
+            $helpertable = UsersGoingEvents::all();
+            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+                "fakulty", "katedry", "tags", "authuser", "helpertable"));
+        } else {
+            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+                "fakulty", "katedry", "tags"));
         }
     }
 
@@ -68,6 +149,10 @@ class EventsController extends Controller
             'start_date' => 'required',
             'userid' => 'required',
             'helper' => 'required',
+            'type' => 'required',
+            'event_place' => 'required',
+            'idfakulty' => 'required',
+            'idkatedry' => 'required',
             'end_date' => 'required'
         ]);
 
@@ -84,6 +169,11 @@ class EventsController extends Controller
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
         $events->userid = $request['userid'];
+        $events->type = $request['type'];
+        $events->event_place = $request['event_place'];
+        $events->idfakulty = $request['idfakulty'];
+        $events->idkatedry = $request['idkatedry'];
+        $events->ishidden = false;
         $events->save();
 
         if($request["helper"] == 0) {
@@ -128,6 +218,14 @@ class EventsController extends Controller
         $usersgoing = "";
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
         $eventsImages = events_image::where("event_id", "=", $id)->get();
+
+        $eventabout = null; //katedra/fakulta
+
+        if($event->type == 3) $eventabout = "Event Univerzity Konštantína Filozofa";
+        else if($event->type == 2) $eventabout = Fakulty::where("id", "=", $event->idfakulty)->value("name");
+        else if($event->type == 1) $eventabout = Katedry::where("id", "=", $event->idkatedry)->value("name");
+        else $eventabout = "Študentský event";
+
         $today = Carbon::now();
 
         $value = 0;
@@ -142,7 +240,7 @@ class EventsController extends Controller
         }
 
         return view("events/showeventinfo", compact( "usersgoing", "count", "eventowner",
-            "event", "eventsImages", "value", "param", "admin", "userid"));
+            "event", "eventsImages", "value", "param", "admin", "userid", "eventabout"));
     }
 
     public function updateEventAction($id, Request $request) {
@@ -157,9 +255,26 @@ class EventsController extends Controller
         else return Redirect::to('/eventlist');
     }
 
+    public function hideEventAction($id, $value) {
+        $events = Events::find($id);
+        $boolean = null;
+        if($value == 0) $boolean = false;
+        else if($value == 1) $boolean = true;
+        $events->ishidden = $boolean;
+        $events->save();
+
+        return Redirect::to('/eventlist');
+    }
+
     public function deleteEventAction($id) {
         $event = Events::find($id);
         $event->delete();
+        $remove = UsersGoingEvents::where('eventid', '=', $id);
+        $remove->delete();
+        $remove = EventsHasTags::where('idevent', '=', $id);
+        $remove->delete();
+        $remove = events_image::where('event_id', '=', $id);
+        $remove->delete();
 
         return Redirect::to('/eventlist');
     }

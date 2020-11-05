@@ -12,6 +12,12 @@
                             <td><h3>Zakladatel: {{$eventowner}} </h3></td>
                         </tr>
                         <tr>
+                            <td><h3>Miesto konania: {{$event->event_place}} </h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3>{{$eventabout}} </h3></td>
+                        </tr>
+                        <tr>
                             <td><h3>Od: {{$event->start_date}} </h3></td>
                         </tr>
                         <tr>
@@ -50,7 +56,7 @@
                             @if(Auth::User()->id == $eventImage->user_id || Auth::User()->role == 4)
                                 <td>
                                     <a class="btn btn-primary btn" href="{{ action("EventsController@deleteImage",
-                                        ["id" => $eventImage->id], ["eventid" => $event->eventid, "param" => $param,
+                                        ["id" => $eventImage->id, "eventid" => $event->eventid, "param" => $param,
                                          "userid" => $userid, "admin" => $admin]) }}" role="button">Vymazať</a>
                                 </td>
                             @endif

@@ -62,7 +62,6 @@
                         @else
                             @if(Auth::user()->role==4)
                                 <li class="dropdown">
-                                <li><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
                                 <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
                                 <li><a href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a></li>
                                 </li>
@@ -134,7 +133,14 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->name }} -
+                                    @if(Auth::user()->role == 4)Administrátor
+                                    @elseif(Auth::user()->role == 3)Referent Univerzity
+                                    @elseif(Auth::user()->role == 2)Referent Fakulty
+                                    @elseif(Auth::user()->role == 1)Pracovník pracoviska
+                                    @else Užívateľ
+                                    @endif
+                                    <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

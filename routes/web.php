@@ -51,8 +51,16 @@ Route::post('/update/{id}', [
     "as" => "update", "uses" => 'EventsController@updateEventAction'
 ]);
 
+Route::post('/filter', [
+    "as" => "filter", "uses" => 'EventsController@filterEvents'
+]);
+
 Route::get('/delete/{id}', [
     "as" => "delete", "uses" => 'EventsController@deleteEventAction'
+]);
+
+Route::get('/hide/{id}&{value}', [
+    "as" => "hide", "uses" => 'EventsController@hideEventAction'
 ]);
 
 Route::post('/deleteUserGoingEvent', [

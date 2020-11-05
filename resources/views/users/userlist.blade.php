@@ -9,7 +9,7 @@
                         <td> Email: {{$row-> email}}, &nbsp;
                             Rola:
                                 @if($row->role == 0) Používateľ
-                                @elseif($row->role == 1) Poverený pracovník pracoviska
+                                @elseif($row->role == 1) Pracovník pracoviska
                                 @elseif($row->role == 2) Referent Fakulty
                                 @elseif($row->role == 3) Referent Univerzity
                                 @else Administrátor
@@ -21,17 +21,18 @@
                         </td>
                         <td>
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Pozrieť eventy
+                                    <span class="caret"></span>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ action("EventsController@showEventsHistory",
-                                ["value" => 0, "id" => $row->id, "admin" => 1])  }}">Minulé</a>
-                                    <a class="dropdown-item" href="{{ action("EventsController@showEventsHistory",
-                                ["value" => 1, "id" => $row->id, "admin" => 1])  }}">Súčasné</a>
-                                    <a class="dropdown-item" href="{{ action("EventsController@showEventsHistory",
-                                ["value" => 2, "id" => $row->id, "admin" => 1])  }}">Budúce</a>
-                                </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="{{ action("EventsController@showEventsHistory",
+                                ["value" => 0, "id" => $row->id, "admin" => 1])  }}">Minulé</a></li>
+                                    <li><a class="dropdown-item" href="{{ action("EventsController@showEventsHistory",
+                                ["value" => 1, "id" => $row->id, "admin" => 1])  }}">Súčasné</a></li>
+                                    <li><a class="dropdown-item" href="{{ action("EventsController@showEventsHistory",
+                                ["value" => 2, "id" => $row->id, "admin" => 1])  }}">Budúce</a></li>
+                                </ul>
                             </div>
                         </td>
                         <td>

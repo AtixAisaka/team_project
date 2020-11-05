@@ -1,87 +1,187 @@
 @extends("layouts.app")
 @section('content')
     @auth
-    <div class="container">
-        <div class="breadcrumb border border-primary">
-            <form method="post" action="{{action('EventsController@addEvent')}}">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12">
-                        @if (Session::has('success'))
-                            <div class="alert alert-success">{{ Session::get('success') }}</div>
-                        @elseif (Session::has('warnning'))
-                            <div class="alert alert-danger">{{ Session::get('warnning') }}</div>
-                        @endif
+        @if(Auth::User()->role!=4)
+            <div class="container">
+                <div class="breadcrumb border border-primary">
+                        <form method="post" action="{{action('EventsController@addEvent')}}">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    @if (Session::has('success'))
+                                        <div class="alert alert-success">{{ Session::get('success') }}</div>
+                                    @elseif (Session::has('warnning'))
+                                        <div class="alert alert-danger">{{ Session::get('warnning') }}</div>
+                                    @endif
 
-                    </div>
+                                </div>
 
 
-                    <div class="col-xs-4 col-sm-4 col-md-4">
-                        <div class="form-group">
-                            Meno Eventu
-                            <div class="">
-                                <input type="text" name="event_name" placeholder="Nazov eventu" value="">
-                                {!! $errors->first('event_name', '<p class="alert alert-danger">:message</p>') !!}
+                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                    <div class="form-group">
+                                        Meno Eventu
+                                        <div class="">
+                                            <input type="text" name="event_name" placeholder="Nazov eventu" value="">
+                                            {!! $errors->first('event_name', '<p class="alert alert-danger">:message</p>') !!}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                    <div class="form-group">
+                                        Miesto konania Eventu
+                                        <div class="">
+                                            <input type="text" name="event_place" placeholder="Miesto konania Eventu" value="">
+                                            {!! $errors->first('event_place', '<p class="alert alert-danger">:message</p>') !!}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if(Auth::User()->role == 3)
+                                    <input type="hidden" name="type" value="3">
+                                    <input type="hidden" name="idkatedry" value="0">
+                                    <input type="hidden" name="idfakulty" value="0">
+                                @elseif(Auth::User()->role == 2)
+                                    <select id="idfakulty" name="idfakulty" class="form-control">
+                                        @foreach($fakulty as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="type" value="2">
+                                    <input type="hidden" name="idkatedry" value="0">
+                                @elseif(Auth::User()->role == 1)
+                                    <!-- Sem doplnit ten select so searchom !-->
+                                    <select id="idkatedry" name="idkatedry" class="form-control">
+                                        @foreach($katedry as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="type" value="1">
+                                    <input type="hidden" name="idfakulty" value="0">
+                                @else
+                                    <input type="hidden" name="type" value="0">
+                                    <input type="hidden" name="idkatedry" value="0">
+                                    <input type="hidden" name="idfakulty" value="0">
+                                @endif
+
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    <div class="form-group">
+                                        Začiatok Eventu
+                                        <div class="">
+                                            <input type="date" name="start_date" value="">
+                                            {!! $errors->first('start_date', '<p class="alert alert-danger">:message</p>') !!}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    <div class="form-group">
+                                        Koniec Eventu
+                                        <div class="">
+                                            <input type="date" name="end_date" value="">
+                                            {!! $errors->first('end_date', '<p class="alert alert-danger">:message</p>') !!}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
+                                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                    <input type="hidden" name="userid" value="{{$authuser -> id}}">
+                                    <input type="hidden" name="helper" value="1">
+                                    <input type="submit" name="submit" value="Pridať event"><br>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-3 col-sm-3 col-md-3">
-                        <div class="form-group">
-                            Začiatok Eventu
-                            <div class="">
-                                <input type="date" name="start_date" value="">
-                                {!! $errors->first('start_date', '<p class="alert alert-danger">:message</p>') !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-3 col-sm-3 col-md-3">
-                        <div class="form-group">
-                            Koniec Eventu
-                            <div class="">
-                                <input type="date" name="end_date" value="">
-                                {!! $errors->first('end_date', '<p class="alert alert-danger">:message</p>') !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
-                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                        <input type="hidden" name="userid" value="{{$authuser -> id}}">
-                        <input type="hidden" name="helper" value="1">
-                        <input type="submit" name="submit" value="Pridať event"><br>
-                    </div>
+                        </form>
                 </div>
-            </form>
-
-        </div>
-    </div>
+            </div>
+        @endif
     @endauth
 
     <div class="container border border-dark">
-        @auth
-            <div class="row justify-content-center">
-                <div class="col">
-                    <div class="text-center">
-                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
-                                ["value" => 0, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje minulé eventy</a>
+        <h3>Filtrovanie</h3>
+        <form method="post" action="{{action('EventsController@filterEvents')}}">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        Podľa typu
+                        <select id="type" name="type" class="form-control">
+                            <option value=""></option>
+                            <option value="0">Študentské eventy</option>
+                            <option value="1">Eventy pracovísk</option>
+                            <option value="2">Eventy fakúlt</option>
+                            <option value="3">Eventy univerzity</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="col">
-                    <div class="text-center">
-                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
-                                ["value" => 1, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje súčasné eventy</a>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        Podľa pracoviska/fakulty
+                        <select id="pracovisko" name="pracovisko" class="form-control">
+                            <option value=""></option>
+                            @foreach($fakulty as $row)
+                                <option value="{{$row->id}}">{{$row->name}}</option>
+                            @endforeach
+                            @foreach($katedry as $row)
+                                <option value=".{{$row->id}}">{{$row->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 
-                <div class="col">
-                    <div class="text-center">
-                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
-                                ["value" => 2, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje budúce eventy</a>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        Od dátumu
+                        <input type="date" name="start_date" value="">
                     </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        Do dátumu
+                        <input type="date" name="end_date" value="">
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        Podla tagov
+                        <select id="tags" name="tags" class="form-control">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <input type="submit" name="submit" value="Aplikovať filtre"><br>
                 </div>
             </div>
+        </form>
+        @auth
+            @if(Auth::User()->role==0)
+                <div class="row">
+                    <div class="col">
+                        <div class="text-center">
+                            <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
+                                    ["value" => 0, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje minulé eventy</a>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="text-center">
+                            <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
+                                    ["value" => 1, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje súčasné eventy</a>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="text-center">
+                            <a class="btn btn-primary btn" href="{{ action("EventsController@showEventsHistory",
+                                    ["value" => 2, "id" => Auth::user()->id, "admin" => -1])  }}" role="button">Moje budúce eventy</a>
+                        </div>
+                    </div>
+                </div>
+            @endif
         @endauth
         <div class="row justify-content-center">
             <div class="breadcrumb border border-primary">
@@ -89,24 +189,33 @@
                     <h4>Skončené eventy</h4>
                     <table>
                         @foreach($passedevents as $event)
-                            <tr>
-                                <td> {{$event-> event_name}} </td>
-                                @auth
-                                    @if(Auth::user()->role==4)
-                                        <td>
-                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
-                                        "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať</a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
-                                        </td>
-                                    @endif
-                                @endauth
-                                <td>
-                                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
-                                            ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
-                                </td>
-                            </tr>
+                            @if($event->ishidden==false || Auth::user()->role==4)
+                                <tr>
+                                    <td> {{$event-> event_name}} </td>
+                                    @auth
+                                        @if(Auth::user()->role==4)
+                                            <td>
+                                                <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
+                                            "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať&nbsp;</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať&nbsp;</a>
+                                            </td>
+                                            <td>
+                                                @if($event->ishidden == false)
+                                                    <a href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}">Skryť&nbsp;</a>
+                                                @elseif($event->ishidden == true)
+                                                    <a href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}">Odkryť&nbsp;</a>
+                                                @endif
+                                            </td>
+                                        @endif
+                                    @endauth
+                                    <td>
+                                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
+                                                ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </table>
                 </div>
@@ -116,24 +225,33 @@
                     <h4>Prebiehajúce eventy</h4>
                     <table>
                         @foreach($activeevents as $event)
-                            <tr>
-                                <td> {{$event-> event_name}} </td>
-                                @auth
-                                    @if(Auth::user()->role==4)
-                                        <td>
-                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
-                                        "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať</a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
-                                        </td>
-                                    @endif
-                                @endauth
-                                <td>
-                                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
-                                            ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
-                                </td>
-                            </tr>
+                            @if($event->ishidden==false || Auth::user()->role==4)
+                                <tr>
+                                    <td> {{$event-> event_name}} </td>
+                                    @auth
+                                        @if(Auth::user()->role==4)
+                                            <td>
+                                                <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
+                                            "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať&nbsp;</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať&nbsp;</a>
+                                            </td>
+                                            <td>
+                                                @if($event->ishidden == false)
+                                                    <a href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}">Skryť&nbsp;</a>
+                                                @elseif($event->ishidden == true)
+                                                    <a href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}">Odkryť&nbsp;</a>
+                                                @endif
+                                            </td>
+                                        @endif
+                                    @endauth
+                                    <td>
+                                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
+                                                ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </table>
                 </div>
@@ -143,46 +261,59 @@
                     <h4>Nadchádzajúce eventy</h4>
                     <table>
                         @foreach($futureevents as $event)
-                            <tr>
-                                <td> {{$event-> event_name}}</td>
-                                @auth
-                                    @if($event->userid == $authuser->id || Auth::user()->role==4)
-                                        <td>
-                                            <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
-                                        "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať</a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať</a>
-                                        </td>
-                                    @endif
-                                    @if($event->userid != $authuser->id)
-                                        @php
-                                            $helper = 0
-                                        @endphp
-                                        @foreach($helpertable as $row)
-                                            @if ($row->userid == $authuser->id && $row->eventid == $event->id)
-                                                @php
-                                                    $helper = 1
-                                                @endphp
-                                                @break
-                                            @endif
-                                        @endforeach
-                                        @if($helper == 0)
+                            @if($event->ishidden==false || Auth::user()->role==4)
+                                <tr>
+                                    <td> {{$event-> event_name}}</td>
+                                    @auth
+                                        @if($event->userid == $authuser->id || Auth::user()->role==4)
                                             <td>
-                                                <a href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}">&nbsp; Zúčastniť sa</a>
+                                                <a href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1,
+                                            "userid" => -1, "admin" => -1]) }}">&nbsp; Editovať&nbsp;</a>
                                             </td>
-                                        @else
                                             <td>
-                                                <a href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}">&nbsp; Zrušiť účasť</a>
+                                                <a href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}">Mazať&nbsp;</a>
+                                            </td>
+                                            <td>
+                                                @if(Auth::user()->role==4)
+                                                    @if($event->ishidden == false)
+                                                        <a href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}">Skryť&nbsp;</a>
+                                                    @elseif($event->ishidden == true)
+                                                        <a href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}">Odkryť&nbsp;</a>
+                                                    @endif
+                                                @endif
                                             </td>
                                         @endif
-                                    @endif
-                                @endauth
-                                <td>
-                                    <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
-                                            ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
-                                </td>
-                            </tr>
+                                        @if($event->userid != $authuser->id)
+                                            @php
+                                                $helper = 0
+                                            @endphp
+                                            @foreach($helpertable as $row)
+                                                @if ($row->userid == $authuser->id && $row->eventid == $event->id)
+                                                    @php
+                                                        $helper = 1
+                                                    @endphp
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                            @if(Auth::User()->role==0)
+                                                @if($helper == 0)
+                                                    <td>
+                                                        <a href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}">&nbsp; Zúčastniť sa</a>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <a href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}">&nbsp; Zrušiť účasť</a>
+                                                    </td>
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endauth
+                                    <td>
+                                        <a class="btn btn-primary btn" href="{{ action("EventsController@showEventInfo",
+                                                ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">Detaily</a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </table>
                 </div>

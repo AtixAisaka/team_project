@@ -141,40 +141,21 @@
                         <input type="date" name="end_date" value="">
                     </div>
                 </div>
+
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        @foreach($tags as $row)
+                            <input type="checkbox" id="{{$row->name}}" name="tag[]" value="{{$row->id}}">
+                            <label for="{{$row->name}}"> {{$row->name}}</label>
+                        @endforeach
+                    </div>
+                </div>
                 <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="submit" name="submit" value="Filtrovať podla informácji"><br>
                 </div>
             </div>
-        </form>
-        <form method="post" action="{{action('EventsController@tag_filter')}}">
-                <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
-                        Podla tagov
-                        <select id="tags" name="tags" class="form-control">
-                            <option value=""></option>
-                            @foreach($tags as $row)
-                                @if($selected_tag != "")
-                                @if($selected_tag  == $row->id)
-                                <option selected value="{{$row->id}}">{{$row->name}}</option>
-                                    @else
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endif
-                                @else
-                                <option value="{{$row->id}}">{{$row->name}}</option>
-                                @endif
-                            @endforeach
 
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
-                    <input type="hidden" name="_token" value="{{csrf_token()}}">
-                    <input type="submit" name="submit" value="Filtrovať podla tagov"><br>
-                </div>
-            </div>
-        </form>
         @auth
             @if(Auth::User()->role==0)
                 <div class="row">

@@ -6,12 +6,14 @@ namespace App\Http\Controllers;
 use App\Events;
 use App\Fakulty;
 use App\Katedry;
+use App\Tags;
 use App\Tag;
 use App\EventsHasTags;
 use App\UsersGoingEvents;
 use App\events_image;
 use Auth;
 use Calendar;
+use phpDocumentor\Reflection\DocBlock\Description;
 use \Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -61,7 +63,7 @@ class EventsController extends Controller
 
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
-        $tags = Tag::get();
+        $tags = Tags::get();
         $selected_tag = "";
 
         if (Auth::check())
@@ -82,7 +84,7 @@ class EventsController extends Controller
         $pracovisko = $request["pracovisko"];
         $start_date = $request["start_date"];
         $end_date = $request["end_date"];
-        $tags = $request["tags"];
+        $tag = $request->get("tag");
 
         //query builder ty kokos
         $querypassedevents = Events::query();
@@ -120,8 +122,40 @@ class EventsController extends Controller
             $queryfutureevents = $queryfutureevents->whereDate('end_date', '<=', $end_date);
             $queryactiveevents = $queryactiveevents->whereDate('end_date', '<=', $end_date);
         }
-        if($tags!=""){
+        if($tag!=""){
+            $length = count($tag);
+            $array = array();
+            foreach($tag as $row){
+                $eventhastags = EventsHasTags::where('idtag', '=', $row)->select("idevent")->get();
+                foreach ($eventhastags as $item) {
+                    $array[] = $item->idevent;
+                }
+            }
+
+            $found = false;
+            foreach($array as $row) {
+                $pom = 0;
+                $eventhastag = EventsHasTags::where("idevent", '=', $row)->select("idtag")->get();
+                foreach ($eventhastag as $item) {
+                    if(in_array($item->idtag, $tag)) $pom++;
+                    else break;
+                }
+                if ($pom == $length) {
+                    $querypassedevents = $querypassedevents->where("id", "=", $row);
+                    $queryfutureevents = $queryfutureevents->where("id", "=", $row);
+                    $queryactiveevents = $queryactiveevents->where("id", "=", $row);
+                    $found = true;
+                    break;
+                }
+            }
+
+            if(!$found) {
+                $querypassedevents = $querypassedevents->where('id', '=', 999999);
+                $queryfutureevents = $queryfutureevents->where('id', '=', 999999);
+                $queryactiveevents = $queryactiveevents->where('id', '=', 999999);
+            }
         }
+
 
         $passedevents = $querypassedevents->get();
         $futureevents = $queryfutureevents->get();
@@ -129,7 +163,7 @@ class EventsController extends Controller
 
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
-        $tags = Tag::get();
+        $tags = Tags::get();
 
         if (Auth::check())
         {

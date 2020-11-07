@@ -64,10 +64,12 @@
                                 <li class="dropdown">
                                 <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
                                 <li><a href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a></li>
+                                <li><a href="{{action("EventsController@tagsView")}}">Tags</a></li>
                                 </li>
                             @else
                                 <li><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
                                 <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                                <li><a href="{{action("EventsController@tagsView")}}">Tags</a></li>
                                 </li>
                             @endif
                         @endguest

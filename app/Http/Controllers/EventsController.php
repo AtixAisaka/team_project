@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Events;
 use App\Fakulty;
 use App\Katedry;
-use App\Tags;
+use App\Tag;
 use App\EventsHasTags;
 use App\UsersGoingEvents;
 use App\events_image;
@@ -25,7 +25,7 @@ class EventsController extends Controller
         $events = Events::get();
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
-        $tags = Tags::get();
+        $tags = Tag::get();
         $event_list = [];
         foreach ($events as $key => $events) {
             $event_list[] = Calendar::event(
@@ -61,17 +61,18 @@ class EventsController extends Controller
 
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
-        $tags = Tags::get();
+        $tags = Tag::get();
+        $selected_tag = "";
 
         if (Auth::check())
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "authuser", "helpertable"));
+                "fakulty", "katedry", "tags", "authuser", "helpertable", "selected_tag"));
         } else {
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags"));
+                "fakulty", "katedry", "tags", "selected_tag"));
         }
     }
 
@@ -128,7 +129,7 @@ class EventsController extends Controller
 
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
-        $tags = Tags::get();
+        $tags = Tag::get();
 
         if (Auth::check())
         {
@@ -364,6 +365,60 @@ class EventsController extends Controller
             \Session::flash('success', 'Obrázok pridaný');
              return Redirect::to('/uploadImage/'.$request['event']);
         } else return Redirect::to('/eventlist');
+    }
+
+    public function test_tags(){
+        $event = Events::find(1);
+        $tag = Tag::Where('id', 1)->Where('id',2)->get();
+        $tag = Tag::find(2);
+        // $event->tags this finds tags that event has
+        // $tag->Events this finds Events that given tag has
+        return $tag->Events;
+    }
+
+    public function tag_filter(Request $request){
+        if($request->tags != "") {
+            $today = Carbon::now();
+            $selected_tag = $request->tags;
+            // this finds tag
+            $tag = Tag::find($request->tags);
+            // this finds where tags meet with events based on date
+            $passedevents = $tag->Events->where('end_date', '<', $today->format('Y-m-d'));
+            $futureevents = $tag->Events->where('start_date', '>', $today->format('Y-m-d'));
+            $activeevents = $tag->Events->where('start_date', '<=', $today->format('Y-m-d'))->where('end_date', '>=', $today->format('Y-m-d'));
+            $fakulty = Fakulty::get();
+            $katedry = Katedry::get();
+            $tags = Tag::get();
+
+            if (Auth::check()) {
+                $authuser = Auth::user();
+                $helpertable = UsersGoingEvents::all();
+                return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+                    "fakulty", "katedry", "tags", "authuser", "helpertable", "selected_tag"));
+            } else {
+                return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+                    "fakulty", "katedry", "tags", "selected_tag"));
+            }
+        }else{
+            return redirect()->action('EventsController@showEventList');
+        }
+
+    }
+
+    public function tagsView(){
+        if (Auth::check()) {
+            if(Auth::user()->role==4){
+                $user_Id = Auth::id();
+                $user_Tags = Tag::get();
+            }else{
+            $user_Id = Auth::id();
+            $user_Tags = Tag::get()->where("user_id", '=', $user_Id);
+            }
+            return  view('events/tag', compact("user_Id", "user_Tags"));
+        } else {
+            return view('events/events');
+        }
+
     }
 
 }

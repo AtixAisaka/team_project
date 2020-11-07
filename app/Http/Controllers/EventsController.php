@@ -128,7 +128,7 @@ class EventsController extends Controller
             foreach($tag as $row){
                 $eventhastags = EventsHasTags::where('idtag', '=', $row)->select("idevent")->get();
                 foreach ($eventhastags as $item) {
-                    $array[] = $item->idevent;
+                    if(!in_array($item->idevent, $array)) $array[] = $item->idevent;
                 }
             }
 

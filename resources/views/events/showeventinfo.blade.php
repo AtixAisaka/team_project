@@ -77,8 +77,6 @@
             @if($param != -1)
                 <a class="btn btn-primary btn-lg" href="{{ action("EventsController@showEventsHistory",
                     ["value" => $param, "id" => $userid, "admin" => $admin])  }}" role="button">Späť</a>
-            @else
-                <a class="btn btn-primary btn-lg" href="{{route('eventlist') }}" role="button">Späť</a>
             @endif
         </div>
     </div>

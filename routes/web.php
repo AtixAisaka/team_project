@@ -55,6 +55,10 @@ Route::post('/filter', [
     "as" => "filter", "uses" => 'EventsController@filterEvents'
 ]);
 
+Route::post('/filterCal', [
+    "as" => "filterCal", "uses" => 'EventsController@filterEventsCalendar'
+]);
+
 Route::get('/delete/{id}', [
     "as" => "delete", "uses" => 'EventsController@deleteEventAction'
 ]);
@@ -102,14 +106,6 @@ Route::get('userlist', [
 
 Route::get('deleteUserAction/{id}', [
     "as" => "deleteUserAction", "uses" => 'UsersController@deleteUserAction'
-]);
-
-Route::get('test', [
-    "as" => "test", "uses" => 'EventsController@test_tags'
-]);
-
-Route::post('tag_filter', [
-    "as" => "tag_filter", "uses" => 'EventsController@tag_filter'
 ]);
 
 Route::get('tags', [

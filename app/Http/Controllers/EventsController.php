@@ -7,7 +7,6 @@ use App\Events;
 use App\Fakulty;
 use App\Katedry;
 use App\Tags;
-use App\Tag;
 use App\EventsHasTags;
 use App\UsersGoingEvents;
 use App\events_image;
@@ -27,8 +26,16 @@ class EventsController extends Controller
         $events = Events::get();
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
-        $tags = Tag::get();
+        $tags = Tags::get();
         $event_list = [];
+
+        $type = "";
+        $pracovisko = "";
+        $start_date = "";
+        $end_date = "";
+        $tag = "";
+        $name = "";
+
         foreach ($events as $key => $events) {
             $event_list[] = Calendar::event(
                 $events->event_name,
@@ -47,9 +54,11 @@ class EventsController extends Controller
 
         if (Auth::check()) {
             $user = Auth::user();
-            return view('events/events', compact('calendar_details', "user", "fakulty", "katedry", "tags"));
+            return view('events/events', compact('calendar_details',  "user", "fakulty", "katedry", "tags",
+                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
         } else {
-            return view('events/events', compact("calendar_details", "fakulty", "katedry", "tags"));
+            return view('events/events', compact("calendar_details", "fakulty", "katedry", "tags",
+                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
         }
     }
 
@@ -64,22 +73,124 @@ class EventsController extends Controller
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
         $tags = Tags::get();
-        $selected_tag = "";
+
+        $type = "";
+        $pracovisko = "";
+        $start_date = "";
+        $end_date = "";
+        $tag = "";
+        $name = "";
 
         if (Auth::check())
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "authuser", "helpertable", "selected_tag"));
+                "fakulty", "katedry", "tags", "authuser", "helpertable", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
         } else {
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "selected_tag"));
+                "fakulty", "katedry", "tags", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+        }
+    }
+
+    public function filterEventsCalendar(Request $request){
+        $name = $request["name"];
+        $type = $request["type"];
+        $pracovisko = $request["pracovisko"];
+        $start_date = $request["start_date"];
+        $end_date = $request["end_date"];
+        $tag = $request->get("tag");
+
+        //query builder ty kokos
+        $eventsquery = Events::query();
+
+        if($name!=""){
+            $eventsquery = $eventsquery->where("event_name", 'LIKE', '%'.$name.'%');
+        }
+        if($type!=""){
+            $eventsquery = $eventsquery->where("type", "=", $type);
+        }
+        if($pracovisko!=""){
+            if(substr($pracovisko, 0, 1) == ".") {
+                $pracovisko = substr($pracovisko, 1);
+                $eventsquery = $eventsquery->where("idkatedry", "=", $pracovisko);
+            } else {
+                $eventsquery = $eventsquery->where("idfakulty", "=", $pracovisko);
+            }
+        }
+        if($start_date!=""){
+            $eventsquery = $eventsquery->whereDate('start_date', '>=', $start_date);
+        }
+        if($end_date!=""){
+            $eventsquery = $eventsquery->whereDate('end_date', '<=', $end_date);
+        }
+        if($tag!=""){
+            $length = count($tag);
+            $array = array();
+            $first = $tag[0];
+
+            $eventhastags = EventsHasTags::where('idtag', '=', $first)->select("idevent")->get();
+            foreach ($eventhastags as $item) {
+                if(!in_array($item->idevent, $array)) $array[] = $item->idevent;
+            }
+
+            $found = false;
+            foreach($array as $row) {
+                $pom = 0;
+                $eventhastag = EventsHasTags::where("idevent", '=', $row)->select("idtag")->get();
+                foreach ($eventhastag as $item) {
+                    if(in_array($item->idtag, $tag)) $pom++;
+                    else break;
+                }
+                if ($pom == $length) {
+                    $eventsquery = $eventsquery->where("id", "=", $row);
+                    $found = true;
+                    break;
+                }
+            }
+
+            if(!$found) {
+                $eventsquery = $eventsquery->where('id', '=', -1);;
+            }
+        }
+
+        $events = $eventsquery->get();
+
+        $event_list = [];
+        foreach ($events as $key => $events) {
+            $event_list[] = Calendar::event(
+                $events->event_name,
+                true,
+                new \DateTime($events->start_date),
+                new \DateTime($events->end_date.' +1 day'),
+                null,
+                // Add color and link on event
+                [
+                    'color' => '#32CD32',
+                    'url' => url("/showEventInfo/{$events->id}")."&-1&-1&-1",
+                ]
+            );
+        }
+        $calendar_details = Calendar::addEvents($event_list);
+
+        $fakulty = Fakulty::get();
+        $katedry = Katedry::get();
+        $tags = Tags::get();
+
+        if (Auth::check())
+        {
+            $user = Auth::user();
+            return view('events/events', compact('calendar_details', "user", "fakulty", "katedry", "tags",
+                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+        } else {
+            return view('events/events', compact('calendar_details', "fakulty", "katedry", "tags",
+                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
         }
     }
 
     public function filterEvents(Request $request){
         $today = Carbon::now();
+        $name = $request["name"];
         $type = $request["type"];
         $pracovisko = $request["pracovisko"];
         $start_date = $request["start_date"];
@@ -95,6 +206,11 @@ class EventsController extends Controller
         $queryactiveevents= $queryactiveevents->whereDate('start_date', '<=', $today->format('Y-m-d'))
             ->whereDate('end_date', '>=', $today->format('Y-m-d'));
 
+        if($name!=""){
+            $querypassedevents = $querypassedevents->where("event_name", 'LIKE', '%'.$name.'%');
+            $queryfutureevents = $queryfutureevents->where("event_name", 'LIKE', '%'.$name.'%');
+            $queryactiveevents = $queryactiveevents->where("event_name", 'LIKE', '%'.$name.'%');
+        }
         if($type!=""){
             $querypassedevents = $querypassedevents->where("type", "=", $type);
             $queryfutureevents = $queryfutureevents->where("type", "=", $type);
@@ -125,11 +241,11 @@ class EventsController extends Controller
         if($tag!=""){
             $length = count($tag);
             $array = array();
-            foreach($tag as $row){
-                $eventhastags = EventsHasTags::where('idtag', '=', $row)->select("idevent")->get();
-                foreach ($eventhastags as $item) {
-                    if(!in_array($item->idevent, $array)) $array[] = $item->idevent;
-                }
+            $first = $tag[0];
+
+            $eventhastags = EventsHasTags::where('idtag', '=', $first)->select("idevent")->get();
+            foreach ($eventhastags as $item) {
+                if(!in_array($item->idevent, $array)) $array[] = $item->idevent;
             }
 
             $found = false;
@@ -150,12 +266,11 @@ class EventsController extends Controller
             }
 
             if(!$found) {
-                $querypassedevents = $querypassedevents->where('id', '=', 999999);
-                $queryfutureevents = $queryfutureevents->where('id', '=', 999999);
-                $queryactiveevents = $queryactiveevents->where('id', '=', 999999);
+                $querypassedevents = $querypassedevents->where('id', '=', -1);
+                $queryfutureevents = $queryfutureevents->where('id', '=', -1);
+                $queryactiveevents = $queryactiveevents->where('id', '=', -1);
             }
         }
-
 
         $passedevents = $querypassedevents->get();
         $futureevents = $queryfutureevents->get();
@@ -170,10 +285,10 @@ class EventsController extends Controller
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "authuser", "helpertable"));
+                "fakulty", "katedry", "tags", "authuser", "helpertable", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
         } else {
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags"));
+                "fakulty", "katedry", "tags", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
         }
     }
 
@@ -401,62 +516,25 @@ class EventsController extends Controller
         } else return Redirect::to('/eventlist');
     }
 
-    public function test_tags(){
-        $event = Events::find(1);
-        $tag = Tag::Where('id', 1)->Where('id',2)->get();
-        $tag = Tag::find(2);
-        // $event->tags this finds tags that event has
-        // $tag->Events this finds Events that given tag has
-        return $tag->Events;
-    }
-
-    public function tag_filter(Request $request){
-        if($request->tags != "") {
-            $today = Carbon::now();
-            $selected_tag = $request->tags;
-            // this finds tag
-            $tag = Tag::find($request->tags);
-            // this finds where tags meet with events based on date
-            $passedevents = $tag->Events->where('end_date', '<', $today->format('Y-m-d'));
-            $futureevents = $tag->Events->where('start_date', '>', $today->format('Y-m-d'));
-            $activeevents = $tag->Events->where('start_date', '<=', $today->format('Y-m-d'))->where('end_date', '>=', $today->format('Y-m-d'));
-            $fakulty = Fakulty::get();
-            $katedry = Katedry::get();
-            $tags = Tag::get();
-
-            if (Auth::check()) {
-                $authuser = Auth::user();
-                $helpertable = UsersGoingEvents::all();
-                return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                    "fakulty", "katedry", "tags", "authuser", "helpertable", "selected_tag"));
-            } else {
-                return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                    "fakulty", "katedry", "tags", "selected_tag"));
-            }
-        }else{
-            return redirect()->action('EventsController@showEventList');
-        }
-
-    }
-
     public function tagsView(){
         if (Auth::check()) {
             if(Auth::user()->role==4){
                 $user_Id = Auth::id();
-                $user_Tags = Tag::get();
+                $user_Tags = Tags::get();
             }else{
-            $user_Id = Auth::id();
-            $user_Tags = Tag::get()->where("user_id", '=', $user_Id);
+                $user_Id = Auth::id();
+                $user_Tags = Tags::get()->where("userid", '=', $user_Id);
             }
-            return  view('events/tag', compact("user_Id", "user_Tags"));
+            return view('events/tag', compact("user_Id", "user_Tags"));
         } else {
             return redirect('/events');
         }
 
     }
+
     public function addtagsView(){
         if (Auth::check()) {
-            return  view('events/addtags');
+            return view('events/addtags');
         } else {
             return redirect('/events');
         }
@@ -484,9 +562,9 @@ class EventsController extends Controller
         $remove = EventsHasTags::where('idtag', '=', $id);
         $remove->delete();
 
-
         return Redirect::to('/tags');
     }
+
     public function editTagView($id) {
         if (Auth::check()) {
             $tag = Tags::find($id);

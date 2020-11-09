@@ -7,6 +7,7 @@ use App\Events;
 use App\UsersGoingEvents;
 use App\events_image;
 use Auth;
+use App\Tags;
 use Calendar;
 use \Validator;
 use Illuminate\Http\Request;
@@ -69,6 +70,7 @@ class UsersController extends Controller
         DB::table('users')->where("id", "=", $id)->delete();
         UsersGoingEvents::where("userid", "=", $id)->delete();
         events_image::where("user_id", "=", $id)->delete();
+        Tags::where("userid", "=", $id)->delete();
         $events = Events::where("userid", "=", $id)->get();
         foreach($events as $row) {
             UsersGoingEvents::where("eventid", "=", $row->id)->delete();

@@ -1,5 +1,10 @@
 @extends("layouts.app")
 @section('content')
+
+    <link href="{{ asset('css/sol.css') }}" rel="stylesheet" />
+    <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <div class="container">
             @auth
             <div class="breadcrumb">
@@ -95,6 +100,106 @@
         @endauth
 
 
+                <h3>Filtrovanie</h3>
+                <form method="post" action="{{action('EventsController@filterEventsCalendar')}}">
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                Podľa názvu
+                                @if($name != "") <input type="text" name="name" value="{{$name}}">
+                                @else <input type="text" name="name" placeholder="Názov/časť názvu" value="">
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                Podľa typu
+                                <select id="type" name="type" >
+                                    @if($type == "") <option selected="selected" value="">No Filter</option>
+                                    @else <option value="">No Filter</option>
+                                    @endif
+
+                                    @if($type == "0") <option selected="selected" value="0">Študentské eventy</option>
+                                    @elseif($type == "1") <option selected="selected" value="1">Eventy pracovísk</option>
+                                    @elseif($type == "2") <option selected="selected" value="2">Eventy fakúlt</option>
+                                    @elseif($type == "3") <option selected="selected" value="3">Eventy univerzity</option>
+                                    @endif
+
+                                    @if($type != "0") <option value="0">Študentské eventy</option> @endif
+                                    @if($type != "1") <option value="1">Eventy pracovísk</option> @endif
+                                    @if($type != "2") <option value="2">Eventy fakúlt</option> @endif
+                                    @if($type != "3")  <option value="3">Eventy univerzity</option> @endif
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                Podľa pracoviska/fakulty
+                                <select id="pracovisko" name="pracovisko" >
+                                    @if($pracovisko == "") <option selected="selected" value="">No Filter</option>
+                                    @else
+                                        <option value="">No Filter</option>
+                                    @endif
+                                    <optgroup label="Fakulty">
+                                        @foreach($fakulty as $row)
+                                            @if($row->id == $pracovisko) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
+                                            @else <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </optgroup>
+                                    <optgroup label="Katedry">
+                                        @foreach($katedry as $row)
+                                            @if($row->id == $pracovisko) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
+                                            @else <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                Od dátumu
+                                @if($start_date != "") <input type="date" name="start_date" value="{{$start_date}}">
+                                @else <input type="date" name="start_date" value="">
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                Do dátumu
+                                @if($end_date != "") <input type="date" name="end_date" value="{{$end_date}}">
+                                @else <input type="date" name="end_date" value="">
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                Podla tagov
+                                <select id="tags"  name="tag[]" multiple="multiple">
+                                    @if($tag != "")
+                                        @foreach($tags as $row)
+                                            @if(in_array($row->id, $tag)) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
+                                            @else <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        @foreach($tags as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <input type="submit" name="submit" value="Filtrovať podla informácii"><br>
+                        </div>
+                    </div>
 
         <div class="breadcrumb">
             <div class="panel-heading">Informácie eventu</div>
@@ -106,4 +211,5 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     {!! $calendar_details->script() !!}
+
 @endsection

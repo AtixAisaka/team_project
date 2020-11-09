@@ -8,6 +8,6 @@ class Tags extends Model
 {
     public $table = "tags";
     protected $fillable = [
-        'name',
+        'name', 'user_id',
     ];
 }

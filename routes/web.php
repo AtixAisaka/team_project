@@ -115,3 +115,23 @@ Route::post('tag_filter', [
 Route::get('tags', [
     "as" => "tagsView", "uses" => 'EventsController@tagsView'
 ]);
+
+Route::get('addtags', [
+    "as" => "addtagsView", "uses" => 'EventsController@addtagsView'
+]);
+
+Route::post('addtag', [
+    "as" => "addtag", "uses" => 'EventsController@addtag'
+]);
+
+Route::get('deletetag/{id}', [
+    "as" => "deletetag", "uses" => 'EventsController@deletetag'
+]);
+
+Route::get('edittag/{id}', [
+    "as" => "editTagView", "uses" => 'EventsController@editTagView'
+]);
+
+Route::post('edittagAction', [
+    "as" => "edittagAction", "uses" => 'EventsController@edittagAction'
+]);

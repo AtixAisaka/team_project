@@ -12,10 +12,10 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="http://code.jquery.com/jquery.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet" id="bootstrap-css">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 
     <script>
         $(document).ready(function(){
@@ -57,8 +57,8 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="{{ url('/') }}">Home</a></li>
                         @guest
-                        <li><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
-                        <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                            <li><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
+                            <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
                         @else
                             @if(Auth::user()->role==4)
                                 <li class="dropdown">

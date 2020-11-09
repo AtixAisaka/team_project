@@ -19,6 +19,8 @@ class CreateEventsHasTagsTable extends Migration
             $table->integer('idevent');
             $table->timestamps();
         });
+
+
     }
 
     /**

@@ -1,5 +1,10 @@
 @extends("layouts.app")
 @section('content')
+
+    <link href="{{ asset('css/sol.css') }}" rel="stylesheet" />
+    <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     @auth
         @if(Auth::User()->role!=4)
             <div class="container">
@@ -103,8 +108,8 @@
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         Podľa typu
-                        <select id="type" name="type" class="form-control">
-                            <option value=""></option>
+                        <select id="type" name="type" >
+                            <option value="">No Filter</option>
                             <option value="0">Študentské eventy</option>
                             <option value="1">Eventy pracovísk</option>
                             <option value="2">Eventy fakúlt</option>
@@ -116,8 +121,8 @@
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         Podľa pracoviska/fakulty
-                        <select id="pracovisko" name="pracovisko" class="form-control">
-                            <option value=""></option>
+                        <select id="pracovisko" name="pracovisko" >
+                            <option value="">No Filter</option>
                             @foreach($fakulty as $row)
                                 <option value="{{$row->id}}">{{$row->name}}</option>
                             @endforeach
@@ -144,10 +149,11 @@
 
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
-                        @foreach($tags as $row)
-                            <input type="checkbox" id="{{$row->name}}" name="tag[]" value="{{$row->id}}">
-                            <label for="{{$row->name}}"> {{$row->name}}</label>
-                        @endforeach
+                        <select id="tags"  name="tag[]" multiple="multiple">
+                            @foreach($tags as $row)
+                            <option value="{{$row->id}}">{{$row->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
@@ -318,10 +324,14 @@
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
+            <script type="text/javascript">
+                $(function() {
+                    // initialize sol
+                    $('#tags').searchableOptionList();
+                    $('#pracovisko').searchableOptionList();
+                    $('#type').searchableOptionList();
+                });
+            </script>
 @endsection

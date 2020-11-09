@@ -450,9 +450,62 @@ class EventsController extends Controller
             }
             return  view('events/tag', compact("user_Id", "user_Tags"));
         } else {
-            return view('events/events');
+            return redirect('/events');
         }
 
+    }
+    public function addtagsView(){
+        if (Auth::check()) {
+            return  view('events/addtags');
+        } else {
+            return redirect('/events');
+        }
+
+    }
+
+    public function addtag(Request $request){
+        if (Auth::check()) {
+            $user_Id = Auth::id();
+            $tag_name = $request->tag_name;
+            $tag = new Tags();
+            $tag->name = $tag_name;
+            $tag->user_id = $user_Id;
+            $tag->save();
+            return  view('events/addtags');
+        } else {
+            return redirect('/events');
+        }
+
+    }
+
+    public function deletetag($id){
+        $remove = Tags::where('id', '=', $id);
+        $remove->delete();
+        $remove = EventsHasTags::where('idtag', '=', $id);
+        $remove->delete();
+
+
+        return Redirect::to('/tags');
+    }
+    public function editTagView($id) {
+        if (Auth::check()) {
+            $tag = Tags::find($id);
+            $tag_name = $tag->name;
+            return view("events/edittag", compact("id", "tag_name"));
+        }else {
+            return redirect('/events');
+        }
+    }
+
+    public function edittagAction(Request $request) {
+        if (Auth::check()) {
+        $tag = Tags::find($request->id);
+        $tag->name = $request['tag_name'];
+        $tag->save();
+
+
+        return Redirect::to('/tags');}
+        else return Redirect::to('/events');
     }
 
 }

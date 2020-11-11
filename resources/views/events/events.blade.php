@@ -4,7 +4,6 @@
     <link href="{{ asset('css/sol.css') }}" rel="stylesheet" />
     <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <div class="container">
             @auth
             <div class="breadcrumb">
@@ -206,10 +205,16 @@
                 {!! $calendar_details->calendar() !!}
 
             </div>
-    </div>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     {!! $calendar_details->script() !!}
+        <script type="text/javascript">
+            $(function() {
+                // initialize sol
+                $('#tags').searchableOptionList();
+                $('#pracovisko').searchableOptionList();
+                $('#type').searchableOptionList();
+            });
+    </script>
 
 @endsection

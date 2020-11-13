@@ -15,7 +15,7 @@
                     <input type="hidden" name="param" value="{{$param}}">
                     <input type="hidden" name="userid" value="{{$userid}}">
                     <input type="hidden" name="admin" value="{{$admin}}">
-                    <a href="{{action('EventsController@eventTagInfoView', ["id" => $event->id])}}">edit tagov</a>
+                    <a href="{{action('EventsController@eventTagInfoView', ["id" => $event->id])}}" target="_blank">edit tagov</a>
                     <input type="submit" name="submit" value="Uložiť"><br>
                 </form>
         </div>

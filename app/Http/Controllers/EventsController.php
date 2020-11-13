@@ -12,13 +12,15 @@ use App\UsersGoingEvents;
 use App\events_image;
 use Auth;
 use Calendar;
-use phpDocumentor\Reflection\DocBlock\Description;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
+use Session;
+use GuzzleHttp\Client;
 use \Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use Carbon\Carbon;
-use Route;
 
 class EventsController extends Controller
 {
@@ -29,12 +31,12 @@ class EventsController extends Controller
         $tags = Tags::get();
         $event_list = [];
 
-        $type = "";
-        $pracovisko = "";
-        $start_date = "";
-        $end_date = "";
-        $tag = "";
-        $name = "";
+        Session::put('type', "");
+        Session::put('pracovisko', "");
+        Session::put('start_date', "");
+        Session::put('end_date', "");
+        Session::put('tag', "");
+        Session::put('name', "");
 
         foreach ($events as $key => $events) {
             $event_list[] = Calendar::event(
@@ -54,11 +56,9 @@ class EventsController extends Controller
 
         if (Auth::check()) {
             $user = Auth::user();
-            return view('events/events', compact('calendar_details',  "user", "fakulty", "katedry", "tags",
-                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+            return view('events/events', compact('calendar_details',  "user", "fakulty", "katedry", "tags"));
         } else {
-            return view('events/events', compact("calendar_details", "fakulty", "katedry", "tags",
-                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+            return view('events/events', compact("calendar_details", "fakulty", "katedry", "tags"));
         }
     }
 
@@ -74,22 +74,22 @@ class EventsController extends Controller
         $katedry = Katedry::get();
         $tags = Tags::get();
 
-        $type = "";
-        $pracovisko = "";
-        $start_date = "";
-        $end_date = "";
-        $tag = "";
-        $name = "";
+        Session::put('type', "");
+        Session::put('pracovisko', "");
+        Session::put('start_date', "");
+        Session::put('end_date', "");
+        Session::put('tag', "");
+        Session::put('name', "");
 
         if (Auth::check())
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "authuser", "helpertable", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+                "fakulty", "katedry", "tags", "authuser", "helpertable"));
         } else {
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+                "fakulty", "katedry", "tags"));
         }
     }
 
@@ -177,25 +177,31 @@ class EventsController extends Controller
         $katedry = Katedry::get();
         $tags = Tags::get();
 
+        Session::put('type', $request["type"]);
+        Session::put('pracovisko', $request["pracovisko"]);
+        Session::put('start_date', $request["start_date"]);
+        Session::put('end_date', $request["end_date"]);
+        Session::put('tag', $request["tag"]);
+        Session::put('name', $request["name"]);
+
         if (Auth::check())
         {
             $user = Auth::user();
-            return view('events/events', compact('calendar_details', "user", "fakulty", "katedry", "tags",
-                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+            return view('events/events', compact('calendar_details', "user", "fakulty", "katedry", "tags"));
         } else {
-            return view('events/events', compact('calendar_details', "fakulty", "katedry", "tags",
-                "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+            return view('events/events', compact('calendar_details', "fakulty", "katedry", "tags"));
         }
     }
 
-    public function filterEvents(Request $request){
+    public function doFilter($array) {
+        $type = $array["type"];
+        $pracovisko = $array["pracovisko"];
+        $start_date = $array["start_date"];
+        $end_date = $array["end_date"];
+        $tag = $array["tag"];
+        $name = $array["name"];
+
         $today = Carbon::now();
-        $name = $request["name"];
-        $type = $request["type"];
-        $pracovisko = $request["pracovisko"];
-        $start_date = $request["start_date"];
-        $end_date = $request["end_date"];
-        $tag = $request->get("tag");
 
         //query builder ty kokos
         $querypassedevents = Events::query();
@@ -280,16 +286,35 @@ class EventsController extends Controller
         $katedry = Katedry::get();
         $tags = Tags::get();
 
+        Session::put('type', $type);
+        Session::put('pracovisko', $pracovisko);
+        Session::put('start_date', $start_date);
+        Session::put('end_date', $end_date);
+        Session::put('tag', $tag);
+        Session::put('name', $name);
+
         if (Auth::check())
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "authuser", "helpertable", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+                "fakulty", "katedry", "tags", "authuser", "helpertable"));
         } else {
             return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
-                "fakulty", "katedry", "tags", "type", "pracovisko", "start_date", "end_date", "tag", "name"));
+                "fakulty", "katedry", "tags"));
         }
+    }
+
+    public function filterEvents(Request $request){
+        $name = $request["name"];
+        $type = $request["type"];
+        $pracovisko = $request["pracovisko"];
+        $start_date = $request["start_date"];
+        $end_date = $request["end_date"];
+        $tag = $request->get("tag");
+
+        return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
+            "tag" => $tag, "name" => $name));
     }
 
     public function addEvent(Request $request)
@@ -326,13 +351,13 @@ class EventsController extends Controller
         $events->ishidden = false;
         $events->save();
 
-        if($request->has('tag')){
+        if($request->has('tags0')){
             $find_event = Events::where('userid',$request['userid'])->orderBy('created_at', 'desc');
             $event_id = $find_event->first('id');
-            $length = count($request->tag);
+            $length = count($request["tags0"]);
             for($i=0; $i<$length; $i++) {
                 $event_has_tags = new EventsHasTags;
-                $event_has_tags->idtag = $request->tag[$i];
+                $event_has_tags->idtag = $request["tags0"][$i];
                 $event_has_tags->idevent = $event_id->id;
                 $event_has_tags->save();
             }
@@ -415,6 +440,13 @@ class EventsController extends Controller
     }
 
     public function updateEventAction($id, Request $request) {
+        $type = Session::get('type');
+        $pracovisko = Session::get('pracovisko');
+        $start_date = Session::get('start_date');
+        $end_date = Session::get('end_date');
+        $tag = Session::get('tag');
+        $name = Session::get('name');
+
         $events = Events::find($id);
         $events->event_name = $request['event_name'];
         $events->start_date = $request['start_date'];
@@ -423,10 +455,18 @@ class EventsController extends Controller
         $param = $request->param;
 
         if($param != -1) return Redirect::to('/eventhistory/'.$param."&".$request->userid."&".$request->admin);
-        else return Redirect::to('/eventlist');
+        else return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
+            "tag" => $tag, "name" => $name));
     }
 
     public function hideEventAction($id, $value) {
+        $type = Session::get('type');
+        $pracovisko = Session::get('pracovisko');
+        $start_date = Session::get('start_date');
+        $end_date = Session::get('end_date');
+        $tag = Session::get('tag');
+        $name = Session::get('name');
+
         $events = Events::find($id);
         $boolean = null;
         if($value == 0) $boolean = false;
@@ -434,10 +474,18 @@ class EventsController extends Controller
         $events->ishidden = $boolean;
         $events->save();
 
-        return Redirect::to('/eventlist');
+        return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
+            "tag" => $tag, "name" => $name));
     }
 
     public function deleteEventAction($id) {
+        $type = Session::get('type');
+        $pracovisko = Session::get('pracovisko');
+        $start_date = Session::get('start_date');
+        $end_date = Session::get('end_date');
+        $tag = Session::get('tag');
+        $name = Session::get('name');
+
         $event = Events::find($id);
         $event->delete();
         $remove = UsersGoingEvents::where('eventid', '=', $id);
@@ -447,7 +495,8 @@ class EventsController extends Controller
         $remove = events_image::where('event_id', '=', $id);
         $remove->delete();
 
-        return Redirect::to('/eventlist');
+        return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
+            "tag" => $tag, "name" => $name));
     }
 
     public function deleteUserGoingEvent(Request $request) {
@@ -614,10 +663,11 @@ class EventsController extends Controller
     public function eventTagInfoView($idevent) {
         if (Auth::check()) {
             $event_tags = EventsHasTags::all()->where('idevent','=', $idevent)->pluck('idtag');;
+            $event = Events::find($idevent);
             $tags = Tags::find($event_tags);
             $alltags = Tags::all();
 
-            return view("events/eventTagInfo", compact("tags", "idevent", "alltags"));
+            return view("events/eventTagInfo", compact("tags", "event", "alltags"));
         }else {
             return redirect('/events');
         }

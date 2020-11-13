@@ -2,6 +2,9 @@
 
 use App\Mail\MailtrapExample;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Session\get;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -152,4 +155,24 @@ Route::get('/send-mail', function () {
 
     return 'A message has been sent to Mailtrap!';
 
+});
+
+Route::get('/blah', function () {
+    $type = Session::get('type');
+    $pracovisko = Session::get('pracovisko');
+    $start_date = Session::get('start_date');
+    $end_date = Session::get('end_date');
+    $tag = Session::get('tag');
+    $name = Session::get('name');
+
+    $request = Request::create('/filter', 'POST',
+        ['type' => $type,
+        "pracovisko" => $pracovisko,
+        "start_date" => $start_date,
+        "end_date" => $end_date,
+        "tag" => $tag,
+        "name" => $name]);
+
+    $request->headers->set('X-CSRF-TOKEN', csrf_token());
+    app()->handle($request);
 });

@@ -16,13 +16,11 @@
 
 
     &nbsp;<br/>
-        <input type="hidden" name="idevent" value="{{$idevent}}">
+        <input type="hidden" name="idevent" value="{{$event->id}}">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <input type="submit" name="submit" value="Pridať tagy"><br>
     <table class="table">
-        @if(Auth::User()->role != 4) <h3>Zoznam tagov udalosti</h3>
-        @else <h3>Zoznam tagov udalosti</h3>
-        @endif
+        <h3>Zoznam tagov udalosti: {{$event->event_name}}</h3>
         <thead>
         <tr>
             <th scope="col">meno</th>
@@ -32,7 +30,7 @@
         @foreach($tags as $row)
             <tr>
                 <td>{{$row->name}}</td>
-                <td><a href="{{action('EventsController@deletetagInfo',['id' => $row->id, 'idevent' => $idevent])}}">Vymazať</a>
+                <td><a href="{{action('EventsController@deletetagInfo',['id' => $row->id, 'idevent' => $event->id])}}">Vymazať</a>
                 </td>
             </tr>
         @endforeach

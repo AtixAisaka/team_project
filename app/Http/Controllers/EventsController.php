@@ -625,12 +625,18 @@ class EventsController extends Controller
 
     public function eventaddTagInfo(Request $request) {
         if (Auth::check()) {
+            $array = array();
             $length = count($request->tag);
+            $eventhastag = EventsHasTags::where("idevent", '=', $request->idevent)->select("idtag")->get();
+            foreach ($eventhastag as $item) {
+                if(!in_array($item->idtag, $array)) $array[] = $item->idtag;
+            }
             for($i=0; $i<$length; $i++) {
+                if(!in_array($request->tag[$i], $array)){
                 $event_has_tags = new EventsHasTags;
                 $event_has_tags->idtag = $request->tag[$i];
                 $event_has_tags->idevent = $request->idevent;
-                $event_has_tags->save();
+                $event_has_tags->save();}
             }
 
 

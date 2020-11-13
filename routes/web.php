@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\MailtrapExample;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -143,3 +145,11 @@ Route::post('eventaddTagInfo', [
 Route::get('deletetagInfo/{id}&{idevent}', [
     "as" => "deletetagInfo", "uses" => 'EventsController@deletetagInfo'
 ]);
+
+Route::get('/send-mail', function () {
+
+    Mail::to('newuser@example.com')->send(new MailtrapExample());
+
+    return 'A message has been sent to Mailtrap!';
+
+});

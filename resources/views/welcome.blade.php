@@ -7,13 +7,73 @@
 
     <style>
         body {
-            background: url("{{asset('img/landing_page.jpg')}}");
-            background-size: 100% 100%;
-            /*background: rgb(144,144,144);
-            background: linear-gradient(0deg, rgba(144,144,144,1) 16%, rgba(145,193,150,1) 37%, rgba(113,217,115,1) 60%, rgba(47,203,50,1) 100%);*/
+            animation: theme 21s linear infinite;
+        }body:after,
+                 body:before {
+             content: '';
+             display: block;
+             position: fixed;
+             z-index: -1;
+             top: 0;
+             width: 100vw;  // IE/Edge
+         height: 100vh; // fallback
+         width: 100vmax;
+             height: 100vmax;
+             background: rgba(0,0,0,0.05);
+             animation: background 90s linear infinite;
+         }
+
+        body:after {
+             left: 15vw;
+         }
+
+        body:before {
+             right: 15vw;
+             animation-delay: -30s;
+             animation-direction: reverse;
+         }
+
+
+        @keyframes theme {
+            0% {
+                background: #74c377;
+            }
+
+            16% {
+                background: #74c377;
+            }
+
+            33% {
+                background: #5c6c84;
+            }
+
+            50% {
+                background: #5c6c84;
+            }
+
+            66% {
+                background: #5c6c84;
+            }
+
+            83% {
+                background: #74c377;
+            }
+
+            100% {
+                background: #74c377;
+            }
+        }
+
+        @keyframes background {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
-
     <div class="container">
 
         <div class="container_img">
@@ -40,17 +100,10 @@
                     <button  class="hover_btn"><span>{{ __('Open Callendar') }}</span></button>
                 </a>
 
-                @endguest
             </div>
         </div>
-
-
-
-
-
-
+        @endguest
     </div>
-
     <div class="container">
         <div class="container_text">
             <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
@@ -83,7 +136,4 @@
             </div>
         </div>
     </section>--}}
-
-
-
 @endsection

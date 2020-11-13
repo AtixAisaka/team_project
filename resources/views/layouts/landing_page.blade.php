@@ -7,11 +7,13 @@
 
     <style>
         body {
-            background: url("{{asset('img/landing_page.jpg')}}");
-            background-size: 100% 100%;
+          /*  background: url("{{asset('img/landing_page.jpg')}}");
+            background-size: 100% 100%; */
             /*background: rgb(144,144,144);
             background: linear-gradient(0deg, rgba(144,144,144,1) 16%, rgba(145,193,150,1) 37%, rgba(113,217,115,1) 60%, rgba(47,203,50,1) 100%);*/
         }
+
+
     </style>
 
     <div class="container">

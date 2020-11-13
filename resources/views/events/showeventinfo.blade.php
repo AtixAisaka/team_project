@@ -1,6 +1,8 @@
 @extends("layouts.app")
 @section('content')
     <script src="cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.fancybox.js') }}"></script>
+    <link href="{{ asset('css/jquery.fancybox.css') }}" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
@@ -46,6 +48,18 @@
                     </table>
                 </div>
             </div>
+            <div class="col">
+                <div class="breadcrumb">
+                    <table>
+                        <tr>
+                            <td class="text-center"><h3>Tagy: </h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3>{{$eventtags}}</h3></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             @auth
             @if($value == 1)
             <div class="col">
@@ -57,11 +71,12 @@
                         </tr>
                         @foreach($eventsImages as $eventImage)
                         <tr>
-                            <td><img width="250px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></td>
+                            <td><div style="display: none;" id="hidden-content"><img style="max-width: 70vmax;" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></div>
+                                <a data-fancybox data-src="#hidden-content" href="javascript:;"><img width="250px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></a></td>
                             @if(Auth::User()->id == $eventImage->user_id || Auth::User()->role == 4)
                                 <td>
                                     <a class="btn btn-primary btn" href="{{ action("EventsController@deleteImage",
-                                        ["id" => $eventImage->id, "eventid" => $event->eventid, "param" => $param,
+                                        ["id" => $eventImage->id, "eventid" => $event->id, "param" => $param,
                                          "userid" => $userid, "admin" => $admin]) }}" role="button">Vymazať</a>
                                 </td>
                             @endif

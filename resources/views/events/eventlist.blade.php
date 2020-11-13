@@ -88,6 +88,25 @@
                                     </div>
                                 </div>
 
+                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                    <div class="form-group">
+                                        tagy
+                                        <select id="tags0"  name="tag[]" multiple="multiple">
+                                            @if($tag != "")
+                                                @foreach($tags as $row)
+                                                    @if(in_array($row->id, $tag)) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
+                                                    @else <option value="{{$row->id}}">{{$row->name}}</option>
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                @foreach($tags as $row)
+                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <input type="hidden" name="userid" value="{{$authuser -> id}}">
@@ -373,6 +392,7 @@
             <script type="text/javascript">
                 $(function() {
                     // initialize sol
+                    $('#tags0').searchableOptionList();
                     $('#tags').searchableOptionList();
                     $('#pracovisko').searchableOptionList();
                     $('#type').searchableOptionList();

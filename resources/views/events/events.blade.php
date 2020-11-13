@@ -39,13 +39,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
 
                         @if(Auth::User()->role == 3)
                             <input type="hidden" name="type" value="3">
                             <input type="hidden" name="idkatedry" value="0">
                             <input type="hidden" name="idfakulty" value="0">
                         @elseif(Auth::User()->role == 2)
-                            <select id="idfakulty" name="idfakulty" class="form-control">
+                            fakulta
+                            <select id="idfakulty" name="idfakulty">
+                                <option value="">Žiadna fakulta</option>
                                 @foreach($fakulty as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
@@ -54,7 +58,9 @@
                             <input type="hidden" name="idkatedry" value="0">
                         @elseif(Auth::User()->role == 1)
                         <!-- Sem doplnit ten select so searchom !-->
-                            <select id="idkatedry" name="idkatedry" class="form-control">
+                            Katedra
+                            <select id="idkatedry" name="idkatedry" >
+                                <option value="">Žiadna katedra</option>
                                 @foreach($katedry as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
@@ -66,7 +72,8 @@
                             <input type="hidden" name="idkatedry" value="0">
                             <input type="hidden" name="idfakulty" value="0">
                         @endif
-
+                            </div>
+                        </div>
                         <div class="col-xs-3 col-sm-3 col-md-3">
                             <div class="form-group">
                                 Začiatok Eventu
@@ -86,7 +93,24 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                tagy
+                                <select id="tags0"  name="tag[]" multiple="multiple">
+                                    @if($tag != "")
+                                        @foreach($tags as $row)
+                                            @if(in_array($row->id, $tag)) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
+                                            @else <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        @foreach($tags as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-xs-1 col-sm-1 col-md-1 text-center"> &nbsp;<br/>
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input type="hidden" name="userid" value="{{$user -> id}}">
@@ -211,6 +235,9 @@
         <script type="text/javascript">
             $(function() {
                 // initialize sol
+                $('#idfakulty').searchableOptionList();
+                $('#idkatedry').searchableOptionList();
+                $('#tags0').searchableOptionList();
                 $('#tags').searchableOptionList();
                 $('#pracovisko').searchableOptionList();
                 $('#type').searchableOptionList();

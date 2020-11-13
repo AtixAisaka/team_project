@@ -83,7 +83,7 @@ Route::get('/uploadImage/{id}', [
     "as" => "uploadImage", "uses" => 'EventsController@openImageUpload'
 ]);
 
-Route::post('/deleteImage/{id}&{eventid}&{param}&{userid}&{admin}', [
+Route::get('/deleteImage/{id}&{eventid}&{param}&{userid}&{admin}', [
     "as" => "deleteImage", "uses" => 'EventsController@deleteImage'
 ]);
 
@@ -130,4 +130,16 @@ Route::get('edittag/{id}', [
 
 Route::post('edittagAction', [
     "as" => "edittagAction", "uses" => 'EventsController@edittagAction'
+]);
+
+Route::get('eventtags/{id}', [
+    "as" => "eventtags", "uses" => 'EventsController@eventTagInfoView'
+]);
+
+Route::post('eventaddTagInfo', [
+    "as" => "eventaddTagInfo", "uses" => 'EventsController@eventaddTagInfo'
+]);
+
+Route::get('deletetagInfo/{id}&{idevent}', [
+    "as" => "deletetagInfo", "uses" => 'EventsController@deletetagInfo'
 ]);

@@ -166,7 +166,7 @@ class EventsController extends Controller
                 null,
                 // Add color and link on event
                 [
-                    'color' => '#32CD32',
+                    'color' => '#74c377',
                     'url' => url("/showEventInfo/{$events->id}")."&-1&-1&-1",
                 ]
             );
@@ -326,6 +326,17 @@ class EventsController extends Controller
         $events->ishidden = false;
         $events->save();
 
+        if($request->has('tag')){
+            $find_event = Events::where('userid',$request['userid'])->orderBy('created_at', 'desc');
+            $event_id = $find_event->first('id');
+            $length = count($request->tag);
+            for($i=0; $i<$length; $i++) {
+                $event_has_tags = new EventsHasTags;
+                $event_has_tags->idtag = $request->tag[$i];
+                $event_has_tags->idevent = $event_id->id;
+                $event_has_tags->save();
+            }
+        }
         if($request["helper"] == 0) {
             \Session::flash('success', 'Event Pridaný');
             return Redirect::to('/events');
@@ -364,8 +375,10 @@ class EventsController extends Controller
     public function showEventInfo($id, $param, $userid, $admin) {
         $event = Events::find($id);
         $usereventtable = UsersGoingEvents::where("eventid", "=", $id)->get();
+        $usertagtable = EventsHasTags::where("idevent", "=", $id)->get();
         $count = UsersGoingEvents::where("eventid", "=", $id)->count();
         $usersgoing = "";
+        $eventtags = "";
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
         $eventsImages = events_image::where("event_id", "=", $id)->get();
 
@@ -389,7 +402,15 @@ class EventsController extends Controller
                 $usersgoing .= DB::table('users')->where("id", "=", $row->userid)->value("name").", ";
         }
 
-        return view("events/showeventinfo", compact( "usersgoing", "count", "eventowner",
+        foreach($usertagtable as $row) {
+            if($usertagtable->last() == $row)
+                $eventtags .= DB::table('tags')->where("id", "=", $row->idtag)->value("name").".";
+            else
+                $eventtags .= DB::table('tags')->where("id", "=", $row->idtag)->value("name").", ";
+        }
+
+
+        return view("events/showeventinfo", compact( "eventtags","usersgoing", "count", "eventowner",
             "event", "eventsImages", "value", "param", "admin", "userid", "eventabout"));
     }
 
@@ -557,12 +578,16 @@ class EventsController extends Controller
     }
 
     public function deletetag($id){
+        if (Auth::check()) {
         $remove = Tags::where('id', '=', $id);
         $remove->delete();
         $remove = EventsHasTags::where('idtag', '=', $id);
         $remove->delete();
 
         return Redirect::to('/tags');
+        }else {
+            return redirect('/events');
+        }
     }
 
     public function editTagView($id) {
@@ -584,6 +609,46 @@ class EventsController extends Controller
 
         return Redirect::to('/tags');}
         else return Redirect::to('/events');
+    }
+
+    public function eventTagInfoView($idevent) {
+        if (Auth::check()) {
+            $event_tags = EventsHasTags::all()->where('idevent','=', $idevent)->pluck('idtag');;
+            $tags = Tags::find($event_tags);
+            $alltags = Tags::all();
+
+            return view("events/eventTagInfo", compact("tags", "idevent", "alltags"));
+        }else {
+            return redirect('/events');
+        }
+    }
+
+    public function eventaddTagInfo(Request $request) {
+        if (Auth::check()) {
+            $length = count($request->tag);
+            for($i=0; $i<$length; $i++) {
+                $event_has_tags = new EventsHasTags;
+                $event_has_tags->idtag = $request->tag[$i];
+                $event_has_tags->idevent = $request->idevent;
+                $event_has_tags->save();
+            }
+
+
+            return Redirect::to("/eventtags/".$request->idevent);
+        }else {
+            return redirect('/events');
+        }
+    }
+
+    public function deletetagInfo($id, $idevent){
+        if (Auth::check()) {
+            $remove = EventsHasTags::where('idtag', '=', $id)->where('idevent','=',$idevent);
+            $remove->delete();
+
+            return Redirect::to("/eventtags/".$idevent);
+        }else {
+            return redirect('/events');
+        }
     }
 
 }

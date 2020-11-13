@@ -77,5 +77,6 @@ class UsersController extends Controller
         Events::where("userid", "=", $id)->delete();
         return Redirect::to('/userlist');
     }
+
 }
 

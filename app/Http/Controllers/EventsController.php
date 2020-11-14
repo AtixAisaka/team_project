@@ -593,7 +593,7 @@ class EventsController extends Controller
                 $user_Tags = Tags::get();
             }else{
                 $user_Id = Auth::id();
-                $user_Tags = Tags::get()->where("userid", '=', $user_Id);
+                $user_Tags = Tags::get()->where("user_id", '=', $user_Id);
             }
             return view('events/tag', compact("user_Id", "user_Tags"));
         } else {

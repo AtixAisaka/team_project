@@ -7,7 +7,7 @@
         @endif
     <thead>
     <tr>
-        <th scope="col">meno</th>
+        <th scope="col">meno</th><th scope="col">action</th>
     </tr>
     </thead>
     <tbody>

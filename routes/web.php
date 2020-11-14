@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/aboutus', function () {
+    return view('aboutus');
+});
+
 Auth::routes();
 
 Route::get('/home', [
@@ -176,3 +180,16 @@ Route::get('/blah', function () {
     $request->headers->set('X-CSRF-TOKEN', csrf_token());
     app()->handle($request);
 });
+
+Route::get('/profile', 'UserController@profile')->name('user.profile')->middleware('auth');;
+
+Route::get('/edit/user', 'UserController@edit')->name('user.edit');
+
+Route::post('/edit/user', 'UserController@update')->name('user.update');
+
+Route::get('/edit/password/user', 'UserController@passwordEdit')->name('password.edit');
+
+Route::post('/edit/password/user', 'UserController@passwordUpdate')->name('password.update');
+
+
+

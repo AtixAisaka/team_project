@@ -25,8 +25,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    public const HOME = '/profile';
     public function boot()
     {
+
         Schema::defaultStringLength(191);
         View::composer('layout', function ($view) {
             $events = Events::get();

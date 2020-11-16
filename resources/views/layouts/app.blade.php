@@ -48,7 +48,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ url('/') }}"><img width="150px" height="auto" src="{{asset('img/scheduletap_icon.png')}}"></a>
+                    <a class="navbar-brand" href="{{ url('/') }}"><img width="115px" height="18px" src="{{asset('img/scheduletap_icon.png')}}"></a>
 
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->

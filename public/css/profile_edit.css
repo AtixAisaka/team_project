@@ -1,0 +1,54 @@
+.label-first-row{
+    font-size: 18px;
+    font-weight: bold;
+}
+.labels-second-row{
+    font-size: 18px;
+    font-weight: lighter;
+}
+.form-control{
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+.registerbtn{
+    font-size: 18px;
+    font-weight: bold;
+}
+.input-second{
+    font-size: 18px;
+    font-weight: lighter;
+}
+.avatar {
+    vertical-align: middle;
+    width: 110px;
+    height: auto;
+    border-radius: 50%;
+}
+.header{
+    display: block;
+    height: 110px;
+}
+.header .header-avatar{
+    float: left;
+    padding-right: 40px;
+}
+.header .header-col1{
+    float: left;
+    padding-top: 0px;
+    font-size: 18px;
+
+}
+
+.header .header-col1 .p{
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+.header .header-col2{
+    float: left;
+    padding-top: 0px;
+    padding-left: 50px;
+    font-size: 18px;
+    font-weight: lighter;
+}

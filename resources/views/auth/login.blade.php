@@ -3,13 +3,6 @@
 
 @section('content')
 
-
-
-
-
-
-
-
     <div class="container">
 
         <div class="col-md-8">
@@ -55,7 +48,7 @@
 
 
                 @if (Route::has('password.request'))
-                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                    <a class="btn btn-link" href="{{ route('password.request') }}" style="color: rgb(76, 175, 80)">
                         {{ __('Forgot Your Password?') }}
                     </a>
             @endif

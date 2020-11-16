@@ -38,9 +38,10 @@
 
     </div>
 
-    <div class="container" style="  align-self: center;-webkit-align-self: center;">
+
 
             @auth
+            <div class="container" style="  align-self: center;-webkit-align-self: center;">
             @if($value == 1)
                           <a href="{{ action("EventsController@openImageUpload", ["id" => $event->id]) }}">Upload Obrázkov</a><h3><b>Obrázky udalosti:</b></h3>
 
@@ -63,13 +64,18 @@
             @endauth
         </div>
 
-    </div>
 
-        <div class="col text-center">
+
+
+    <div class="container" style=" display: flex; justify-content: center; align-items: center; ">
             @if($param != -1)
-                <a class="btn btn-primary btn-lg" href="{{ action("EventsController@showEventsHistory",
+                <a class="btn effect01" style="width: 100px;" href="{{ action("EventsController@showEventsHistory",
                     ["value" => $param, "id" => $userid, "admin" => $admin])  }}" role="button">Späť</a>
             @endif
         </div>
     </div>
+
+
+
+
 @endsection

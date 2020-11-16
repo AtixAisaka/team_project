@@ -3,91 +3,68 @@
     <script src="cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.fancybox.js') }}"></script>
     <link href="{{ asset('css/jquery.fancybox.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{{asset('css/previous_ongoing_next_eventbutton.css')}}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js.map"></script>
     <div class="container">
-        <div class="row justify-content-md-center">
+
+
+
             <div class="col">
-                <div class="breadcrumb">
-                    <table>
-                        <tr>
-                            <td> <h3>Názov: {{$event->event_name}}</h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3>Zakladatel: {{$eventowner}} </h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3>Miesto konania: {{$event->event_place}} </h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3>{{$eventabout}} </h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3>Od: {{$event->start_date}} </h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3>Do: {{$event->end_date}} </h3></td>
-                        </tr>
-                        <tr>
-                            <td> <h3>Počet zúčastnených: {{$count}}</h3></td>
-                        </tr>
-                    </table>
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <h3><b>Názov: </b><br>{{$event->event_name}}</h3><hr>
+                        <h3><b>Zakladatel:</b><br> {{$eventowner}} </h3><hr>
+                        <h3><b>Miesto konania:</b><br> {{$event->event_place}} </h3><hr>
+                        <h3><b>Typ eventu:</b><br>{{$eventabout}} </h3><hr>
+                        <h3><b>Od:</b> {{$event->start_date}} </h3>
+                        <h3><b>Do:</b> {{$event->end_date}} </h3>
                 </div>
-            </div>
-            <div class="col">
-                <div class="breadcrumb">
-                    <table>
-                        <tr>
-                            <td class="text-center"><h3>Mená zúčastených: </h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3>{{$usersgoing}}</h3></td>
-                        </tr>
-                    </table>
+
+
+                <div class="col-xs-3 col-sm-3 col-md-3" style="margin-left: 100px">
+                    <h3><b>Počet zúčastnených:</b> {{$count}}</h3><hr>
+                    <h3><b>Mená zúčastených:</b> </h3>
+                    <h4>{{$usersgoing}}</h4>
                 </div>
-            </div>
-            <div class="col">
-                <div class="breadcrumb">
-                    <table>
-                        <tr>
-                            <td class="text-center"><h3>Tagy: </h3></td>
-                        </tr>
-                        <tr>
-                            <td><h3>{{$eventtags}}</h3></td>
-                        </tr>
-                    </table>
+
+                <div class="col-xs-3 col-sm-3 col-md-3" style="margin-left: 100px">
+                    <h3><b>Tagy:</b> </h3>
+                    <h4>{{$eventtags}}</h4>
                 </div>
+
             </div>
+
+    </div>
+
+    <div class="container" style="  align-self: center;-webkit-align-self: center;">
+
             @auth
             @if($value == 1)
-            <div class="col">
-                <div class="breadcrumb">
-                    <table>
+                          <a href="{{ action("EventsController@openImageUpload", ["id" => $event->id]) }}">Upload Obrázkov</a><h3><b>Obrázky udalosti:</b></h3>
 
-                        <tr>
-                            <td class="text-center"><a href="{{ action("EventsController@openImageUpload", ["id" => $event->id]) }}">Upload Obrázkov</a><h3>Obrázky udalosti: </h3></td>
-                        </tr>
                         @foreach($eventsImages as $eventImage)
-                        <tr>
-                            <td><div style="display: none;" id="hidden-content"><img style="max-width: 70vmax;" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></div>
-                                <a data-fancybox data-src="#hidden-content" href="javascript:;"><img width="250px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></a></td>
+                            <div style="display: none;" id="hidden-content">
+                                <img style="max-width: 70vmax;" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></div><br><br>
+                                <a data-fancybox data-src="#hidden-content" href="javascript:;"><img width="250px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></a>
                             @if(Auth::User()->id == $eventImage->user_id || Auth::User()->role == 4)
-                                <td>
-                                    <a class="btn btn-primary btn" href="{{ action("EventsController@deleteImage",
+                        <br> <a class="btn effect01" style="max-width: 250px;" href="{{ action("EventsController@deleteImage",
                                         ["id" => $eventImage->id, "eventid" => $event->id, "param" => $param,
                                          "userid" => $userid, "admin" => $admin]) }}" role="button">Vymazať</a>
-                                </td>
+
                             @endif
-                        </tr>
+
                         @endforeach
-                    </table>
-                </div>
-            </div>
+
+
+
             @endif
             @endauth
         </div>
+
+    </div>
+
         <div class="col text-center">
             @if($param != -1)
                 <a class="btn btn-primary btn-lg" href="{{ action("EventsController@showEventsHistory",

@@ -39,6 +39,33 @@
                                     <input type="text" name="event_place" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="Miesto konania eventu" value="" required autocomplete="">
                                     {!! $errors->first('event_place', '<p class="alert alert-danger">:message</p>') !!}
                                 </div>
+                                @if(Auth::User()->role == 3)
+                                    <input type="hidden" name="type" value="3">
+                                    <input type="hidden" name="idkatedry" value="0">
+                                    <input type="hidden" name="idfakulty" value="0">
+                                @elseif(Auth::User()->role == 2)
+                                    <select id="idfakulty" name="idfakulty" >
+                                        @foreach($fakulty as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="type" value="2">
+                                    <input type="hidden" name="idkatedry" value="0">
+                                @elseif(Auth::User()->role == 1)
+                                <!-- Sem doplnit ten select so searchom !-->
+                                    <select id="idkatedry" name="idkatedry">
+                                        @foreach($katedry as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
+                            </div>
+                            <input type="hidden" name="type" value="1">
+                            <input type="hidden" name="idfakulty" value="0">
+                            @else
+                                <input type="hidden" name="type" value="0">
+                                <input type="hidden" name="idkatedry" value="0">
+                                <input type="hidden" name="idfakulty" value="0">
+                            @endif
+
                                 <div class=""><br>
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <input type="hidden" name="userid" value="{{$authuser -> id}}">
@@ -57,32 +84,7 @@
 
 
 
-                        @if(Auth::User()->role == 3)
-                            <input type="hidden" name="type" value="3">
-                            <input type="hidden" name="idkatedry" value="0">
-                            <input type="hidden" name="idfakulty" value="0">
-                        @elseif(Auth::User()->role == 2)
-                            <select id="idfakulty" name="idfakulty" class="form-control">
-                                @foreach($fakulty as $row)
-                                    <option value="{{$row->id}}">{{$row->name}}</option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="type" value="2">
-                            <input type="hidden" name="idkatedry" value="0">
-                        @elseif(Auth::User()->role == 1)
-                        <!-- Sem doplnit ten select so searchom !-->
-                            <select id="idkatedry" name="idkatedry" class="form-control">
-                                @foreach($katedry as $row)
-                                    <option value="{{$row->id}}">{{$row->name}}</option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="type" value="1">
-                            <input type="hidden" name="idfakulty" value="0">
-                        @else
-                            <input type="hidden" name="type" value="0">
-                            <input type="hidden" name="idkatedry" value="0">
-                            <input type="hidden" name="idfakulty" value="0">
-                        @endif
+
 
 
 
@@ -118,7 +120,7 @@
 
 
 
-                    </div>
+
                 </form>
                 <br><hr>
             </div>
@@ -465,10 +467,24 @@
             <script type="text/javascript">
                 $(function() {
                     // initialize sol
-                    $('#tags0').searchableOptionList();
-                    $('#tags').searchableOptionList();
-                    $('#pracovisko').searchableOptionList();
-                    $('#type').searchableOptionList();
+                    $('#idfakulty').searchableOptionList({
+                        maxHeight: '250px'
+                    });
+                    $('#idkatedry').searchableOptionList({
+                        maxHeight: '250px'
+                    });
+                    $('#tags0').searchableOptionList({
+                        maxHeight: '250px'
+                    });
+                    $('#tags').searchableOptionList({
+                        maxHeight: '250px'
+                    });
+                    $('#pracovisko').searchableOptionList({
+                        maxHeight: '250px'
+                    });
+                    $('#type').searchableOptionList({
+                        maxHeight: '250px'
+                    });
                 });
             </script>
 @endsection

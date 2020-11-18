@@ -613,11 +613,10 @@ class EventsController extends Controller
 
     public function addtag(Request $request){
         if (Auth::check()) {
-            $user_Id = Auth::id();
             $tag_name = $request->tag_name;
             $tag = new Tags();
             $tag->name = $tag_name;
-            $tag->user_id = $user_Id;
+            $tag->user_id = Auth::id();
             $tag->save();
             return  view('events/addtags');
         } else {

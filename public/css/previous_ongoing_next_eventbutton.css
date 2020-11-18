@@ -16,9 +16,9 @@
 /*btn_background*/
 .effect01 {
     color: #FFF;
-    border: 4px solid #000;
-    box-shadow:0px 0px 0px 1px #000 inset;
-    background-color: #000;
+    border: 4px solid #4CAF50;
+    box-shadow:0px 0px 0px 1px #4CAF50 inset;
+    background-color: #4CAF50;
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease-in-out;
@@ -26,7 +26,8 @@
 
 }
 .effect01:hover {
-    border: 4px solid #666;
+    color:#5c6c84;
+    border: 4px solid #5c6c84;
     background-color: #FFF;
     box-shadow:0px 0px 0px 4px #EEE inset;
 }

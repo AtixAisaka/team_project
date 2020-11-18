@@ -12,7 +12,7 @@
 
 
 
-        @if(Auth::User()->role != 4) <h3>Zoznam vlastných tagov</h3>
+        @if(Auth::User()->role != 4) <h3>Zoznam vlastných tagov</h3> <a href="{{action('EventsController@addtagsView')}}">Pridať tag</a>
         @else <h3>Zoznam tagov</h3>
         @endif
 
@@ -34,7 +34,7 @@
     @endforeach
 
 
-        <a href="{{action('EventsController@addtagsView')}}">Pridať tag</a>
+
     </div>
 
 @endsection

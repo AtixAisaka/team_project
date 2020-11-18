@@ -61,12 +61,25 @@
                         @else
                             @if(Auth::user()->role==4)
                                 <li class="dropdown">
-                                <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
-                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a></li>
+                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                                <li class={{ (request()-> is('userlist'))? 'active': '' }}><a href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a></li>
                                 </li>
                             @else
                                 <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
                                 <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                                <li class={{ (request()-> is('eventhistory'))? 'active': '' }}>
+                                    <li class="nav-item dropdown">
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            Moje Udalosti
+                                            <span class="caret"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                            <a href="{{ action("EventsController@showEventsHistory",
+                                    ["value" => 0, "id" => Auth::user()->id, "admin" => -1])  }}">Založené</a><br>
+                                            <a href="{{ action("EventsController@showEventsHistory",
+                                    ["value" => 1, "id" => Auth::user()->id, "admin" => -1])  }}">Zúčastnené</a><br>
+                                        </div>
+                                    </li>
                                 </li>
                             @endif
                         @endguest

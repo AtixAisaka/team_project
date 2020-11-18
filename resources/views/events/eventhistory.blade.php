@@ -14,47 +14,32 @@
                 <div class="col col-3">Koniec eventu</div>
                 <div class="col col-4"></div>
             </li>
-                    @foreach($events as $event)
                         @foreach($allevents as $row)
-                            @if($event->eventid == $row->id)
-
-
-
                         <li class="table-row">
                             <div class="col col-1">{{$row-> event_name}}</div>
                             <div class="col col-2">{{$row-> start_date}}</div>
                             <div class="col col-3">{{$row-> end_date}}</div>
                             <div class="col col-4">
                                 <a class="btn-1" href="{{ action("EventsController@showEventInfo",
-                                            ["id" => $event->eventid, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >Detaily</a>
+                                            ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >Detaily</a>
 
-                                @if(Auth::user()->role==4)
+                                @if(Auth::user()->role==4 || $param == 0)
                                     | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
-                                        ["id" => $event->eventid, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">Editovať</a>
+                                        ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">Editovať</a>
 
                                         <form action="{{ action("EventsController@deleteUserGoingEvent") }}" method="POST">
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <input type="hidden" name="eventid" value="{{$event->eventid}}">
-                                            <input type="hidden" name="userid" value="{{$event->userid}}">
+                                            <input type="hidden" name="eventid" value="{{$row->id}}">
+                                            <input type="hidden" name="userid" value="{{$row->userid}}">
                                             <input type="hidden" name="value" value="{{$param}}">
                                             <input type="hidden" name="admin" value="{{$admin}}">
                                             <input class="btn effect01" style="width: 100px" type="submit" name="submit" value="Mazať">
 
 
                                         </form>
-
                                 @endif
-
-
                             </div>
-
-
-
-                            @endif
                         @endforeach
-                    @endforeach
-
-
         </div>
 <br>
     <div class="container" style=" display: flex; justify-content: center; align-items: center; ">

@@ -108,12 +108,6 @@
         <div class="container_text">
             <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
         </div>
-        <div class="container_text">
-            <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
-        </div>
-        <div class="container_text">
-            <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
-        </div>
     </div>
 
     {{--<section id="intro">

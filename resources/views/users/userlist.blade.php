@@ -42,9 +42,8 @@
                         | <div class="dropdown">
                             <button class="btn-1" style="background-color: white; border: white; color: rgb(30, 144, 255);size: auto">Events</button>
                             <div class="dropdown-content">
-                                <a href="{{ action("EventsController@showEventsHistory",["value" => 0, "id" => $row->id, "admin" => 1])  }}">Minulé</a>
-                                <a href="{{ action("EventsController@showEventsHistory",["value" => 1, "id" => $row->id, "admin" => 1])  }}">Súčasné</a>
-                                <a href="{{ action("EventsController@showEventsHistory",["value" => 2, "id" => $row->id, "admin" => 1])  }}">Budúce</a>
+                                <a href="{{ action("EventsController@showEventsHistory",["value" => 0, "id" => $row->id, "admin" => 1])  }}">Založené</a>
+                                <a href="{{ action("EventsController@showEventsHistory",["value" => 1, "id" => $row->id, "admin" => 1])  }}">Zúčastnené</a>
                             </div>
                         </div>
                     </div>

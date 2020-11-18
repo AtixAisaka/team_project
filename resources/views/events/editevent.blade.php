@@ -20,11 +20,34 @@
                             <input style="margin: 5px 0 22px 0; width: 100%; " class="form-control" type="text" name="event_name" value="{{ $event->event_name }}">
                         </div>
                         <div class="">
-                            <label for="name"><b>Od dátomu</b></label><br>
+                            <label for="name"><b>Miesto konania eventu</b></label><br>
+                            <input style="margin: 5px 0 22px 0; width: 100%; "type="text" name="event_place" class="form-control" value="{{$event->event_place}}">
+                        </div>
+                        @if($event->type == 2)
+                            <label for="name"><b>Fakulta</b></label><br>
+                            <select class="form-control" style="margin: 5px 0 22px 0; width: 100%; " id="idfakulty" name="idfakulty" >
+                                @foreach($fakulty as $row)
+                                    @if($row->id == $event->idfakulty)) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
+                                    @else <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        @elseif($event->type == 1)
+                            <label for="name"><b>Katedra</b></label><br>
+                            <select class="form-control" style="margin: 5px 0 22px 0; width: 100%; " id="idkatedry" name="idkatedry">
+                                @foreach($katedry as $row)
+                                    @if($row->id == $event->idkatedry)) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
+                                    @else <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        @endif
+                        <div class="">
+                            <label for="name"><b>Od dátumu</b></label><br>
                             <input class="form-control" type="date" name="start_date" value="{{ $event->start_date }}"><br>
                         </div>
                         <div class="">
-                            <label for="name"><b>Do dátomu</b></label><br>
+                            <label for="name"><b>Do dátumu</b></label><br>
                             <input class="form-control" type="date" name="end_date" value="{{ $event->end_date }}"><br>
                         </div>
                         <div class=""><br>

@@ -63,18 +63,14 @@ class EventsController extends Controller
     }
 
     public function showEventList(){
-        $today = Carbon::now();
-        $passedevents = Events::whereDate('end_date', '<', $today->format('Y-m-d'))->get();
-        $futureevents = Events::whereDate('start_date', '>', $today->format('Y-m-d'))->get();
-        $activeevents = Events::whereDate('start_date', '<=', $today->format('Y-m-d'))
-            ->whereDate('end_date', '>=', $today->format('Y-m-d'))
-            ->get();
+        $events = Events::all();
 
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
         $tags = Tags::get();
 
         Session::put('type', "");
+        Session::put('type2', "");
         Session::put('pracovisko', "");
         Session::put('start_date', "");
         Session::put('end_date', "");
@@ -85,10 +81,10 @@ class EventsController extends Controller
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
-            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+            return view('events/eventlist', compact("events",
                 "fakulty", "katedry", "tags", "authuser", "helpertable"));
         } else {
-            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+            return view('events/eventlist', compact("events",
                 "fakulty", "katedry", "tags"));
         }
     }
@@ -193,6 +189,18 @@ class EventsController extends Controller
         }
     }
 
+    public function getSessionData() {
+        $type = Session::get('type');
+        $type2 = Session::get('type2');
+        $pracovisko = Session::get('pracovisko');
+        $start_date = Session::get('start_date');
+        $end_date = Session::get('end_date');
+        $tag = Session::get('tag');
+        $name = Session::get('name');
+        return array("type" => $type, "type2" => $type2, "pracovisko" => $pracovisko, "start_date" => $start_date,
+            "end_date" => $end_date, "tag" => $tag, "name" => $name);
+    }
+
     public function doFilter($array) {
         $type = $array["type"];
         $pracovisko = $array["pracovisko"];
@@ -200,49 +208,43 @@ class EventsController extends Controller
         $end_date = $array["end_date"];
         $tag = $array["tag"];
         $name = $array["name"];
-
-        $today = Carbon::now();
+        $type2 = $array["type2"];
 
         //query builder ty kokos
-        $querypassedevents = Events::query();
-        $queryfutureevents = Events::query();
-        $queryactiveevents = Events::query();
-        $querypassedevents= $querypassedevents->whereDate('end_date', '<', $today->format('Y-m-d'));
-        $queryfutureevents= $queryfutureevents->whereDate('start_date', '>', $today->format('Y-m-d'));
-        $queryactiveevents= $queryactiveevents->whereDate('start_date', '<=', $today->format('Y-m-d'))
-            ->whereDate('end_date', '>=', $today->format('Y-m-d'));
+        $eventsquery = Events::query();
+        $today = Carbon::now();
 
+        if($type2!="") {
+            if($type2 == "0") {
+                $eventsquery = $eventsquery->where('end_date', '<', $today->format('Y-m-d'));
+            }
+            else if($type2 == "1") {
+                $eventsquery = $eventsquery->where('start_date', '<=', $today->format('Y-m-d'))
+                    ->where('end_date', '>=', $today->format('Y-m-d'));
+            }
+            else if($type2 == "2") {
+                $eventsquery = $eventsquery->where('start_date', '>', $today->format('Y-m-d'));
+            }
+        }
         if($name!=""){
-            $querypassedevents = $querypassedevents->where("event_name", 'LIKE', '%'.$name.'%');
-            $queryfutureevents = $queryfutureevents->where("event_name", 'LIKE', '%'.$name.'%');
-            $queryactiveevents = $queryactiveevents->where("event_name", 'LIKE', '%'.$name.'%');
+            $eventsquery = $eventsquery->where("event_name", 'LIKE', '%'.$name.'%');
         }
         if($type!=""){
-            $querypassedevents = $querypassedevents->where("type", "=", $type);
-            $queryfutureevents = $queryfutureevents->where("type", "=", $type);
-            $queryactiveevents = $queryactiveevents->where("type", "=", $type);
+            $eventsquery = $eventsquery->where("type", "=", $type);
         }
         if($pracovisko!=""){
             if(substr($pracovisko, 0, 1) == ".") {
                 $pracovisko = substr($pracovisko, 1);
-                $querypassedevents = $querypassedevents->where("idkatedry", "=", $pracovisko);
-                $queryfutureevents = $queryfutureevents->where("idkatedry", "=", $pracovisko);
-                $queryactiveevents = $queryactiveevents->where("idkatedry", "=", $pracovisko);
+                $eventsquery = $eventsquery->where("idkatedry", "=", $pracovisko);
             } else {
-                $querypassedevents = $querypassedevents->where("idfakulty", "=", $pracovisko);
-                $queryfutureevents = $queryfutureevents->where("idfakulty", "=", $pracovisko);
-                $queryactiveevents = $queryactiveevents->where("idfakulty", "=", $pracovisko);
+                $eventsquery = $eventsquery->where("idfakulty", "=", $pracovisko);
             }
         }
         if($start_date!=""){
-            $querypassedevents = $querypassedevents->whereDate('start_date', '>=', $start_date);
-            $queryfutureevents = $queryfutureevents->whereDate('start_date', '>=', $start_date);
-            $queryactiveevents = $queryactiveevents->whereDate('start_date', '>=', $start_date);
+            $eventsquery = $eventsquery->whereDate('start_date', '>=', $start_date);
         }
         if($end_date!=""){
-            $querypassedevents = $querypassedevents->whereDate('end_date', '<=', $end_date);
-            $queryfutureevents = $queryfutureevents->whereDate('end_date', '<=', $end_date);
-            $queryactiveevents = $queryactiveevents->whereDate('end_date', '<=', $end_date);
+            $eventsquery = $eventsquery->whereDate('end_date', '<=', $end_date);
         }
         if($tag!=""){
             $length = count($tag);
@@ -263,30 +265,25 @@ class EventsController extends Controller
                     else break;
                 }
                 if ($pom == $length) {
-                    $querypassedevents = $querypassedevents->where("id", "=", $row);
-                    $queryfutureevents = $queryfutureevents->where("id", "=", $row);
-                    $queryactiveevents = $queryactiveevents->where("id", "=", $row);
+                    $eventsquery = $eventsquery->where("id", "=", $row);
                     $found = true;
                     break;
                 }
             }
 
             if(!$found) {
-                $querypassedevents = $querypassedevents->where('id', '=', -1);
-                $queryfutureevents = $queryfutureevents->where('id', '=', -1);
-                $queryactiveevents = $queryactiveevents->where('id', '=', -1);
+                $eventsquery = $eventsquery->where('id', '=', -1);;
             }
         }
 
-        $passedevents = $querypassedevents->get();
-        $futureevents = $queryfutureevents->get();
-        $activeevents = $queryactiveevents->get();
+        $events = $eventsquery->get();
 
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
         $tags = Tags::get();
 
         Session::put('type', $type);
+        Session::put('type2', $type2);
         Session::put('pracovisko', $pracovisko);
         Session::put('start_date', $start_date);
         Session::put('end_date', $end_date);
@@ -297,10 +294,10 @@ class EventsController extends Controller
         {
             $authuser = Auth::user();
             $helpertable = UsersGoingEvents::all();
-            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+            return view('events/eventlist', compact("events",
                 "fakulty", "katedry", "tags", "authuser", "helpertable"));
         } else {
-            return view('events/eventlist', compact("passedevents", "futureevents", "activeevents",
+            return view('events/eventlist', compact("events",
                 "fakulty", "katedry", "tags"));
         }
     }
@@ -308,12 +305,13 @@ class EventsController extends Controller
     public function filterEvents(Request $request){
         $name = $request["name"];
         $type = $request["type"];
+        $type2 = $request["type2"];
         $pracovisko = $request["pracovisko"];
         $start_date = $request["start_date"];
         $end_date = $request["end_date"];
         $tag = $request->get("tag");
 
-        return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
+        return $this->doFilter(array("type" => $type, "type2" => $type2, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
             "tag" => $tag, "name" => $name));
     }
 
@@ -370,31 +368,29 @@ class EventsController extends Controller
 
     public function showEditEvent($id, $param, $userid, $admin) {
         $event = Events::find($id);
-        return view("events/editevent", compact("event", "param", "userid", "admin"));
+        $fakulty = Fakulty::get();
+        $katedry = Katedry::get();
+        return view("events/editevent", compact("event", "fakulty", "katedry", "param", "userid", "admin"));
     }
 
     public function showEventsHistory($value, $id, $admin) {
-        $events = null;
+        $events = UsersGoingEvents::where("userid", "=", $id)->get();
         $allevents = null;
-        $today = Carbon::now();
         $param = $value;
 
         if($value == 0) {
-            $events = UsersGoingEvents::where("userid", "=", $id)->get();
-            $allevents = Events::whereDate('end_date', '<', $today->format('Y-m-d'))->get();
-        }
-        else if($value == 1) {
-            $events = UsersGoingEvents::where("userid", "=", $id)->get();
-            $allevents = Events::whereDate('start_date', '<', $today->format('Y-m-d'))
-                ->whereDate('end_date', '>', $today->format('Y-m-d'))
-                ->get();
-        }
-        else if($value == 2) {
-            $events = UsersGoingEvents::where("userid", "=", $id)->get();
-            $allevents = Events::whereDate('start_date', '>', $today->format('Y-m-d'))->get();
+            $allevents = Events::where("userid", "=", $id)->get();
+        } else if($value == 1) {
+            if (count($events) != 0) {
+                $alleventsq = Events::query();
+                foreach ($events as $row) {
+                    $alleventsq = $alleventsq->where("id", "=", $row->eventid);
+                }
+                $allevents = $alleventsq->get();
+            } else $allevents = Events::where("id", "=", "-1");
         }
 
-        return view("events/eventhistory", compact( "events", "allevents", "param", "id", "admin"));
+        return view("events/eventhistory", compact(  "allevents", "param", "id", "admin"));
     }
 
     public function showEventInfo($id, $param, $userid, $admin) {
@@ -440,32 +436,25 @@ class EventsController extends Controller
     }
 
     public function updateEventAction($id, Request $request) {
-        $type = Session::get('type');
-        $pracovisko = Session::get('pracovisko');
-        $start_date = Session::get('start_date');
-        $end_date = Session::get('end_date');
-        $tag = Session::get('tag');
-        $name = Session::get('name');
+        $array = $this->getSessionData();
 
         $events = Events::find($id);
         $events->event_name = $request['event_name'];
+        $events->event_place = $request['event_place'];
+        if($events->type == 2) $events->idfakulty = $request['idfakulty'];
+        else if($events->type == 1) $events->idkatedry = $request['idkatedry'];
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
         $events->save();
+
         $param = $request->param;
 
         if($param != -1) return Redirect::to('/eventhistory/'.$param."&".$request->userid."&".$request->admin);
-        else return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
-            "tag" => $tag, "name" => $name));
+        else return $this->doFilter($array);
     }
 
     public function hideEventAction($id, $value) {
-        $type = Session::get('type');
-        $pracovisko = Session::get('pracovisko');
-        $start_date = Session::get('start_date');
-        $end_date = Session::get('end_date');
-        $tag = Session::get('tag');
-        $name = Session::get('name');
+        $array = $this->getSessionData();
 
         $events = Events::find($id);
         $boolean = null;
@@ -474,18 +463,11 @@ class EventsController extends Controller
         $events->ishidden = $boolean;
         $events->save();
 
-        return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
-            "tag" => $tag, "name" => $name));
+        return $this->doFilter($array);
     }
 
     public function deleteEventAction($id) {
-        $type = Session::get('type');
-        $pracovisko = Session::get('pracovisko');
-        $start_date = Session::get('start_date');
-        $end_date = Session::get('end_date');
-        $tag = Session::get('tag');
-        $name = Session::get('name');
-
+        $array = $this->getSessionData();
         $event = Events::find($id);
         $event->delete();
         $remove = UsersGoingEvents::where('eventid', '=', $id);
@@ -495,8 +477,7 @@ class EventsController extends Controller
         $remove = events_image::where('event_id', '=', $id);
         $remove->delete();
 
-        return $this->doFilter(array("type" => $type, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
-            "tag" => $tag, "name" => $name));
+        return $this->doFilter($array);
     }
 
     public function deleteUserGoingEvent(Request $request) {
@@ -513,6 +494,8 @@ class EventsController extends Controller
     }
 
     public function addUserToEvent($id) {
+        $array = $this->getSessionData();
+
         $eventid = $id;
         $userid = Auth::id();
 
@@ -521,10 +504,12 @@ class EventsController extends Controller
         $add->eventid = $eventid;
         $add->save();
 
-        return Redirect::to('eventlist');
+        return $this->doFilter($array);
     }
 
     public function removeUserFromEvent($id) {
+        $array = $this->getSessionData();
+
         $eventid = $id;
         $userid = Auth::id();
 
@@ -534,7 +519,7 @@ class EventsController extends Controller
         ]);
         $remove->delete();
 
-        return Redirect::to('eventlist');
+        return $this->doFilter($array);
     }
 
     public function openImageUpload($id){

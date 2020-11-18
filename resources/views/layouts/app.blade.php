@@ -54,25 +54,23 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                        <li class={{(request()->is('/'))? 'active': ''}}><a href="{{ url('/') }}">Home</a></li>
                         @guest
-                            <li><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
-                            <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                            <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
+                            <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
                         @else
                             @if(Auth::user()->role==4)
                                 <li class="dropdown">
-                                <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
-                                <li><a href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a></li>
-                                <li><a href="{{action("EventsController@tagsView")}}">Zoznam tagov</a></li>
+                                <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a></li>
                                 </li>
                             @else
-                                <li><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
-                                <li><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
-                                <li><a href="{{action("EventsController@tagsView")}}">Zoznam tagov</a></li>
+                                <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
+                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
                                 </li>
                             @endif
                         @endguest
-                        <li><a href="{{ url('/aboutus') }}">About Us</a></li>
+                        <li class={{ (request()-> is('aboutus'))? 'active': '' }}><a href="{{ url('/aboutus') }}">About Us</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
 
@@ -146,6 +144,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="{{action("UserController@profile")}}">Profile</a><br>
+                                    <a href="{{action("EventsController@tagsView")}}">Zoznam tagov</a><br>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

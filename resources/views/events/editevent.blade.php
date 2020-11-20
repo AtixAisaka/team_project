@@ -50,6 +50,10 @@
                             <label for="name"><b>Do dátumu</b></label><br>
                             <input class="form-control" type="date" name="end_date" value="{{ $event->end_date }}"><br>
                         </div>
+                        <label for="max_percipient"><b>Maximálny počet zúčastnených</b></label><br>
+                        <div class="">
+                            <input type="number" id="quantity" name="max_percipient" min="1" max="25" required class="form-control" value="{{ $event->max_percipient }}">
+                        </div>
                         <div class=""><br>
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input class="btn effect01" type="submit" name="submit" value="Uložiť"><br>

@@ -48,6 +48,10 @@
                                                     <input type="text" name="event_place" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="Miesto konania eventu" value="" required autocomplete="">
                                                     {!! $errors->first('event_place', '<p class="alert alert-danger">:message</p>') !!}
                                                 </div>
+                                                <label for="max_percipient"><b>Maximálny počet zúčastnených</b></label><br>
+                                                <div class="">
+                                                    <input type="number" id="quantity" name="max_percipient" min="1" max="25" required class="form-control">
+                                                </div>
                                                 @if(Auth::User()->role == 3)
                                                     <input type="hidden" name="type" value="3">
                                                     <input type="hidden" name="idkatedry" value="0">
@@ -249,7 +253,14 @@
             </div>
         </div>
             <br><hr>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        @if (Session::has('success'))
+            <div class="alert alert-success">{{ Session::get('success') }}</div>
+        @elseif (Session::has('warnning'))
+            <div class="alert alert-danger">{{ Session::get('warnning') }}</div>
+        @endif
 
+    </div>
             <div class="container">
                 <h2>Eventy</h2>
                 <li class="table-header">

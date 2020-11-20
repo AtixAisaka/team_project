@@ -24,7 +24,7 @@
 
 
                 <div class="col-xs-3 col-sm-3 col-md-3" style="margin-left: 100px">
-                    <h3><b>Počet zúčastnených:</b> {{$count}}</h3><hr>
+                    <h3><b>Počet zúčastnených:</b> {{$count}}/{{$max_percipient}}</h3><hr>
                     <h3><b>Mená zúčastených:</b> </h3>
                     <h4>{{$usersgoing}}</h4>
                 </div>

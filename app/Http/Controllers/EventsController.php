@@ -326,7 +326,8 @@ class EventsController extends Controller
             'event_place' => 'required',
             'idfakulty' => 'required',
             'idkatedry' => 'required',
-            'end_date' => 'required'
+            'end_date' => 'required',
+            'max_percipient' => 'required|integer|between:1,25'
         ]);
 
         if ($validator->fails()) {
@@ -347,6 +348,7 @@ class EventsController extends Controller
         $events->idfakulty = $request['idfakulty'];
         $events->idkatedry = $request['idkatedry'];
         $events->ishidden = false;
+        $events->max_percipient = $request['max_percipient'];
         $events->save();
 
         if($request->has('tags0')){
@@ -398,6 +400,7 @@ class EventsController extends Controller
         $usereventtable = UsersGoingEvents::where("eventid", "=", $id)->get();
         $usertagtable = EventsHasTags::where("idevent", "=", $id)->get();
         $count = UsersGoingEvents::where("eventid", "=", $id)->count();
+        $max_percipient = $event->max_percipient;
         $usersgoing = "";
         $eventtags = "";
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
@@ -432,7 +435,7 @@ class EventsController extends Controller
 
 
         return view("events/showeventinfo", compact( "eventtags","usersgoing", "count", "eventowner",
-            "event", "eventsImages", "value", "param", "admin", "userid", "eventabout"));
+            "event", "eventsImages", "value", "param", "admin", "userid", "eventabout", 'max_percipient'));
     }
 
     public function updateEventAction($id, Request $request) {
@@ -445,6 +448,7 @@ class EventsController extends Controller
         else if($events->type == 1) $events->idkatedry = $request['idkatedry'];
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
+        $events->max_percipient = $request['max_percipient'];
         $events->save();
 
         $param = $request->param;
@@ -495,16 +499,23 @@ class EventsController extends Controller
 
     public function addUserToEvent($id) {
         $array = $this->getSessionData();
-
         $eventid = $id;
+        $event = Events::find($eventid);
+        $max_percipient = $event->max_percipient;
+        $percipient = UsersGoingEvents::where('eventid', '=', $eventid)->get();
+        $percipient_count = $percipient->count();
         $userid = Auth::id();
-
-        $add = new UsersGoingEvents();
-        $add->userid = $userid;
-        $add->eventid = $eventid;
-        $add->save();
-
-        return $this->doFilter($array);
+        if($percipient_count+1 < $max_percipient) {
+            $add = new UsersGoingEvents();
+            $add->userid = $userid;
+            $add->eventid = $eventid;
+            $add->save();
+            \Session::flash('success', 'Účastník pridaný');
+            return $this->doFilter($array);
+        }else{
+            \Session::flash('warnning', 'Udalosť je plná');
+            return $this->doFilter($array);
+        }
     }
 
     public function removeUserFromEvent($id) {

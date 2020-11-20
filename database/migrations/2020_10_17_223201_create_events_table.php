@@ -20,6 +20,7 @@ class CreateEventsTable extends Migration
             $table->string('event_name');
             $table->date('start_date');
             $table->date('end_date');
+            $table->integer('max_percipient');
         });
     }
 

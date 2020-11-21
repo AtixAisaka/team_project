@@ -107,13 +107,22 @@
                         }
                     }
 
-                    this.$selectionContainer
-                        .css('top', Math.floor(selectionContainerYPos))
-                        .css('left', Math.floor(this.$container.offset().left))
-                        .css('width', selectionContainerWidth);
+                    if (this.config.modal) {
+                        this.$selectionContainer
+                            .css('top', Math.floor(selectionContainerYPos))
+                            .css('left', Math.floor(this.$container.offset().left) - 650)
+                            .css('width', selectionContainerWidth);
+                        // remember the position
+                        this.config.displayContainerAboveInput = displayContainerAboveInput;
+                    }else{
+                        this.$selectionContainer
+                            .css('top', Math.floor(selectionContainerYPos))
+                            .css('left', Math.floor(this.$container.offset().left))
+                            .css('width', selectionContainerWidth);
+                        // remember the position
+                        this.config.displayContainerAboveInput = displayContainerAboveInput;
+                    }
 
-                    // remember the position
-                    this.config.displayContainerAboveInput = displayContainerAboveInput;
                 }
             },
 

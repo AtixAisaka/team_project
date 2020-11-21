@@ -346,24 +346,31 @@
                         // initialize sol
                         $('#idfakulty').searchableOptionList({
                             maxHeight: '250px',
+                            modal: true
                         });
                         $('#idkatedry').searchableOptionList({
                             maxHeight: '250px',
+                            modal: true
                         });
                         $('#tags0').searchableOptionList({
                             maxHeight: '250px',
+                            modal: true
                         });
                         $('#tags').searchableOptionList({
                             maxHeight: '250px',
+                            modal: true
                         });
                         $('#pracovisko').searchableOptionList({
                             maxHeight: '250px',
+                            modal: true
                         });
                         $('#type').searchableOptionList({
                             maxHeight: '250px',
+                            modal: true
                         });
                         $('#type2').searchableOptionList({
                             maxHeight: '250px',
+                            modal: true
                         });
                     });
             </script>

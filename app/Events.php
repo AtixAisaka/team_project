@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Events extends Model
 {
     protected $fillable = [
-        'event_name', 'start_date', 'end_date', "userid", "type", "idfakulty", "idkatedry", "event_place", "ishidden", "max_percipient"
+        'event_name', 'start_date', 'end_date', "userid", "type", "idfakulty", "idkatedry", "event_place", "ishidden", "max_percipient", "display_image",
     ];
 
     public function tags(){

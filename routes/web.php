@@ -191,5 +191,8 @@ Route::get('/edit/password/user', 'UserController@passwordEdit')->name('password
 
 Route::post('/edit/password/user', 'UserController@passwordUpdate')->name('password.update');
 
+Route::get('makeeventpdf/{id}', [
+    "as" => "makeeventpdf", "uses" => 'EventsController@makeEventPDF'
+]);
 
 

@@ -12,7 +12,7 @@
 
 
 
-            <div class="col">
+            <div class="col"><a href="{{ action("EventsController@makeEventPDF", ["id" => $event->id]) }}">Uložiť ako pdf</a>
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <h3><b>Názov: </b><br>{{$event->event_name}}</h3><hr>
                         <h3><b>Zakladatel:</b><br> {{$eventowner}} </h3><hr>

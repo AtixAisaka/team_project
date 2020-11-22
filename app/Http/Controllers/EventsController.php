@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App;
 use App\Events;
 use App\Fakulty;
 use App\Katedry;
@@ -349,6 +349,7 @@ class EventsController extends Controller
         $events->idkatedry = $request['idkatedry'];
         $events->ishidden = false;
         $events->max_percipient = $request['max_percipient'];
+        $events->display_image = "none";
         $events->save();
 
         if($request->has('tags0')){
@@ -700,6 +701,51 @@ class EventsController extends Controller
         }else {
             return redirect('/events');
         }
+    }
+
+    public function makeEventPDF($id){
+        $event = Events::find($id);
+        $usereventtable = UsersGoingEvents::where("eventid", "=", $id)->get();
+        $usertagtable = EventsHasTags::where("idevent", "=", $id)->get();
+        $count = UsersGoingEvents::where("eventid", "=", $id)->count();
+        $eventabout = null;
+        $usersgoing = "";
+        $eventtags = "";
+        $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
+        if($event->type == 3) $eventabout = "Event Univerzity Konštantína Filozofa";
+        else if($event->type == 2) $eventabout = Fakulty::where("id", "=", $event->idfakulty)->value("name");
+        else if($event->type == 1) $eventabout = Katedry::where("id", "=", $event->idkatedry)->value("name");
+        else $eventabout = "Študentský event";
+
+        foreach($usertagtable as $row) {
+            if($usertagtable->last() == $row)
+                $eventtags .= DB::table('tags')->where("id", "=", $row->idtag)->value("name").".";
+            else
+                $eventtags .= DB::table('tags')->where("id", "=", $row->idtag)->value("name").", ";
+        }
+
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML('<h1 style="text-align: center;"><img src="https://cdn.discordapp.com/attachments/771749347154329611/771758340169924618/large_scheduletap.png" alt="logo"  /></h1>
+                        <p style="font-family: DejaVu Sans;
+                                   text-align: center;">'.$eventabout.'</p>
+                        <h3 style="font-family: DejaVu Sans;
+                                   text-align: center;">'.$event->event_name.'</h3>
+                        <h4 style="font-family: DejaVu Sans;
+                                   text-align: center;">Meno zakladatela: '.$eventowner.'</h4>
+                        <h4 style="font-family: DejaVu Sans;
+                                   text-align: center;">Začiatok udalosti: '.$event->start_date.'</h4>
+                        <h4 style="font-family: DejaVu Sans;
+                                   text-align: center;">Koniec udalosti: '.$event->end_date.'</h4>
+                        <h4 style="font-family: DejaVu Sans;
+                                   text-align: center;">Miesto konania: '.$event->event_place.'</h4>
+                        <h4 style="font-family: DejaVu Sans;
+                                   text-align: center;">Tagy udalosti: '.$eventtags.'</h4>
+                        <h4 style="font-family: DejaVu Sans;
+                                   text-align: center;">Počet zúčastnených osôb: '.$count.'/'.$event->max_percipient.'</h4>');
+
+
+        return $pdf->stream();
     }
 
 }

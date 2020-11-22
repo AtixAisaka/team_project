@@ -44,11 +44,11 @@
                         @endif
                         <div class="">
                             <label for="name"><b>Od dátumu</b></label><br>
-                            <input class="form-control" type="date" name="start_date" value="{{ $event->start_date }}"><br>
+                            <input type="datetime-local" class="form-control" name="start_date" value="{{ $event->start_date }}"><br>
                         </div>
                         <div class="">
                             <label for="name"><b>Do dátumu</b></label><br>
-                            <input class="form-control" type="date" name="end_date" value="{{ $event->end_date }}"><br>
+                            <input type="datetime-local" class="form-control" name="end_date" value="{{ $event->end_date }}"><br>
                         </div>
                         <label for="max_percipient"><b>Maximálny počet zúčastnených</b></label><br>
                         <div class="">

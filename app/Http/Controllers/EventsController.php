@@ -12,6 +12,7 @@ use App\UsersGoingEvents;
 use App\events_image;
 use Auth;
 use Calendar;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Session;
@@ -337,6 +338,16 @@ class EventsController extends Controller
             } else return Redirect::to('/eventlist');
         }
 
+        $start_date = Carbon::parse($request["start_date"]);
+        $end_date = Carbon::parse($request["end_date"]);
+        if ($start_date->isPast() || $end_date->isPast() ||
+            $end_date < $start_date) {
+            if($request["helper"] == 0) {
+                \Session::flash('warnning', 'Nesprávne zadaný začiatočný alebo konečný dátum eventu.');
+                return Redirect::to('/events')->withInput()->withErrors($validator);
+            } else return Redirect::to('/eventlist');
+        }
+
         $events = new Events;
         $events->event_name = $request['event_name'];
         $events->start_date = $request['start_date'];
@@ -441,16 +452,52 @@ class EventsController extends Controller
 
     public function updateEventAction($id, Request $request) {
         $array = $this->getSessionData();
+        $fakulta = "";
+        $katedra = "";
+
+        $start_date = Carbon::parse($request["start_date"]);
+        $end_date = Carbon::parse($request["end_date"]);
+        if ($start_date->isPast() || $end_date->isPast() ||
+            $end_date < $start_date) {
+            \Session::flash('warnning', 'Nesprávne zadaný začiatočný alebo konečný dátum eventu.');
+            return Redirect::to('/showEdit/'.$id."&".$request->param."&".$request->userid."&".$request->admin);
+        }
 
         $events = Events::find($id);
         $events->event_name = $request['event_name'];
         $events->event_place = $request['event_place'];
-        if($events->type == 2) $events->idfakulty = $request['idfakulty'];
-        else if($events->type == 1) $events->idkatedry = $request['idkatedry'];
+        if($events->type == 2) {
+            $events->idfakulty = $request['idfakulty'];
+            $fakulta = Fakulty::where("id", "=", $request['idfakulty'])->value("name");
+        }
+        else if($events->type == 1) {
+            $events->idkatedry = $request['idkatedry'];
+            $katedra = Katedry::where("id", "=", $request['idkatedry'])->value("name");
+        }
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
         $events->max_percipient = $request['max_percipient'];
         $events->save();
+
+        $mailData = array(
+            'user_name'     => "",
+            'event_name'     => $events->event_name,
+            'start_date'     => $events->start_date,
+            'end_date'     => $events->end_date,
+            'event_place'     => $events->event_place,
+            'max_percipient'     => $events->max_percipient,
+            'event_type'     => $events->type,
+            'fakulta'     => $fakulta,
+            'katedra'     => $katedra,
+        );
+
+        $usersgoing = UsersGoingEvents::where("eventid", "=", $id)->get();
+        foreach($usersgoing as $row) {
+            $name = DB::table('users')->where("id", "=", $row->userid)->value("name");
+            $email = DB::table('users')->where("id", "=", $row->userid)->value("email");
+            $mailData["user_name"] = $name;
+            Mail::to($email)->send(new App\Mail\EmailEventChanged($mailData));
+        }
 
         $param = $request->param;
 
@@ -506,11 +553,22 @@ class EventsController extends Controller
         $percipient = UsersGoingEvents::where('eventid', '=', $eventid)->get();
         $percipient_count = $percipient->count();
         $userid = Auth::id();
+
         if($percipient_count+1 < $max_percipient) {
             $add = new UsersGoingEvents();
             $add->userid = $userid;
             $add->eventid = $eventid;
             $add->save();
+
+            $mailData = array(
+                'event_name'     => $event->event_name,
+                'start_date'     => $event->start_date,
+                'end_date'     => $event->end_date,
+                'event_place'     => $event->event_place,
+            );
+
+            Mail::to(Auth::user()->email)->send(new App\Mail\EmailEventInfo($mailData));
+
             \Session::flash('success', 'Účastník pridaný');
             return $this->doFilter($array);
         }else{

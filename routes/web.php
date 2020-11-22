@@ -161,26 +161,6 @@ Route::get('/send-mail', function () {
 
 });
 
-Route::get('/blah', function () {
-    $type = Session::get('type');
-    $pracovisko = Session::get('pracovisko');
-    $start_date = Session::get('start_date');
-    $end_date = Session::get('end_date');
-    $tag = Session::get('tag');
-    $name = Session::get('name');
-
-    $request = Request::create('/filter', 'POST',
-        ['type' => $type,
-        "pracovisko" => $pracovisko,
-        "start_date" => $start_date,
-        "end_date" => $end_date,
-        "tag" => $tag,
-        "name" => $name]);
-
-    $request->headers->set('X-CSRF-TOKEN', csrf_token());
-    app()->handle($request);
-});
-
 Route::get('/profile', 'UserController@profile')->name('user.profile')->middleware('auth');;
 
 Route::get('/edit/user', 'UserController@edit')->name('user.edit');

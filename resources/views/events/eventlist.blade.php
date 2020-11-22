@@ -90,12 +90,12 @@
                                             <div class="form-group" style="margin-left: 100px">
                                                 <label for="name"><b>Začiatok Eventu</b></label><br>
                                                 <div class="" style="margin: 5px 0 22px 0; width: 100%; ">
-                                                    {!! Form::date('start_date', null, ['class' => 'form-control'], ['required autocomplete' => '']) !!}
+                                                    <input type="datetime-local" class="form-control" name="start_date">
                                                     {!! $errors->first('start_date', '<p class="alert alert-danger">:message</p>') !!}
                                                 </div>
                                                 <label for="name"><b>Koniec Eventu</b></label><br>
                                                 <div class="" style="margin: 5px 0 22px 0; width: 100%; ">
-                                                    {!! Form::date('end_date', null, ['class' => 'form-control'], ['required autocomplete' => '']) !!}
+                                                    <input type="datetime-local" class="form-control" name="end_date">
                                                     {!! $errors->first('end_date', '<p class="alert alert-danger">:message</p>') !!}
                                                 </div>
                                                 <label for="name"><b>Tag</b></label><br>
@@ -147,14 +147,14 @@
                                         </div>
                                         <div class="">
                                             <label for="name"><b>Od dátumu</b></label><br>
-                                            @if(Session::get("start_date") != "") {!! Form::date('start_date', null, ['class' => 'form-control', 'style="margin: 5px 0 22px 0; width: 100%; ', 'type=date', 'name=start_date', 'value=Session::get("start_date")'  ]) !!}
-                                            @else {!! Form::date('start_date', null, ['class' => 'form-control', 'style="margin: 5px 0 22px 0; width: 100%; ', 'type=date', 'name=start_date', 'value=""'  ]) !!}
+                                            @if(Session::get("start_date") != "")  <input type="datetime-local" class="form-control" name="start_date" style="margin: 5px 0 22px 0; width: 100%;" value="{{Session::get("start_date")}}">
+                                            @else <input type="datetime-local" class="form-control" name="start_date" style="margin: 5px 0 22px 0; width: 100%;" value="">
                                             @endif
                                         </div>
                                         <div class="">
                                             <label for="name"><b>Do dátumu</b></label><br>
-                                            @if(Session::get("end_date") != "") {!! Form::date('end_date', null, ['class' => 'form-control', 'style="margin: 5px 0 22px 0; width: 100%; ', 'type=date', 'name=end_date', 'value=Session::get("end_date")'  ]) !!}
-                                            @else {!! Form::date('end_date', null, ['class' => 'form-control', 'style="margin: 5px 0 22px 0; width: 100%; ', 'type=date', 'name=end_date', 'value=""'  ]) !!}
+                                            @if(Session::get("end_date") != "")  <input type="datetime-local" class="form-control" name="end_date" style="margin: 5px 0 22px 0; width: 100%;" value="{{Session::get("end_date")}}">
+                                            @else  <input type="datetime-local" class="form-control" name="end_date" style="margin: 5px 0 22px 0; width: 100%;" value="">
                                             @endif
                                         </div>
                                         <div class=""><br>

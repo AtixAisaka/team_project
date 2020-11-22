@@ -28,6 +28,7 @@ class MailtrapExample extends Mailable
      */
     public function build()
     {
+        $gift = Giftbox::generateDiscountCode();
         return $this->from('test@test.com', 'Mailtrap')
             ->subject('Mailtrap Confirmation')
             ->markdown('mails.exmpl')

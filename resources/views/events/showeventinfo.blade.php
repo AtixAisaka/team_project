@@ -13,6 +13,7 @@
 
 
             <div class="col"><a href="{{ action("EventsController@makeEventPDF", ["id" => $event->id]) }}">Uložiť ako pdf</a>
+            <div class="col">
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <h3><b>Názov: </b><br>{{$event->event_name}}</h3><hr>
                         <h3><b>Zakladatel:</b><br> {{$eventowner}} </h3><hr>
@@ -33,9 +34,53 @@
                     <h3><b>Tagy:</b> </h3>
                     <h4>{{$eventtags}}</h4>
                 </div>
+                <div class="col-xs-3 col-sm-3 col-md-3" style="margin-left: 100px">
+                    <h3><b>Zdieľaj udalosť:</b> </h3>
+                    <div id="social-links">
+                        <div id="social-links">
+                            <ul>
+                                <div id="share-buttons">
+                                    <!-- Email -->
+                                    <a href="mailto:?Subject=Simple Share Buttons&amp;Body=I%20saw%20this%20and%20thought%20of%20you!%20 https://www.ukf.sk/verejnost/aktuality/kalendar">
+                                        <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
+                                    </a>
 
+                                    <!-- Facebook -->
+                                    <a href="http://www.facebook.com/sharer.php?u=https://www.ukf.sk/verejnost/aktuality/kalendar" target="_blank">
+                                        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+                                    </a>
+
+
+                                    <!-- LinkedIn -->
+                                    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.ukf.sk/verejnost/aktuality/kalendar" target="_blank">
+                                        <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
+                                    </a>
+
+                                    <!-- Pinterest -->
+                                    <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());">
+                                        <img src="https://simplesharebuttons.com/images/somacro/pinterest.png" alt="Pinterest" />
+                                    </a>
+
+                                    <!-- Print -->
+                                    <a href="javascript:;" onclick="window.print()">
+                                        <img src="https://simplesharebuttons.com/images/somacro/print.png" alt="Print" />
+                                    </a>
+
+                                    <!-- Reddit -->
+                                    <a href="http://reddit.com/submit?url=https://www.ukf.sk/verejnost/aktuality/kalendar&amp;title=Udalosť v kalendári" target="_blank">
+                                        <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" />
+                                    </a>
+
+                                    <!-- Twitter -->
+                                    <a href="https://twitter.com/share?url=https://www.ukf.sk/verejnost/aktuality/kalendar&amp;text=Schedule%20Tap&amp;hashtags=scheduletap" target="_blank">
+                                        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+                                    </a>
+
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
             </div>
-
     </div>
 
 

@@ -1238,6 +1238,67 @@
         "abandoned": "php-parallel-lint/php-console-highlighter"
     },
     {
+        "name": "jorenvanhocht/laravel-share",
+        "version": "3.3.1",
+        "version_normalized": "3.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jorenvh/laravel-share.git",
+            "reference": "1991e056fedd60a9e48e323b84a468a6335a7a2f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jorenvh/laravel-share/zipball/1991e056fedd60a9e48e323b84a468a6335a7a2f",
+            "reference": "1991e056fedd60a9e48e323b84a468a6335a7a2f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.1"
+        },
+        "require-dev": {
+            "orchestra/testbench": "~3.5.0",
+            "phpunit/phpunit": "~6.5"
+        },
+        "time": "2020-09-19T13:41:44+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Jorenvh\\Share\\Providers\\ShareServiceProvider"
+                ],
+                "aliases": {
+                    "Share": "Jorenvh\\Share\\ShareFacade"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Jorenvh\\Share\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Joren Van Hocht",
+                "email": "joren@codeswitch.be",
+                "homepage": "https://codeswitch.be",
+                "role": "Developer"
+            }
+        ],
+        "description": "Optional package for Laravel to generate social share links.",
+        "homepage": "https://github.com/jorenvh/laravel-share",
+        "keywords": [
+            "laravel",
+            "share",
+            "social links",
+            "social share links"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "v6.18.43",
         "version_normalized": "6.18.43.0",

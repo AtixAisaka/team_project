@@ -175,4 +175,13 @@ Route::get('makeeventpdf/{id}', [
     "as" => "makeeventpdf", "uses" => 'EventsController@makeEventPDF'
 ]);
 
+Route::get('/login/github', 'Auth\LoginController@github');
+Route::get('/login/github/redirect', 'Auth\LoginController@githubRedirect');
+
+Route::get('/login/facebook', 'Auth\LoginController@facebook');
+Route::get('/login/facebook/redirect', 'Auth\LoginController@facebookRedirect');
+
+Route::get('/login/google', 'Auth\LoginController@google');
+Route::get('/login/google/redirect', 'Auth\LoginController@googleRedirect');
+
 

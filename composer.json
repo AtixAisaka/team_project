@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "~6.2",
         "jorenvanhocht/laravel-share": "^3.3",
         "laravel/framework": "^6.18.35",
+        "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.2",
         "progcode/laravel-fullcalendar": "^1.3"

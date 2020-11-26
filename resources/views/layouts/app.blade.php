@@ -126,6 +126,9 @@
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-success btn-block">Sign in</button>
                                                     </div>
+                                                    <a href="http://localhost/team_project.git/public/login/github" class="btn btn-secondary btn-block">Login with github</a>
+                                                    <a href="http://localhost/team_project.git/public/login/facebook" class="btn btn-secondary btn-block">Login with Facebook</a>
+                                                    <a href="http://localhost/team_project.git/public/login/google" class="btn btn-secondary btn-block">Login with Google</a>
 
                                                 </form>
                                             </div>

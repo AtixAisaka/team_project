@@ -7,24 +7,20 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/previous_ongoing_next_eventview.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/detail_button.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin_event_button.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/eventview.css')}}">
+
     <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     <div class="container">
     @auth
         @if(Auth::User()->role!=4)
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn effect01" data-toggle="modal" data-target="#addModal">
-                        <div class="valign-center"> <i class="material-icons">
-                                add_box </i> Pridaj Event
-                        </div>
-                    </button>
                 <!-- Modal -->
                 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Pridať event</h5>
+                                <h3 class="modal-title" id="exampleModalLabel">Pridať event</h3>
                             </div>
                             <div class="modal-body">
                                 <form method="post" action="{{action('EventsController@addEvent')}}">
@@ -38,7 +34,7 @@
                                         </div>
                                         <div class="col-xs-3 col-sm-3 col-md-5">
                                             <div class="form-group">
-                                                <label for="name"><b>Meno Eventu</b></label><br>
+                                                <label for="name"><b>Meno eventu</b></label><br>
                                                 <div class="">
                                                     <input type="text" name="event_name" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="Nazov eventu" value="" required autocomplete="">
                                                     {!! $errors->first('event_name', '<p class="alert alert-danger">:message</p>') !!}
@@ -108,6 +104,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -116,23 +113,16 @@
                         </div>
                     </div>
                 </div>
-                <br><hr>
             </div>
         @endif
     @endauth
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn effect01" data-toggle="modal" data-target="#filterModal">
-            <div class="valign-center"> <i class="material-icons">
-                    youtube_searched_for </i> Filtrovanie
-            </div>
-        </button>
         <!-- Modal -->
         <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Filtrovanie</h5>
+                        <h3 class="modal-title" id="exampleModalLabel">Filtrovanie</h3>
                     </div>
                     <div class="modal-body">
                         <form method="post" action="{{action('EventsController@filterEvents')}}">
@@ -159,7 +149,7 @@
                                         </div>
                                         <div class=""><br>
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <input class="btn effect01" type="submit" name="submit" value="Filtrovať podla informácii"><br>
+                                            <input class="btn effect01" type="submit" name="submit" value="Filtrovať"><br>
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +242,7 @@
                 </div>
             </div>
         </div>
-            <br><hr>
+
     <div class="col-xs-12 col-sm-12 col-md-12">
         @if (Session::has('success'))
             <div class="alert alert-success">{{ Session::get('success') }}</div>
@@ -262,7 +252,19 @@
 
     </div>
             <div class="container">
-                <h2>Eventy</h2>
+                <div class="dropdown">
+                    <h2>Eventy  <span class="caret"></span></h2>
+                    <div class="dropdown-content" style="cursor: pointer;" >
+                        <a type="button" data-toggle="modal" data-target="#addModal">
+                            <div class="valign-center" style="cursor: pointer;">Pridať event
+                            </div>
+                        </a>
+                        <a type="button" data-toggle="modal" data-target="#filterModal">
+                            <div class="valign-center" style="cursor: pointer;">Filtrovať eventy
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 <li class="table-header">
                     <div class="col col-1">Názov</div>
                     <div class="col col-2">Začiatok eventu</div>
@@ -339,8 +341,91 @@
                     @endif
                 @endforeach
 
+
+
+
+                <div class="grid-container" >
+                @foreach($events as $event)
+                    @if($event->ishidden==false || Auth::user()->role==4)
+                            <div class="NAZOV">{{$event-> event_name}}</div>
+                            <div class="OBRAZOK"><img style="max-width:100%;max-height:100%;margin-left: auto;margin-right: auto; display: block;" src="{{asset('img/calendar_icon.png')}}"></div>
+                            <div class="OD">Začiatok eventu <br> {{$event-> start_date}}</div>
+                            <div class="DO">Koniec eventu <br> {{$event-> end_date}}</div>
+                            <div class="AKCIE">
+                                <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
+                                    <div class="valign-center"> <i class="material-icons">
+                                            help_outline </i> Detaily
+                                    </div></a>
+                                @auth
+                                    @if($event->userid == $authuser->id || Auth::user()->role==4)
+                                        <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
+                                            <div class="valign-center"> <i class="material-icons">
+                                                    build </i> Editovať
+                                            </div></a>
+                                        <a class="btn-1" href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}" role="button">
+                                            <div class="valign-center"> <i class="material-icons">
+                                                    delete </i> Mazať
+                                            </div></a>
+                                        @if(Auth::user()->role==4)
+                                            @if($event->ishidden == false)
+                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}" role="button">
+                                                    <div class="valign-center"> <i class="material-icons">
+                                                            toggle_off </i> Skryť
+                                                    </div></a>
+                                            @elseif($event->ishidden == true)
+                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}" role="button">
+                                                    <div class="valign-center"> <i class="material-icons">
+                                                            toggle_on </i> Odkryť
+                                                    </div></a>
+                                            @endif
+                                        @endif
+                                    @endif
+
+                                    @if($event->userid != $authuser->id)
+                                        @php
+                                            $helper = 0
+                                        @endphp
+                                        @foreach($helpertable as $row)
+                                            @if ($row->userid == $authuser->id && $row->eventid == $event->id)
+                                                @php
+                                                    $helper = 1
+                                                @endphp
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if(Auth::User()->role==0)
+                                            @if($helper == 0)
+                                                <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
+                                                    <div class="valign-center"> <i class="material-icons">
+                                                            person_add </i> Zúčastniť sa
+                                                    </div></a>
+                                            @else
+                                                <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}" role="button">
+                                                    <div class="valign-center"> <i class="material-icons">
+                                                            cancel </i> Zrušiť účasť
+                                                    </div></a>
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endauth
+                            </div>
+                        </li>
+
+                    @endif
+                @endforeach
+
+                </div>
+
+
+
+
+
+
             </div>
+
             <br><br><br>
+
+
             <script type="text/javascript">
                     $(function() {
                         // initialize sol

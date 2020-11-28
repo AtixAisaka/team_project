@@ -13,7 +13,7 @@
     <form method="post" action="{{action('EventsController@uploadImage')}}" enctype="multipart/form-data">
         <div class="form-group">
             <label for="image"><h2><b>Upload Image File</b></h2></label>
-            <h4><input type="file" class="form-control-file" name="image"></h4><br>
+            <h4><input type="file" class="form-control-file" name="image" multiple></h4><br>
         </div>
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <input type="hidden" name="event" value="{{$event->id}}">

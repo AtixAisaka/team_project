@@ -15,6 +15,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet" id="bootstrap-css">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/user_list.css')}}">
 
 
     <script>
@@ -73,7 +74,7 @@
                                             Moje Udalosti
                                             <span class="caret"></span>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <div class="dropdown-content">
                                             <a href="{{ action("EventsController@showEventsHistory",
                                     ["value" => 0, "id" => Auth::user()->id, "admin" => -1])  }}">Založené</a><br>
                                             <a href="{{ action("EventsController@showEventsHistory",
@@ -146,7 +147,7 @@
                                 <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+                            <li class="dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} -
                                     @if(Auth::user()->role == 4)Administrátor
@@ -158,7 +159,7 @@
                                     <span class="caret"></span>
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-content" aria-labelledby="navbarDropdown">
                                     <a href="{{action("UserController@profile")}}">Profile</a><br>
                                     <a href="{{action("EventsController@tagsView")}}">Zoznam tagov</a><br>
                                     <a class="dropdown-item" href="{{ route('logout') }}"

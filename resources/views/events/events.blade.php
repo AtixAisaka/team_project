@@ -8,18 +8,25 @@
     <div class="container">
     @auth
         @if(Auth::User()->role!=4)
-            <!-- Button trigger modal -->
-            <button type="button" class="btn effect01" data-toggle="modal" data-target="#addModal">
-                <div class="valign-center"> <i class="material-icons">
-                        add_box </i> Pridaj Event
+                <div class="dropdown">
+                    <h2>Kalendár eventov<span class="caret"></span></h2>
+                    <div class="dropdown-content" style="cursor: pointer;" >
+                        <a type="button" data-toggle="modal" data-target="#addModal">
+                            <div class="valign-center" style="cursor: pointer;">Pridať event
+                            </div>
+                        </a>
+                        <a type="button" data-toggle="modal" data-target="#filterModal">
+                            <div class="valign-center" style="cursor: pointer;">Filtrovať eventy
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </button>
             <!-- Modal -->
             <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Pridať event</h5>
+                            <h3 class="modal-title" id="exampleModalLabel">Pridať event</h3>
                         </div>
                         <div class="modal-body">
                             <form method="post" action="{{action('EventsController@addEvent')}}">
@@ -33,7 +40,7 @@
                                     </div>
                                     <div class="col-xs-3 col-sm-3 col-md-5">
                                         <div class="form-group">
-                                            <label for="name"><b>Meno Eventu</b></label><br>
+                                            <label for="name"><b>Meno eventu</b></label><br>
                                             <div class="">
                                                 <input type="text" name="event_name" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="Nazov eventu" value="" required autocomplete="">
                                                 {!! $errors->first('event_name', '<p class="alert alert-danger">:message</p>') !!}
@@ -100,6 +107,7 @@
                                                         <option value="{{$row->id}}">{{$row->name}}</option>
                                                     @endforeach
                                                 </select>
+
                                             </div>
                                         </div>
                                     </div>
@@ -111,22 +119,17 @@
                     </div>
                 </div>
             </div>
-            <br><hr>
-            </div>
+            <br>
+    </div>
         @endif
     @endauth
 
-        <button type="button" class="btn effect01" data-toggle="modal" data-target="#filterModal">
-            <div class="valign-center"> <i class="material-icons">
-                    youtube_searched_for </i> Filtrovanie
-            </div>
-        </button>
         <!-- Modal -->
         <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Filtrovanie</h5>
+                        <h3 class="modal-title" id="exampleModalLabel">Filtrovanie</h3>
                     </div>
                     <div class="modal-body">
                         <form method="post" action="{{action('EventsController@filterEventsCalendar')}}">
@@ -153,7 +156,7 @@
                                         </div>
                                         <div class=""><br>
                                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                            <input class="btn effect01" type="submit" name="submit" value="Filtrovať podla informácii"><br>
+                                            <input class="btn effect01" type="submit" name="submit" value="Filtrovať"><br>
                                         </div>
                                     </div>
                                 </div>
@@ -202,6 +205,23 @@
                                                 @if(Session::get("type") != "3")  <option value="3">Eventy univerzity</option> @endif
                                             </select>
                                         </div>
+                                        <div class="" style="margin-bottom: 10px">
+                                            <label for="name"><b>Podľa typu 2</b></label><br>
+                                            <select id="type2" name="type2" >
+                                                @if(Session::get("type2") == "") <option selected="selected" value="">No Filter</option>
+                                                @else <option value="">No Filter</option>
+                                                @endif
+
+                                                @if(Session::get("type2") == "0") <option selected="selected" value="0">Skončené eventy</option>
+                                                @elseif(Session::get("type2") == "1") <option selected="selected" value="1">Prebiehajúce eventy</option>
+                                                @elseif(Session::get("type2") == "2") <option selected="selected" value="2">Budúce eventy</option>
+                                                @endif
+
+                                                @if(Session::get("type2") != "0") <option value="0">Skončené eventy</option> @endif
+                                                @if(Session::get("type2") != "1") <option value="1">Prebiehajúce eventy</option> @endif
+                                                @if(Session::get("type2") != "2") <option value="2">Budúce eventy</option> @endif
+                                            </select>
+                                        </div>
                                         <div class="">
                                             <label for="name"><b>Podla tagov</b></label><br>
                                             <select id="tags"  name="tag[]" multiple="multiple">
@@ -230,7 +250,8 @@
             </div>
         </div>
 
-            <br><hr>
+
+            <br>
         <div class="breadcrumb">
             <div class="panel-heading">Informácie eventu</div>
                 {!! $calendar_details->calendar() !!}

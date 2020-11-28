@@ -56,8 +56,8 @@
                         </div>
                         <div class=""><br>
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <input class="btn effect01" type="submit" name="submit" value="Uložiť"><br>
-                            <a href="{{action('EventsController@eventTagInfoView', ["id" => $event->id])}}" target="_blank">edit tagov</a>
+                            <input class="btn effect01" type="submit" name="submit" value="Uložiť"><br><br>
+                            <a class="btn effect01" href="{{action('EventsController@eventTagInfoView', ["id" => $event->id])}}" target="_blank">edit tagov</a>
                         </div>
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="param" value="{{$param}}">
@@ -72,6 +72,10 @@
 
 
     </div>
+
+
+
+
 
 
 

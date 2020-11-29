@@ -7,6 +7,7 @@ use App\Events;
 use App\UsersGoingEvents;
 use App\events_image;
 use Auth;
+use Session;
 use App\Tags;
 use Calendar;
 use \Validator;
@@ -18,6 +19,40 @@ use Route;
 
 class UsersController extends Controller
 {
+
+    public function getSessionData() {
+        $name = Session::get('username');
+        $role = Session::get('userrole');
+        return array("name" => $name, "role" => $role);
+    }
+
+    public function doFilter($array) {
+        $name = $array["name"];
+        $role = $array["role"];
+
+        //query builder ty kokos
+        $usersquery = DB::table('users');
+
+        if($name!=""){
+            $usersquery = $usersquery->where("name", 'LIKE', '%'.$name.'%');
+        }
+        if($role!=""){
+            $usersquery = $usersquery->where("role", "=", $role);
+        }
+
+        $users = $usersquery->get();
+
+        Session::put('username', $name);
+        Session::put('userrole', $role);
+
+        return view('users/userlist', compact("users"));
+    }
+
+    public function filterUsers(Request $request){
+        $name = $request["name"];
+        $role = $request["role"];
+        return $this->doFilter(array("name" => $name, "role" => $role));
+    }
 
     public function showUserList(){
         $users = DB::table('users')->get();
@@ -63,7 +98,8 @@ class UsersController extends Controller
             'email'=>$request['email'],
             'role'=>$request['role'],
         ));
-        return Redirect::to('/userlist');
+
+        return $this->showFilters();
     }
 
     public function deleteUserAction($id) {
@@ -77,7 +113,13 @@ class UsersController extends Controller
             events_image::where("event_id", "=", $row->id)->delete();
         }
         Events::where("userid", "=", $id)->delete();
-        return Redirect::to('/userlist');
+
+        return $this->showFilters();
+    }
+
+    public function showFilters() {
+        $array = $this->getSessionData();
+        return $this->doFilter($array);
     }
 }
 

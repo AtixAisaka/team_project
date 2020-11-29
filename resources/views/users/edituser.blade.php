@@ -19,15 +19,19 @@
                         <div class="">
                             <label for="role"><b>Role</b></label><br>
                             <select id="role" name="role" class="form-control">
-                                <option value="0">Užívateľ</option>
-                                <option value="1">Poverený pracovník pracoviska</option>
-                                @if(Auth::User()->role >= 3)
-                                    <option value="2">Referent fakulty</option>
+                                @if($user->role == 0) <option selected="selected" value="0">Užívateľ</option>
+                                @elseif($user->role == 1) <option selected="selected" value="1">Pracovník pracoviska</option>
+                                @elseif($user->role == 2) <option selected="selected" value="2">Referent fakulty</option>
+                                @elseif($user->role == 3) <option selected="selected" value="3">Referent univerzity</option>
+                                @elseif($user->role == 4) <option selected="selected" value="4">Administrátor</option>
                                 @endif
-                                @if(Auth::User()->role >= 4)
-                                    <option value="3">Referent univerzity</option>
-                                    <option value="4">Administrátor</option>
-                                @endif
+
+                                @if($user->role != 0) <option value="0">Užívateľ</option> @endif
+                                @if($user->role != 1) <option value="1">Pracovník pracoviska</option> @endif
+                                @if($user->role != 2) <option value="2">Referent fakulty</option> @endif
+                                @if($user->role != 3)  <option value="3">Referent univerzity</option> @endif
+                                @if($user->role != 4)  <option value="4">Administrátor</option> @endif
+
                             </select>
                         </div>
                         <div class=""><br>

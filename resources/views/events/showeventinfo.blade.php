@@ -19,8 +19,8 @@
                         <h3><b>Zakladatel:</b><br> {{$eventowner}} </h3><hr>
                         <h3><b>Miesto konania:</b><br> {{$event->event_place}} </h3><hr>
                         <h3><b>Typ eventu:</b><br>{{$eventabout}} </h3><hr>
-                        <h3><b>Od:</b><br> {{$event->start_date}} </h3>
-                        <h3><b>Do:</b><br> {{$event->end_date}} </h3><hr>
+                        <h3><b>Od:</b><br> {{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}} </h3>
+                        <h3><b>Do:</b><br> {{\Carbon\Carbon::parse($event->end_date)->format('d.m.Y H:i:s')}} </h3><hr>
                 </div>
 
 

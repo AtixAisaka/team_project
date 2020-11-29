@@ -113,6 +113,14 @@ Route::get('userlist', [
     "as" => "userlist", "uses" => 'UsersController@showUserList'
 ]);
 
+Route::get('showFilters', [
+    "as" => "showFilters", "uses" => 'UsersController@showFilters'
+]);
+
+Route::post('filterUsers', [
+    "as" => "filterUsers", "uses" => 'UsersController@filterUsers'
+]);
+
 Route::get('deleteUserAction/{id}', [
     "as" => "deleteUserAction", "uses" => 'UsersController@deleteUserAction'
 ]);

@@ -255,94 +255,18 @@
                 <div class="dropdown">
                     <h2>Eventy  <span class="caret"></span></h2>
                     <div class="dropdown-content" style="cursor: pointer;" >
+                        @auth
                         <a type="button" data-toggle="modal" data-target="#addModal">
                             <div class="valign-center" style="cursor: pointer;">Pridať event
                             </div>
                         </a>
+                        @endauth
                         <a type="button" data-toggle="modal" data-target="#filterModal">
                             <div class="valign-center" style="cursor: pointer;">Filtrovať eventy
                             </div>
                         </a>
                     </div>
                 </div>
-
-
-                <!--OLD can be deleted!!!-->
-<!--                <li class="table-header">
-                    <div class="col col-1">Názov</div>
-                    <div class="col col-2">Začiatok eventu</div>
-                    <div class="col col-3">Koniec eventu</div>
-                    <div class="col col-4">Akcie</div>
-                </li>-->
-
-                {{--@foreach($events as $event)
-                    @if($event->ishidden==false || Auth::user()->role==4)
-                        <li class="table-row">
-                            <div class="col col-1">{{$event-> event_name}}</div>
-                            <div class="col col-2">{{$event-> start_date}}</div>
-                            <div class="col col-3">{{$event-> end_date}}</div>
-                            <div class="col col-4">
-                                <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
-                                    <div class="valign-center"> <i class="material-icons">
-                                            help_outline </i> Detaily
-                                    </div></a>
-                                @auth
-                                    @if($event->userid == $authuser->id || Auth::user()->role==4)
-                                        <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
-                                            <div class="valign-center"> <i class="material-icons">
-                                                    build </i> Editovať
-                                            </div></a>
-                                        <a class="btn-1" href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}" role="button">
-                                            <div class="valign-center"> <i class="material-icons">
-                                                    delete </i> Mazať
-                                            </div></a>
-                                        @if(Auth::user()->role==4)
-                                            @if($event->ishidden == false)
-                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}" role="button">
-                                                    <div class="valign-center"> <i class="material-icons">
-                                                            toggle_off </i> Skryť
-                                                    </div></a>
-                                            @elseif($event->ishidden == true)
-                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}" role="button">
-                                                    <div class="valign-center"> <i class="material-icons">
-                                                            toggle_on </i> Odkryť
-                                                    </div></a>
-                                            @endif
-                                        @endif
-                                    @endif
-
-                                    @if($event->userid != $authuser->id)
-                                        @php
-                                            $helper = 0
-                                        @endphp
-                                        @foreach($helpertable as $row)
-                                            @if ($row->userid == $authuser->id && $row->eventid == $event->id)
-                                                @php
-                                                    $helper = 1
-                                                @endphp
-                                                @break
-                                            @endif
-                                        @endforeach
-                                        @if(Auth::User()->role==0)
-                                            @if($helper == 0)
-                                                <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
-                                                        <div class="valign-center"> <i class="material-icons">
-                                                                person_add </i> Zúčastniť sa
-                                                        </div></a>
-                                            @else
-                                                <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}" role="button">
-                                                        <div class="valign-center"> <i class="material-icons">
-                                                                cancel </i> Zrušiť účasť
-                                                        </div></a>
-                                            @endif
-                                        @endif
-                                    @endif
-                                @endauth
-                            </div>
-                        </li>
-
-                    @endif
-                @endforeach--}}
 
                 <div>
                 @foreach($events as $event)
@@ -352,7 +276,8 @@
                             <div class="event_preview"><img src="{{asset('img/calendar_icon.png')}}"></div>
                             <div class="event_description">
                                 <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>
-                                <strong>Začiatok eventu: </strong>{{$event-> start_date}}<br><strong>Koniec eventu: </strong>{{$event-> end_date}}
+                                <strong>Začiatok eventu: </strong>{{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}}<br>
+                                <strong>Koniec eventu: </strong>{{\Carbon\Carbon::parse($event->end_date)->format('d.m.Y H:i:s')}}
                             </div>
 
                             <div class="event_buttons">

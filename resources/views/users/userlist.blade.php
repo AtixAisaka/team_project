@@ -8,7 +8,72 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <div class="container">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn effect01" data-toggle="modal" data-target="#filterModal">
+            <div class="valign-center"> <i class="material-icons">
+                    youtube_searched_for </i> Filtrovanie
+            </div>
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">Filtrovanie</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{{action('UsersController@filterUsers')}}">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-5">
+                                    <div class="form-group">
+                                        <div class="">
+                                            <label for="name"><b>Podľa mena</b></label><br>
+                                            @if(Session::get("username") != "") <input style="margin: 5px 0 22px 0; width: 100%; " class="form-control" type="text" name="name" value="{{Session::get("username")}}">
+                                            @else <input style="margin: 5px 0 22px 0; width: 100%; " class="form-control" type="text" name="name" placeholder="Meno/časť mena" value="">
+                                            @endif
+                                        </div>
+
+                                        <div class="">
+                                            <label for="name"><b>Podľa role</b></label><br>
+                                            <select id="role" name="role" >
+                                                @if(Session::get("userrole") == "") <option selected="selected" value="">No Filter</option>
+                                                @else <option value="">No Filter</option>
+                                                @endif
+
+                                                @if(Session::get("userrole") == "0") <option selected="selected" value="0">Užívateľ</option>
+                                                @elseif(Session::get("userrole") == "1") <option selected="selected" value="1">Pracovník pracoviska</option>
+                                                @elseif(Session::get("userrole") == "2") <option selected="selected" value="2">Referent fakulty</option>
+                                                @elseif(Session::get("userrole") == "3") <option selected="selected" value="3">Referent univerzity</option>
+                                                @elseif(Session::get("userrole") == "4") <option selected="selected" value="4">Administrátor</option>
+                                                @endif
+
+                                                @if(Session::get("userrole") != "0") <option value="0">Užívateľ</option> @endif
+                                                @if(Session::get("userrole") != "1") <option value="1">Pracovník pracoviska</option> @endif
+                                                @if(Session::get("userrole") != "2") <option value="2">Referent fakulty</option> @endif
+                                                @if(Session::get("userrole") != "3")  <option value="3">Referent univerzity</option> @endif
+                                                @if(Session::get("userrole") != "4")  <option value="4">Administrátor</option> @endif
+                                            </select>
+                                        </div>
+
+                                        <div class=""><br>
+                                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                            <input class="btn effect01" type="submit" name="submit" value="Filtrovať"><br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavri</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <h2>Zoznam používateľov</h2>
 
         <li class="table-header">
@@ -37,8 +102,8 @@
                          ({{$row-> role}})
                     </div>
                     <div class="col col-5">
-                        <a class="btn-1" href="{{ action("UsersController@showEditUser",["id" => $row -> id])  }}" role="button" target="_blank">Edit</a>
-                        | <a class="btn-1" href="{{ action("UsersController@deleteUserAction",["id" => $row -> id])  }}" role="button" target="_blank">Delete</a>
+                        <a class="btn-1" href="{{ action("UsersController@showEditUser",["id" => $row -> id])  }}" role="button">Edit</a>
+                        | <a class="btn-1" href="{{ action("UsersController@deleteUserAction",["id" => $row -> id])  }}" role="button">Delete</a>
                         | <div class="dropdown">
                             <button class="btn-1" style="background-color: white; border: white; color: rgb(30, 144, 255);size: auto">Events</button>
                             <div class="dropdown-content">

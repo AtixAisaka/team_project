@@ -11,10 +11,12 @@
                 <div class="dropdown">
                     <h2>Kalendár eventov<span class="caret"></span></h2>
                     <div class="dropdown-content" style="cursor: pointer;" >
+                        @auth
                         <a type="button" data-toggle="modal" data-target="#addModal">
                             <div class="valign-center" style="cursor: pointer;">Pridať event
                             </div>
                         </a>
+                        @endauth
                         <a type="button" data-toggle="modal" data-target="#filterModal">
                             <div class="valign-center" style="cursor: pointer;">Filtrovať eventy
                             </div>

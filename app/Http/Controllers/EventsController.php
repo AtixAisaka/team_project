@@ -312,8 +312,8 @@ class EventsController extends Controller
         $end_date = $request["end_date"];
         $tag = $request->get("tag");
 
-        return $this->doFilter(array("type" => $type, "type2" => $type2, "pracovisko" => $pracovisko, "start_date" => $start_date, "end_date" => $end_date,
-            "tag" => $tag, "name" => $name));
+        return $this->doFilter(array("type" => $type, "type2" => $type2, "pracovisko" => $pracovisko,
+            "start_date" => $start_date, "end_date" => $end_date, "tag" => $tag, "name" => $name));
     }
 
     public function addEvent(Request $request)
@@ -392,6 +392,10 @@ class EventsController extends Controller
         $allevents = null;
         $param = $value;
 
+        $fakulty = Fakulty::get();
+        $katedry = Katedry::get();
+        $tags = Tags::get();
+
         if($value == 0) {
             $allevents = Events::where("userid", "=", $id)->get();
         } else if($value == 1) {
@@ -404,7 +408,8 @@ class EventsController extends Controller
             } else $allevents = Events::where("id", "=", "-1");
         }
 
-        return view("events/eventhistory", compact(  "allevents", "param", "id", "admin"));
+        return view("events/eventhistory", compact(  "allevents", "param", "id", "admin",
+            "fakulty", "katedry", "tags"));
     }
 
     public function showEventInfo($id, $param, $userid, $admin) {

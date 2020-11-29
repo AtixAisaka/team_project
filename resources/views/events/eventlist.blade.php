@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/previous_ongoing_next_eventview.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/detail_button.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin_event_button.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/eventview.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/event_list.css')}}">
 
     <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
@@ -265,14 +265,17 @@
                         </a>
                     </div>
                 </div>
-                <li class="table-header">
+
+
+                <!--OLD can be deleted!!!-->
+<!--                <li class="table-header">
                     <div class="col col-1">Názov</div>
                     <div class="col col-2">Začiatok eventu</div>
                     <div class="col col-3">Koniec eventu</div>
                     <div class="col col-4">Akcie</div>
-                </li>
+                </li>-->
 
-                @foreach($events as $event)
+                {{--@foreach($events as $event)
                     @if($event->ishidden==false || Auth::user()->role==4)
                         <li class="table-row">
                             <div class="col col-1">{{$event-> event_name}}</div>
@@ -339,19 +342,20 @@
                         </li>
 
                     @endif
-                @endforeach
+                @endforeach--}}
 
-
-
-
-                <div class="grid-container" >
+                <div>
                 @foreach($events as $event)
                     @if($event->ishidden==false || Auth::user()->role==4)
-                            <div class="NAZOV">{{$event-> event_name}}</div>
-                            <div class="OBRAZOK"><img style="max-width:100%;max-height:100%;margin-left: auto;margin-right: auto; display: block;" src="{{asset('img/calendar_icon.png')}}"></div>
-                            <div class="OD">Začiatok eventu <br> {{$event-> start_date}}</div>
-                            <div class="DO">Koniec eventu <br> {{$event-> end_date}}</div>
-                            <div class="AKCIE">
+                        <div class="gallery">
+<!--                            <div class="NAZOV">{{--{{$event-> event_name}}--}}</div>-->
+                            <div class="event_preview"><img src="{{asset('img/calendar_icon.png')}}"></div>
+                            <div class="event_description">
+                                <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>
+                                <strong>Začiatok eventu: </strong>{{$event-> start_date}}<br><strong>Koniec eventu: </strong>{{$event-> end_date}}
+                            </div>
+
+                            <div class="event_buttons">
                                 <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
                                     <div class="valign-center"> <i class="material-icons">
                                             help_outline </i> Detaily
@@ -409,11 +413,9 @@
                                     @endif
                                 @endauth
                             </div>
-                        </li>
-
+                        </div>
                     @endif
                 @endforeach
-
                 </div>
 
 

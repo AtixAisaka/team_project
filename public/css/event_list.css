@@ -1,0 +1,60 @@
+div.gallery {
+    margin: 5px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    float: left;
+    width: 360px;
+    height: auto;
+    overflow: hidden;
+}
+
+div.gallery:hover {
+    border: 2px solid #777;
+    border-radius: 10px;
+}
+.gallery .event_preview img{
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    max-width:350px;
+    max-height:400px;
+}
+
+.valign-center{
+    display: inline;
+}
+.event_buttons{
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background: rgba(225, 225, 225, .8);
+}
+.event_buttons .btn-1{
+    color: rgb(76, 175, 80);
+}
+
+.event_buttons .btn-1:hover{
+    color: rgb(50, 102, 53);
+}
+
+.NAZOV{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    background: rgba(225, 225, 225, .8);
+    border-bottom: 2px solid #ccc;
+
+}
+
+.NAZOV:hover{
+    border-bottom: 2px solid #777;
+}
+.event_description{
+    font-size: 15px;
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid #ccc;
+    background: rgba(241, 241, 241, 0.8);
+}
+

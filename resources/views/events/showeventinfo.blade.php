@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js.map"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/imageview.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/show_event_info.css')}}">
     <div class="container">
 
             <div class="col">
@@ -96,27 +97,31 @@
         @endif
     </div>
 
+
             @auth
             <div class="container" style="  align-self: center;-webkit-align-self: center; " >
-                <div class="col-xs-3 col-sm-3 col-md-3">
+
             @if($value == 1)
                     <a class="btn effect01" style="width: 250px" href="{{ action("EventsController@openImageUpload", ["id" => $event->id]) }}" role="button">
                         <div class="valign-center">Upload Obrázkov</div></a>
                          <h3><b>Obrázky udalosti:</b></h3>
 
                     @foreach($eventsImages as $eventImage)
+                        <div class="gallery">
                             <div style="display: none;" id="hidden-content" >
-                                <img style="max-width: 70vmax; " src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></div><br><br>
-                                <a data-fancybox data-src="#hidden-content" href="javascript:;"><img width="250px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></a>
+                                <img style="max-width: 70vmax; " src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></div>
+                                <a data-fancybox data-src="#hidden-content" href="javascript:;"><img width="250px" height="150px" style="border-radius: 5px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></a>
                             @if(Auth::User()->id == $eventImage->user_id || Auth::User()->role == 4)
-                        <br> <a class="btn effect01" style="max-width: 250px;" href="{{ action("EventsController@deleteImage",
+                        <br> <a class="btn effect01" style="max-width: 250px; margin-top: 5px" href="{{ action("EventsController@deleteImage",
                                         ["id" => $eventImage->id, "eventid" => $event->id, "param" => $param,
                                          "userid" => $userid, "admin" => $admin]) }}" role="button">Vymazať</a>
                             @endif
+                        </div>
                         @endforeach
+
             @endif
             @endauth
-                </div>
+
         </div>
 
 

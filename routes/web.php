@@ -76,8 +76,8 @@ Route::get('/hide/{id}&{value}', [
     "as" => "hide", "uses" => 'EventsController@hideEventAction'
 ]);
 
-Route::post('/deleteUserGoingEvent', [
-    "as" => "deleteUserGoingEvent", "uses" => 'EventsController@deleteUserGoingEvent'
+Route::post('/deleteEventHistory', [
+    "as" => "deleteEventHistory", "uses" => 'EventsController@deleteEventHistory'
 ]);
 
 Route::get('/addUserToEvent/{id}', [

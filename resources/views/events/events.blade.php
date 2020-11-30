@@ -12,10 +12,12 @@
                     <h2>Kalendár eventov<span class="caret"></span></h2>
                     <div class="dropdown-content" style="cursor: pointer;" >
                         @auth
-                        <a type="button" data-toggle="modal" data-target="#addModal">
-                            <div class="valign-center" style="cursor: pointer;">Pridať event
-                            </div>
-                        </a>
+                            @if(Auth::user()->role!=4)
+                                <a type="button" data-toggle="modal" data-target="#addModal">
+                                    <div class="valign-center" style="cursor: pointer;">Pridať event
+                                    </div>
+                                </a>
+                            @endif
                         @endauth
                         <a type="button" data-toggle="modal" data-target="#filterModal">
                             <div class="valign-center" style="cursor: pointer;">Filtrovať eventy

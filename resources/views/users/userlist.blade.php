@@ -6,7 +6,6 @@
     <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -116,4 +115,14 @@
         @endforeach
 
     </div>
+
+    <script type="text/javascript">
+        $(function() {
+            // initialize sol
+            $('#role').searchableOptionList({
+                maxHeight: '250px',
+                modal: true
+            });
+        });
+    </script>
 @endsection

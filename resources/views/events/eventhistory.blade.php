@@ -62,19 +62,22 @@
                                     <a class="btn-1" href="{{ action("EventsController@showEventInfo",
                                                 ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >Detaily</a>
 
-                                    @if(Auth::user()->role==4 || $param == 0)
+
                                         | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
                                             ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">Editovať</a>
 
-                                            <form action="{{ action("EventsController@deleteUserGoingEvent") }}" method="POST" style="display: inline">
+                                            <form action="{{ action("EventsController@deleteEventHistory") }}" method="POST" style="display: inline">
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                 <input type="hidden" name="eventid" value="{{$row->id}}">
-                                                <input type="hidden" name="userid" value="{{$row->userid}}">
+                                                <input type="hidden" name="userid" value="{{$id}}">
                                                 <input type="hidden" name="value" value="{{$param}}">
                                                 <input type="hidden" name="admin" value="{{$admin}}">
-                                                | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Mazať">
+                                                @if($param == 0)
+                                                    | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Mazať">
+                                                @elseif($param == 1)
+                                                    | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Zrušiť účasť">
+                                                @endif
                                             </form>
-                                    @endif
                                 </div>
                             @endforeach
 
@@ -96,16 +99,16 @@
                             <div class="valign-center"> <i class="material-icons">
                                     help_outline </i> Detaily
                             </div></a>
-                            @if(Auth::user()->role==4 || $param == 0)
+
                                 | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
                                         ["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">
                                     <div class="valign-center"> <i class="material-icons">
                                             build </i> Editovať
                                     </div></a>
-                                <form action="{{ action("EventsController@deleteUserGoingEvent") }}" method="POST" style="display: inline">
+                                <form action="{{ action("EventsController@deleteEventHistory") }}" method="POST" style="display: inline">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <input type="hidden" name="eventid" value="{{$event->id}}">
-                                    <input type="hidden" name="userid" value="{{$event->userid}}">
+                                    <input type="hidden" name="userid" value="{{$id}}">
                                     <input type="hidden" name="value" value="{{$param}}">
                                     <input type="hidden" name="admin" value="{{$admin}}">
                                     |
@@ -113,12 +116,16 @@
                                     color: rgb(30, 144, 255);width: auto" type="submit" name="submit" value="Mazať">-->
                                     <button class="btn-1" type="submit" name="submit" style="width: auto;background-color: rgba(225, 225, 225, .0); border: rgba(225, 225, 225, .0);">
                                         <div class="valign-center"> <i class="material-icons">
-                                                delete </i> Mazať
+                                                delete </i> @if($param == 0)
+                                                                Mazať
+                                                            @elseif($param == 1)
+                                                                Zrušiť účasť
+                                                            @endif
                                         </div>
                                     </button>
 
                                 </form>
-                            @endif
+
                     </div>
                 </div>
         @endforeach

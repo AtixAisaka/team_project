@@ -116,10 +116,10 @@ class EventsController extends Controller
             }
         }
         if($start_date!=""){
-            $eventsquery = $eventsquery->whereDate('start_date', '>=', $start_date);
+            $eventsquery = $eventsquery->where('start_date', '>=', $start_date);
         }
         if($end_date!=""){
-            $eventsquery = $eventsquery->whereDate('end_date', '<=', $end_date);
+            $eventsquery = $eventsquery->where('end_date', '<=', $end_date);
         }
         if($tag!=""){
             $length = count($tag);
@@ -132,6 +132,7 @@ class EventsController extends Controller
             }
 
             $found = false;
+            $helper = array();
             foreach($array as $row) {
                 $pom = 0;
                 $eventhastag = EventsHasTags::where("idevent", '=', $row)->select("idtag")->get();
@@ -140,14 +141,15 @@ class EventsController extends Controller
                     else break;
                 }
                 if ($pom == $length) {
-                    $eventsquery = $eventsquery->where("id", "=", $row);
+                    $helper[] = $row;;
                     $found = true;
-                    break;
                 }
             }
 
             if(!$found) {
                 $eventsquery = $eventsquery->where('id', '=', -1);;
+            } else {
+                $eventsquery = $eventsquery->whereIn("id", $helper);
             }
         }
 
@@ -217,14 +219,14 @@ class EventsController extends Controller
 
         if($type2!="") {
             if($type2 == "0") {
-                $eventsquery = $eventsquery->where('end_date', '<', $today->format('Y-m-d'));
+                $eventsquery = $eventsquery->whereDate('end_date', '<', $today->format('Y-m-d H:i:s'));
             }
             else if($type2 == "1") {
-                $eventsquery = $eventsquery->where('start_date', '<=', $today->format('Y-m-d'))
-                    ->where('end_date', '>=', $today->format('Y-m-d'));
+                $eventsquery = $eventsquery->whereDate('start_date', '<=', $today->format('Y-m-d H:i:s'))
+                    ->whereDate('end_date', '>=', $today->format('Y-m-d H:i:s'));
             }
             else if($type2 == "2") {
-                $eventsquery = $eventsquery->where('start_date', '>', $today->format('Y-m-d'));
+                $eventsquery = $eventsquery->whereDate('start_date', '>', $today->format('Y-m-d H:i:s'));
             }
         }
         if($name!=""){
@@ -242,10 +244,10 @@ class EventsController extends Controller
             }
         }
         if($start_date!=""){
-            $eventsquery = $eventsquery->whereDate('start_date', '>=', $start_date);
+            $eventsquery = $eventsquery->where('start_date', '>=', $start_date);
         }
         if($end_date!=""){
-            $eventsquery = $eventsquery->whereDate('end_date', '<=', $end_date);
+            $eventsquery = $eventsquery->where('end_date', '<=', $end_date);
         }
         if($tag!=""){
             $length = count($tag);
@@ -258,6 +260,7 @@ class EventsController extends Controller
             }
 
             $found = false;
+            $helper = array();
             foreach($array as $row) {
                 $pom = 0;
                 $eventhastag = EventsHasTags::where("idevent", '=', $row)->select("idtag")->get();
@@ -266,14 +269,15 @@ class EventsController extends Controller
                     else break;
                 }
                 if ($pom == $length) {
-                    $eventsquery = $eventsquery->where("id", "=", $row);
                     $found = true;
-                    break;
+                    $helper[] = $row;
                 }
             }
 
             if(!$found) {
                 $eventsquery = $eventsquery->where('id', '=', -1);;
+            } else {
+                $eventsquery = $eventsquery->whereIn("id", $helper);
             }
         }
 
@@ -388,7 +392,6 @@ class EventsController extends Controller
     }
 
     public function showEventsHistory($value, $id, $admin) {
-        $events = UsersGoingEvents::where("userid", "=", $id)->get();
         $allevents = null;
         $param = $value;
 
@@ -399,12 +402,13 @@ class EventsController extends Controller
         if($value == 0) {
             $allevents = Events::where("userid", "=", $id)->get();
         } else if($value == 1) {
+            $events = UsersGoingEvents::where("userid", "=", $id)->get();
             if (count($events) != 0) {
-                $alleventsq = Events::query();
+                $helper = array();
                 foreach ($events as $row) {
-                    $alleventsq = $alleventsq->where("id", "=", $row->eventid);
+                    $helper[] = $row->eventid;
                 }
-                $allevents = $alleventsq->get();
+                $allevents = Events::whereIn("id", $helper)->get();
             } else $allevents = Events::where("id", "=", "-1");
         }
 
@@ -459,13 +463,14 @@ class EventsController extends Controller
         $array = $this->getSessionData();
         $fakulta = "";
         $katedra = "";
+        $param = $request->param;
 
         $start_date = Carbon::parse($request["start_date"]);
         $end_date = Carbon::parse($request["end_date"]);
-        if ($start_date->isPast() || $end_date->isPast() ||
-            $end_date < $start_date) {
+
+        if ($end_date < $start_date) {
             \Session::flash('warnning', 'Nesprávne zadaný začiatočný alebo konečný dátum eventu.');
-            return Redirect::to('/showEdit/'.$id."&".$request->param."&".$request->userid."&".$request->admin);
+            return Redirect::to('/showEdit/' . $id . "&" . $request->param . "&" . $request->userid . "&" . $request->admin);
         }
 
         $events = Events::find($id);
@@ -504,8 +509,6 @@ class EventsController extends Controller
             Mail::to($email)->send(new App\Mail\EmailEventChanged($mailData));
         }
 
-        $param = $request->param;
-
         if($param != -1) return Redirect::to('/eventhistory/'.$param."&".$request->userid."&".$request->admin);
         else return $this->doFilter($array);
     }
@@ -537,16 +540,19 @@ class EventsController extends Controller
         return $this->doFilter($array);
     }
 
-    public function deleteUserGoingEvent(Request $request) {
+    public function deleteEventHistory(Request $request) {
         $eventid = $request["eventid"];
         $userid = $request["userid"];
         $admin = $request["admin"];
         $value = $request["value"];
 
-        UsersGoingEvents::where("eventid", "=", $eventid)
-            ->where("userid", "=", $userid)
-            ->delete();
-
+        if($value == "1") {
+            UsersGoingEvents::where("eventid", "=", $eventid)
+                ->where("userid", "=", $userid)
+                ->delete();
+        } else {
+            Events::where("id", "=", $eventid)->delete();
+        }
         return Redirect::to('/eventhistory/'.$value."&".$userid."&".$admin);
     }
 

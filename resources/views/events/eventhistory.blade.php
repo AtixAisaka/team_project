@@ -62,20 +62,24 @@
                                     <a class="btn-1" href="{{ action("EventsController@showEventInfo",
                                                 ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >Detaily</a>
 
-
-                                        | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
-                                            ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">Editovať</a>
-
+                                         @if($param == 0)
+                                            @if(\Carbon\Carbon::parse($row->start_date)->isFuture() || Auth::user()->role==4)
+                                                | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
+                                                    ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">Editovať</a>
+                                            @endif
+                                         @endif
                                             <form action="{{ action("EventsController@deleteEventHistory") }}" method="POST" style="display: inline">
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                 <input type="hidden" name="eventid" value="{{$row->id}}">
                                                 <input type="hidden" name="userid" value="{{$id}}">
                                                 <input type="hidden" name="value" value="{{$param}}">
                                                 <input type="hidden" name="admin" value="{{$admin}}">
-                                                @if($param == 0)
-                                                    | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Mazať">
-                                                @elseif($param == 1)
-                                                    | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Zrušiť účasť">
+                                                @if(\Carbon\Carbon::parse($row->start_date)->isFuture() || Auth::user()->role==4)
+                                                    @if($param == 0)
+                                                        | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Mazať">
+                                                    @elseif($param == 1)
+                                                        | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Zrušiť účasť">
+                                                    @endif
                                                 @endif
                                             </form>
                                 </div>
@@ -99,21 +103,26 @@
                             <div class="valign-center"> <i class="material-icons">
                                     help_outline </i> Detaily
                             </div></a>
-
-                                | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
-                                        ["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">
-                                    <div class="valign-center"> <i class="material-icons">
-                                            build </i> Editovať
-                                    </div></a>
+                                 @if($param == 0)
+                                    @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
+                                        | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
+                                                ["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">
+                                            <div class="valign-center"> <i class="material-icons">
+                                                    build </i> Editovať
+                                            </div></a>
+                                    @endif
+                                @endif
                                 <form action="{{ action("EventsController@deleteEventHistory") }}" method="POST" style="display: inline">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <input type="hidden" name="eventid" value="{{$event->id}}">
                                     <input type="hidden" name="userid" value="{{$id}}">
                                     <input type="hidden" name="value" value="{{$param}}">
                                     <input type="hidden" name="admin" value="{{$admin}}">
-                                    |
+
 <!--                                    <input class="btn-1" style="background-color: white; border: white;
                                     color: rgb(30, 144, 255);width: auto" type="submit" name="submit" value="Mazať">-->
+                                    @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
+                                        |
                                     <button class="btn-1" type="submit" name="submit" style="width: auto;background-color: rgba(225, 225, 225, .0); border: rgba(225, 225, 225, .0);">
                                         <div class="valign-center"> <i class="material-icons">
                                                 delete </i> @if($param == 0)
@@ -123,7 +132,7 @@
                                                             @endif
                                         </div>
                                     </button>
-
+                                    @endif
                                 </form>
 
                     </div>

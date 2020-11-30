@@ -335,7 +335,7 @@
                                                 help_outline </i> Detaily
                                         </div></a>
                                     @auth
-                                        @if($event->userid == $authuser->id || Auth::user()->role==4)
+                                        @if($event->userid == $authuser->id && \Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
                                             <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">
                                                         build </i> Editovať
@@ -411,7 +411,7 @@
                                             help_outline </i> Detaily
                                     </div></a>
                                 @auth
-                                    @if($event->userid == $authuser->id || Auth::user()->role==4)
+                                    @if($event->userid == $authuser->id && \Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
                                         <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
                                             <div class="valign-center"> <i class="material-icons">
                                                     build </i> Editovať

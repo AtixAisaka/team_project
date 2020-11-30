@@ -82,7 +82,11 @@
 
                     <a class="btn effect01" href="{{ action("EventsController@makeEventPDF", ["id" => $event->id]) }}" role="button">
                         <div class="valign-center"> <i class="material-icons">
-                                </i> Uložiť ako PDF
+                            </i> Uložiť ako PDF
+                        </div></a>
+                    <a class="btn effect01" href="{{ action("EventsController@exportIcs", ["id" => $event->id]) }}" role="button">
+                        <div class="valign-center"> <i class="material-icons">
+                            </i> Uložiť ako ics
                         </div></a>
             </div>
 

@@ -17,11 +17,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Session;
 use GuzzleHttp\Client;
+use Spatie\CalendarLinks\Link;
 use \Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use Carbon\Carbon;
+use DateTime;
 
 class EventsController extends Controller
 {
@@ -816,6 +818,20 @@ class EventsController extends Controller
 
         return $pdf->stream();
     }
+    public function exportIcs($id)  {
+        $event = Events::find($id);
+        $from = DateTime::createFromFormat('Y-m-d H:i:s', $event->start_date);
+        $to = DateTime::createFromFormat('Y-m-d H:i:s', $event->end_date);
 
+        $link = Link::create($event->event_name, $from, $to)
+            ->description('opis')
+            ->address($event->event_place);
+
+// Generate a data uri for an ics file (for iCal & Outlook)
+
+        echo '<a href="' . $link->ics() . '" class="ics-link">Download event</a>';
+
+
+    }
 }
 

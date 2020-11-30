@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Session\get;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -191,5 +192,10 @@ Route::get('/login/facebook/redirect', 'Auth\LoginController@facebookRedirect');
 
 Route::get('/login/google', 'Auth\LoginController@google');
 Route::get('/login/google/redirect', 'Auth\LoginController@googleRedirect');
+
+Route::get('exportIcs/{id}', [
+    "as" => "exportIcs", "uses" => 'EventsController@exportIcs'
+]);
+
 
 

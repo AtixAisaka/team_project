@@ -7,13 +7,80 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/detail_button.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/admin_event_button.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/event_list.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <script>
+        function myFunction(f) {
+            f.classList.toggle("fa-bars");
+
+            var x = document.getElementById("myDIV");
+            var y = document.getElementById("konec");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "none";
+            } else {
+                x.style.display = "none";
+                y.style.display = "block";
+            }
+            if ($(this).find('i').text() === 'build'){
+                $(this).find('i').text('delete');
+            } else {
+                $(this).find('i').text('build');
+            }
+        }
+    </script>
+
 <div class="container">
-    <div>
+
+        <div style="width: 50px; border-right: 3px solid #474747; height: 50px">
+            <div style="font-size: 43px">
+                <i onclick="myFunction(this)" class="fa fa-th-large"></i>
+            </div>
+        </div>
+
+
+
+        <div id="konec" style="display: none">
+            <br>
+
+                <li class="table-header">
+                    <div class="col col-1">Názov</div>
+                    <div class="col col-2">Začiatok eventu</div>
+                    <div class="col col-3">Koniec eventu</div>
+                    <div class="col col-4"></div>
+                </li>
+                            @foreach($allevents as $row)
+                            <li class="table-row">
+                                <div class="col col-1">{{$row-> event_name}}</div>
+                                <div class="col col-2"></strong>{{\Carbon\Carbon::parse($row->start_date)->format('d.m.Y H:i:s')}}</div>
+                                <div class="col col-3"></strong>{{\Carbon\Carbon::parse($row->end_date)->format('d.m.Y H:i:s')}}</div>
+                                <div class="col col-4">
+                                    <a class="btn-1" href="{{ action("EventsController@showEventInfo",
+                                                ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >Detaily</a>
+
+                                    @if(Auth::user()->role==4 || $param == 0)
+                                        | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
+                                            ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">Editovať</a>
+
+                                            <form action="{{ action("EventsController@deleteUserGoingEvent") }}" method="POST" style="display: inline">
+                                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                                <input type="hidden" name="eventid" value="{{$row->id}}">
+                                                <input type="hidden" name="userid" value="{{$row->userid}}">
+                                                <input type="hidden" name="value" value="{{$param}}">
+                                                <input type="hidden" name="admin" value="{{$admin}}">
+                                                | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Mazať">
+                                            </form>
+                                    @endif
+                                </div>
+                            @endforeach
+
+            </div>
+
+    <div id="myDIV">
         @foreach($allevents as $event)
                 <div class="gallery">
                     <div class="event_preview"><img src="{{asset('img/calendar_icon.png')}}"></div>

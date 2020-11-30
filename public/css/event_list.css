@@ -37,6 +37,20 @@ div.gallery:hover {
     color: rgb(50, 102, 53);
 }
 
+.btn-1{
+    color: rgb(76, 175, 80);
+    width: auto;
+    background-color: rgba(225, 225, 225, .0);
+    border: black;
+}
+
+.btn-1:hover{
+    color: rgb(50, 102, 53);
+    width: auto;
+    background-color: rgba(225, 225, 225, .0);
+    border: black;
+}
+
 .NAZOV{
     padding-top: 5px;
     padding-bottom: 5px;
@@ -56,5 +70,15 @@ div.gallery:hover {
     border-bottom: 2px solid #ccc;
     border-top: 2px solid #ccc;
     background: rgba(241, 241, 241, 0.8);
+}
+
+.fa {
+    font-size: 50px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.fa:hover {
+    color: #797979;
 }
 

@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/mail_reset.css')}}">
 
-    <div class="container" style="display: flex;justify-content: center;">
-        <div class="card" style="min-width: 500px; clear:both;">
-            <div class="card-header" style="text-align: center"><h1>Reset Password</h1></div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">{{ __('Reset Password') }}</div>
             <hr>
             <div class="card-body">
                 @if (session('status'))
@@ -30,7 +31,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="form-group" style="text-align: center">
+                    <div class="form-group">
                         <button type="submit" class="registerbtn">
                             {{ __('Send Link') }}
                         </button>

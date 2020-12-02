@@ -8,14 +8,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <div class="container">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn effect01" data-toggle="modal" data-target="#filterModal">
-            <div class="valign-center"> <i class="material-icons">
-                    youtube_searched_for </i> Filtrovanie
-            </div>
-        </button>
         <!-- Modal -->
         <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -72,8 +67,16 @@
                 </div>
             </div>
         </div>
+        <!-- Button trigger modal -->
 
-        <h2>Zoznam používateľov</h2>
+        <div style="display: flex">
+            <button class="btn-filter" type="button"  data-toggle="modal" data-target="#filterModal">
+                <i class="fa fa-filter"></i>
+            </button>
+            <div style="display: inline;border-left: 3px solid #474747;height: 50px;padding-left: 8px;">
+                <h2>Zoznam používateľov</h2>
+            </div>
+        </div>
 
         <li class="table-header">
             <div class="col col-1">ID</div>
@@ -104,7 +107,7 @@
                         <a class="btn-1" href="{{ action("UsersController@showEditUser",["id" => $row -> id])  }}" role="button">Edit</a>
                         | <a class="btn-1" href="{{ action("UsersController@deleteUserAction",["id" => $row -> id])  }}" role="button">Delete</a>
                         | <div class="dropdown">
-                            <button class="btn-1" style="background-color: white; border: white; color: rgb(30, 144, 255);size: auto">Events</button>
+                            <button class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);size: auto">Events</button>
                             <div class="dropdown-content">
                                 <a href="{{ action("EventsController@showEventsHistory",["value" => 0, "id" => $row->id, "admin" => 1])  }}">Založené</a>
                                 <a href="{{ action("EventsController@showEventsHistory",["value" => 1, "id" => $row->id, "admin" => 1])  }}">Zúčastnené</a>

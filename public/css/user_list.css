@@ -136,7 +136,7 @@
 }
 
 .btn-1 {
-    /*color: rgb(76, 175, 80);*/
+    color: rgb(76, 175, 80);
     letter-spacing: 0.1em;
     cursor: pointer;
     font-size: 11px;
@@ -149,4 +149,20 @@
 }
 .btn-1:hover {
     text-decoration: none;
+    color: rgb(76, 175, 80);
 }
+
+.btn-filter {
+    background-color: white;
+    border: none;
+    color: black;
+    font-size: 40px;
+    cursor: pointer;
+    width: 60px;
+    height: auto;
+}
+
+.btn-filter:focus{
+    outline: none;
+}
+

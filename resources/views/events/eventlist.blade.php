@@ -332,28 +332,28 @@
                                 <div class="col col-4">
                                     <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
                                         <div class="valign-center"> <i class="material-icons">
-                                                help_outline </i> Detaily
+                                                help_outline </i>
                                         </div></a>
                                     @auth
                                         @if($event->userid == $authuser->id && \Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
                                             <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">
-                                                        build </i> Editovať
+                                                        build </i>
                                                 </div></a>
                                             <a class="btn-1" href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">
-                                                        delete </i> Mazať
+                                                        delete </i>
                                                 </div></a>
                                             @if(Auth::user()->role==4)
                                                 @if($event->ishidden == false)
                                                     <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}" role="button">
                                                         <div class="valign-center"> <i class="material-icons">
-                                                                toggle_off </i> Skryť
+                                                                toggle_off </i>
                                                         </div></a>
                                                 @elseif($event->ishidden == true)
                                                     <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}" role="button">
                                                         <div class="valign-center"> <i class="material-icons">
-                                                                toggle_on </i> Odkryť
+                                                                toggle_on </i>
                                                         </div></a>
                                                 @endif
                                             @endif
@@ -375,12 +375,12 @@
                                                 @if($helper == 0)
                                                     <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
                                                         <div class="valign-center"> <i class="material-icons">
-                                                                person_add </i> Zúčastniť sa
+                                                                person_add </i>
                                                         </div></a>
                                                 @else
                                                     <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}" role="button">
                                                         <div class="valign-center"> <i class="material-icons">
-                                                                cancel </i> Zrušiť účasť
+                                                                cancel </i>
                                                         </div></a>
                                                 @endif
                                             @endif
@@ -398,43 +398,35 @@
                     @if($event->ishidden==false || Auth::user()->role==4)
                         <div class="gallery">
 <!--                            <div class="NAZOV">{{--{{$event-> event_name}}--}}</div>-->
-                            <div class="event_preview"><img src="{{asset('img/calendar_icon.png')}}"></div>
-                            <div class="event_description">
-                                <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>
-                                <strong>Začiatok eventu: </strong>{{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}}<br>
-                                <strong>Koniec eventu: </strong>{{\Carbon\Carbon::parse($event->end_date)->format('d.m.Y H:i:s')}}
-                            </div>
-
-                            <div class="event_buttons">
-                                <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
-                                    <div class="valign-center"> <i class="material-icons">
-                                            help_outline </i> Detaily
-                                    </div></a>
-                                @auth
-                                    @if($event->userid == $authuser->id && \Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
-                                        <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
-                                            <div class="valign-center"> <i class="material-icons">
-                                                    build </i> Editovať
-                                            </div></a>
-                                        <a class="btn-1" href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}" role="button">
-                                            <div class="valign-center"> <i class="material-icons">
-                                                    delete </i> Mazať
-                                            </div></a>
-                                        @if(Auth::user()->role==4)
-                                            @if($event->ishidden == false)
-                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}" role="button">
-                                                    <div class="valign-center"> <i class="material-icons">
-                                                            toggle_off </i> Skryť
-                                                    </div></a>
-                                            @elseif($event->ishidden == true)
-                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}" role="button">
-                                                    <div class="valign-center"> <i class="material-icons">
-                                                            toggle_on </i> Odkryť
-                                                    </div></a>
+                            <div class="event_preview" style="position: relative">
+                                <div class="event_buttons_part0"></div>
+                                <div class="event_buttons_part1">
+                                    @auth
+                                        @if($event->userid == $authuser->id && \Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
+                                            <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
+                                                <div class="valign-center"> <i class="material-icons">build</i></div>
+                                            </a>
+                                            <a class="btn-1" href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}" role="button">
+                                                <div class="valign-center"><i class="material-icons">delete</i></div>
+                                            </a>
+                                            @if(Auth::user()->role==4)
+                                                @if($event->ishidden == false)
+                                                    <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}" role="button">
+                                                        <div class="valign-center"> <i class="material-icons">toggle_off </i></div>
+                                                    </a>
+                                                @elseif($event->ishidden == true)
+                                                    <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}" role="button">
+                                                        <div class="valign-center"> <i class="material-icons">toggle_on</i></div>
+                                                    </a>
+                                                @endif
                                             @endif
                                         @endif
-                                    @endif
+                                </div>
 
+                                <div class="event_buttons_part2">
+                                    <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
+                                        <div class="valign-center"> <i class="material-icons">help_outline</i></div>
+                                    </a>
                                     @if($event->userid != $authuser->id)
                                         @php
                                             $helper = 0
@@ -450,19 +442,26 @@
                                         @if(Auth::User()->role==0)
                                             @if($helper == 0)
                                                 <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
-                                                    <div class="valign-center"> <i class="material-icons">
-                                                            person_add </i> Zúčastniť sa
-                                                    </div></a>
+                                                    <div class="valign-center"> <i class="material-icons">person_add</i></div>
+                                                </a>
                                             @else
                                                 <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}" role="button">
-                                                    <div class="valign-center"> <i class="material-icons">
-                                                            cancel </i> Zrušiť účasť
-                                                    </div></a>
+                                                    <div class="valign-center"> <i class="material-icons">cancel</i></div>
+                                                </a>
                                             @endif
                                         @endif
                                     @endif
-                                @endauth
+                                    @endauth
+                                </div>
+                                <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}"><img src="{{asset('img/meeting.jpg')}}"></a>
                             </div>
+                            <div class="event_description">
+                                <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>
+                                <strong>Začiatok eventu: </strong>{{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}}<br>
+                                <strong>Koniec eventu: </strong>{{\Carbon\Carbon::parse($event->end_date)->format('d.m.Y H:i:s')}}
+                            </div>
+
+
                         </div>
                     @endif
                 @endforeach

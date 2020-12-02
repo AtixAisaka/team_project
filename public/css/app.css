@@ -31,10 +31,30 @@ hr {
 .registerbtn:hover {
     opacity: 1;
 }
+
+.btn-secondary:active{
+    background-color: white;
+    outline: none;
+    border: none;
+}
 /* Add a blue text color to links */
 a {
-    color: dodgerblue;
+    color: rgb(76, 175, 80);
 }
+
+a.btn-link{
+    color: rgb(76, 175, 80);
+}
+
+a.btn-link:hover{
+    color: rgb(33, 33, 33);
+    text-decoration: none;
+}
+
+.a-button-links{
+    text-align: center;
+}
+
 /* Set a grey background color and center the text of the "sign in" section */
 .signin {
     background-color: #f1f1f1;

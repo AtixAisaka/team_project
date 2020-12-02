@@ -90,51 +90,46 @@
     <div id="myDIV">
         @foreach($allevents as $event)
                 <div class="gallery">
-                    <div class="event_preview"><img src="{{asset('img/calendar_icon.png')}}"></div>
+                    <div class="event_preview" style="position: relative">
+                        <form action="{{ action("EventsController@deleteEventHistory") }}" method="POST" style="display: inline">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <input type="hidden" name="eventid" value="{{$event->id}}">
+                            <input type="hidden" name="userid" value="{{$id}}">
+                            <input type="hidden" name="value" value="{{$param}}">
+                            <input type="hidden" name="admin" value="{{$admin}}">
+                            <!--                                    <input class="btn-1" style="background-color: white; border: white;
+                                                                color: rgb(30, 144, 255);width: auto" type="submit" name="submit" value="Mazať">-->
+                            @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
+
+                        <div class="event_buttons_part1">
+                            @if($param == 0)
+                                    <a class="btn-1" href="{{ action("EventsController@showEditEvent",["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">
+                                        <div class="valign-center"> <i class="material-icons">build</i></div>
+                                    </a>
+                                    <button class="btn-1" type="submit" name="submit" style="width: auto;background-color: rgba(225, 225, 225, .0); border: rgba(225, 225, 225, .0);">
+                                        <div class="valign-center"><i class="material-icons">delete</i></div>
+                                    </button>
+                            @endif
+
+                        </div>
+                        <div class="event_buttons_part2">
+                            <a class="btn-1" href="{{ action("EventsController@showEventInfo",["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >
+                                <div class="valign-center"><i class="material-icons">help_outline</i></div>
+                            </a>
+                            @if($param == 1)
+                                <button class="btn-1" type="submit" name="submit" style="width: auto;background-color: rgba(225, 225, 225, .0); border: rgba(225, 225, 225, .0);">
+                                    <div class="valign-center"><i class="material-icons">cancel</i></div>
+                                </button>
+                            @endif
+                        </div>
+                            @endif
+                        </form>
+                        <a href="{{ action("EventsController@showEventInfo",["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}"><img src="{{asset('img/meeting.jpg')}}"></a>
+                    </div>
                     <div class="event_description">
                         <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>
                         <strong>Začiatok eventu: </strong>{{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}}<br>
                         <strong>Koniec eventu: </strong>{{\Carbon\Carbon::parse($event->end_date)->format('d.m.Y H:i:s')}}
-                    </div>
-
-                    <div class="event_buttons">
-                        <a class="btn-1" href="{{ action("EventsController@showEventInfo",
-                                            ["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >
-                            <div class="valign-center"> <i class="material-icons">
-                                    help_outline </i> Detaily
-                            </div></a>
-                                 @if($param == 0)
-                                    @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
-                                        | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
-                                                ["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">
-                                            <div class="valign-center"> <i class="material-icons">
-                                                    build </i> Editovať
-                                            </div></a>
-                                    @endif
-                                @endif
-                                <form action="{{ action("EventsController@deleteEventHistory") }}" method="POST" style="display: inline">
-                                    <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                    <input type="hidden" name="eventid" value="{{$event->id}}">
-                                    <input type="hidden" name="userid" value="{{$id}}">
-                                    <input type="hidden" name="value" value="{{$param}}">
-                                    <input type="hidden" name="admin" value="{{$admin}}">
-
-<!--                                    <input class="btn-1" style="background-color: white; border: white;
-                                    color: rgb(30, 144, 255);width: auto" type="submit" name="submit" value="Mazať">-->
-                                    @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
-                                        |
-                                    <button class="btn-1" type="submit" name="submit" style="width: auto;background-color: rgba(225, 225, 225, .0); border: rgba(225, 225, 225, .0);">
-                                        <div class="valign-center"> <i class="material-icons">
-                                                delete </i> @if($param == 0)
-                                                                Mazať
-                                                            @elseif($param == 1)
-                                                                Zrušiť účasť
-                                                            @endif
-                                        </div>
-                                    </button>
-                                    @endif
-                                </form>
-
                     </div>
                 </div>
         @endforeach

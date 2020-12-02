@@ -127,19 +127,22 @@
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-success btn-block">Sign in</button>
                                                     </div>
-                                                    <a href="http://localhost/team_project.git/public/login/github" class="btn btn-secondary btn-block">Login with github</a>
-                                                    <a href="http://localhost/team_project.git/public/login/facebook" class="btn btn-secondary btn-block">Login with Facebook</a>
-                                                    <a href="http://localhost/team_project.git/public/login/google" class="btn btn-secondary btn-block">Login with Google</a>
-
+                                                    <div class="a-button-links">
+                                                    <a href="http://localhost/team_project.git/public/login/github" class="btn btn-link">Login with github</a>
+                                                    <a href="http://localhost/team_project.git/public/login/facebook" class="btn btn-link">Login with Facebook</a>
+                                                    <a href="http://localhost/team_project.git/public/login/google" class="btn btn-link">Login with Google</a>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </li>
                                     <li class="divider"></li>
                                     @if (Route::has('password.request'))
+                                        <div class="a-button-links">
                                         <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
+                                        </div>
                                     @endif
                                 </ul>
                             </li>

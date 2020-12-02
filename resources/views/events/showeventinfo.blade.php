@@ -109,22 +109,61 @@
                     <a class="btn effect01" style="width: 250px" href="{{ action("EventsController@openImageUpload", ["id" => $event->id]) }}" role="button">
                         <div class="valign-center">Upload Obrázkov</div></a>
                          <h3><b>Obrázky udalosti:</b></h3>
-
+                    <div style="display: none;">{{$data = 0}} </div>
                     @foreach($eventsImages as $eventImage)
+
                         <div class="gallery">
-                            <div style="display: none;" id="hidden-content" >
+                            <div style="display: none;" id="hidden-content-{{$data}}" >
                                 <img style="max-width: 70vmax; " src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></div>
-                                <a data-fancybox data-src="#hidden-content" href="javascript:;"><img width="250px" height="150px" style="border-radius: 5px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></a>
+                                <a data-fancybox data-src="#hidden-content-{{$data}}" href="javascript:;"><img width="250px" height="150px" style="border-radius: 5px" src="{{ url('/') }}/storage/images/users/{{ $eventImage->image }}"></a>
                             @if(Auth::User()->id == $eventImage->user_id || Auth::User()->role == 4)
                         <br> <a class="btn effect01" style="max-width: 250px; margin-top: 5px" href="{{ action("EventsController@deleteImage",
                                         ["id" => $eventImage->id, "eventid" => $event->id, "param" => $param,
                                          "userid" => $userid, "admin" => $admin]) }}" role="button">Vymazať</a>
                             @endif
                         </div>
+                        <div style="display: none;">{{$data++}}</div>
                         @endforeach
-
+            </div>
             @endif
             @endauth
+
+
+                @auth
+                    <div class="container" style="  align-self: center;-webkit-align-self: center; " >
+
+                        @if($value == 1)
+                            <a class="btn effect01" style="width: 250px" href="{{ action("EventsController@openFileUpload", ["id" => $event->id]) }}" role="button">
+                                <div class="valign-center">Upload Súborov</div></a>
+                            <h3><b>Súbory udalosti:</b></h3>
+
+
+                            @foreach($eventsfiles as $eventsfile)
+
+                                <div class="gallery">
+                                 <p>{{ $eventsfile->file }}</p>
+                                    <a href="{{ url('/') }}/storage/files/users/{{ $eventsfile->file }}">
+                                        @if(pathinfo( url('/').'/storage/files/users/'.$eventsfile->file , PATHINFO_EXTENSION) == 'xlsx')
+                                            <img src="{{ url('/') }}/img/files/xlsx.png">
+                                        @elseif(pathinfo( url('/').'/storage/files/users/'.$eventsfile->file , PATHINFO_EXTENSION) == 'docx')
+                                            <img src="{{ url('/') }}/img/files/docx.png">
+                                        @elseif(pathinfo( url('/').'/storage/files/users/'.$eventsfile->file , PATHINFO_EXTENSION) == 'pdf')
+                                            <img src="{{ url('/') }}/img/files/pdf.png">
+                                        @elseif(pathinfo( url('/').'/storage/files/users/'.$eventsfile->file , PATHINFO_EXTENSION) == 'mp4')
+                                            <img src="{{ url('/') }}/img/files/mp4.png">
+                                        @else
+                                            <img src="{{ url('/') }}/img/files/unknown.png"> @endif
+                                    </a>
+                                    @if(Auth::User()->id == $eventsfile->user_id || Auth::User()->role == 4)
+                                        <br> <a class="btn effect01" style="max-width: 250px; margin-top: 5px" href="{{ action("EventsController@deletefile",
+                                        ["id" => $eventsfile->id, "eventid" => $event->id, "param" => $param,
+                                         "userid" => $userid, "admin" => $admin]) }}" role="button">Vymazať</a>
+                                    @endif
+                                </div>
+                            @endforeach
+
+                        @endif
+                        @endauth
 
         </div>
 
@@ -132,7 +171,7 @@
 
 
 
-    </div>
+
 
 
 

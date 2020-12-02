@@ -46,7 +46,7 @@
                                 <h3 class="modal-title" id="exampleModalLabel">Pridať event</h3>
                             </div>
                             <div class="modal-body">
-                                <form method="post" action="{{action('EventsController@addEvent')}}">
+                                <form method="post" action="{{action('EventsController@addEvent')}}" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                             @if (Session::has('success'))
@@ -96,7 +96,10 @@
                                                     <input type="hidden" name="idkatedry" value="0">
                                                     <input type="hidden" name="idfakulty" value="0">
                                                 @endif
-
+                                                <div class=""><br>
+                                                <label for="image"><b>Upload Image File</b></label>
+                                                <input type="file" class="form-control-file" name="image">
+                                                </div>
                                                 <div class=""><br>
                                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                     <input type="hidden" name="userid" value="{{$authuser -> id}}">
@@ -398,6 +401,7 @@
                     @if($event->ishidden==false || Auth::user()->role==4)
                         <div class="gallery">
 <!--                            <div class="NAZOV">{{--{{$event-> event_name}}--}}</div>-->
+<<<<<<< HEAD
                             <div class="event_preview" style="position: relative">
                                 <div class="event_buttons_part0"></div>
                                 <div class="event_buttons_part1">
@@ -419,6 +423,47 @@
                                                         <div class="valign-center"> <i class="material-icons">toggle_on</i></div>
                                                     </a>
                                                 @endif
+=======
+                            <div class="event_preview">
+                                @if($event->display_image != "none")
+                                    <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
+                                @else
+                                    <img src="{{asset('img/calendar_icon.png')}}">
+                                @endif
+                            </div>
+                            <div class="event_description">
+                                <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>
+                                <strong>Začiatok eventu: </strong>{{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}}<br>
+                                <strong>Koniec eventu: </strong>{{\Carbon\Carbon::parse($event->end_date)->format('d.m.Y H:i:s')}}
+                            </div>
+
+                            <div class="event_buttons">
+                                <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
+                                    <div class="valign-center"> <i class="material-icons">
+                                            help_outline </i> Detaily
+                                    </div></a>
+                                @auth
+                                    @if($event->userid == $authuser->id && \Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
+                                        <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
+                                            <div class="valign-center"> <i class="material-icons">
+                                                    build </i> Editovať
+                                            </div></a>
+                                        <a class="btn-1" href="{{ action("EventsController@deleteEventAction", ["id" => $event->id]) }}" role="button">
+                                            <div class="valign-center"> <i class="material-icons">
+                                                    delete </i> Mazať
+                                            </div></a>
+                                        @if(Auth::user()->role==4)
+                                            @if($event->ishidden == false)
+                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 1]) }}" role="button">
+                                                    <div class="valign-center"> <i class="material-icons">
+                                                            toggle_off </i> Skryť
+                                                    </div></a>
+                                            @elseif($event->ishidden == true)
+                                                <a class="btn-1" href="{{ action("EventsController@hideEventAction", ["id" => $event->id, "value" => 0]) }}" role="button">
+                                                    <div class="valign-center"> <i class="material-icons">
+                                                            toggle_on </i> Odkryť
+                                                    </div></a>
+>>>>>>> File upload and event image working need to implement edit features
                                             @endif
                                         @endif
                                 </div>

@@ -33,7 +33,7 @@
                             <h3 class="modal-title" id="exampleModalLabel">Pridať event</h3>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="{{action('EventsController@addEvent')}}">
+                            <form method="post" action="{{action('EventsController@addEvent')}}" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         @if (Session::has('success'))
@@ -83,7 +83,10 @@
                                                 <input type="hidden" name="idkatedry" value="0">
                                                 <input type="hidden" name="idfakulty" value="0">
                                             @endif
-
+                                            <div class=""><br>
+                                            <label for="image"><b>Upload Image File</b></label>
+                                            <input type="file" class="form-control-file" name="image">
+                                            </div>
                                             <div class=""><br>
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                 <input type="hidden" name="userid" value="{{$user -> id}}">

@@ -10,6 +10,7 @@ use App\Tags;
 use App\EventsHasTags;
 use App\UsersGoingEvents;
 use App\events_image;
+use App\EventsFile;
 use Auth;
 use Calendar;
 use Illuminate\Support\Facades\Mail;
@@ -354,6 +355,15 @@ class EventsController extends Controller
             } else return Redirect::to('/eventlist');
         }
 
+        if($request->has('image')) {
+            $image = $request->file('image');
+            $destination_path = 'public/images/users';
+            $image_name = $image->getClientOriginalName();
+            $path = $request->file('image')->storeAs($destination_path, $image_name);
+        }else{
+            $image_name = "none";
+        }
+
         $events = new Events;
         $events->event_name = $request['event_name'];
         $events->start_date = $request['start_date'];
@@ -366,7 +376,7 @@ class EventsController extends Controller
         $events->idkatedry = $request['idkatedry'];
         $events->ishidden = false;
         $events->max_percipient = $request['max_percipient'];
-        $events->display_image = "none";
+        $events->display_image = $image_name;
         $events->save();
 
         if($request->has('tags0')){
@@ -428,6 +438,7 @@ class EventsController extends Controller
         $eventtags = "";
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
         $eventsImages = events_image::where("event_id", "=", $id)->get();
+        $eventsfiles = EventsFile::where("event_id", "=", $id)->get();
 
         $eventabout = null; //katedra/fakulta
 
@@ -458,7 +469,7 @@ class EventsController extends Controller
 
 
         return view("events/showeventinfo", compact( "eventtags","usersgoing", "count", "eventowner",
-            "event", "eventsImages", "value", "param", "admin", "userid", "eventabout", 'max_percipient'));
+            "event", "eventsImages", "value", "param", "admin", "userid", "eventabout", 'max_percipient', 'eventsfiles'));
     }
 
     public function updateEventAction($id, Request $request) {
@@ -475,6 +486,13 @@ class EventsController extends Controller
             return Redirect::to('/showEdit/' . $id . "&" . $request->param . "&" . $request->userid . "&" . $request->admin);
         }
 
+        if($request->has('image')) {
+            $image = $request->file('image');
+            $destination_path = 'public/images/users';
+            $image_name = $image->getClientOriginalName();
+            $path = $request->file('image')->storeAs($destination_path, $image_name);
+        }
+
         $events = Events::find($id);
         $events->event_name = $request['event_name'];
         $events->event_place = $request['event_place'];
@@ -489,6 +507,7 @@ class EventsController extends Controller
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
         $events->max_percipient = $request['max_percipient'];
+        $events->display_image = $image_name;
         $events->save();
 
         $mailData = array(
@@ -833,5 +852,55 @@ class EventsController extends Controller
 
 
     }
+
+    public function openFileUpload($id){
+        if (Auth::check()) {
+            $event = Events::find($id);
+            $userId = Auth::id();
+            $eventName = Events::where("id", "=", $id)->value("event_name");
+            return view('events/uploadfile', compact("eventName", "userId", "event"));
+        } else {
+            return view('events/events');
+        }
+
+    }
+
+    public function deletefile($id, $eventid, $param, $userid, $admin) {
+        $file = EventsFile::find($id);
+        $file->delete();
+
+        return Redirect::to('/showEventInfo/'.$eventid."&".$param."&".$userid."&".$admin);
+    }
+
+    public function uploadFile(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'event' => 'required',
+            'userId' => 'required',
+            'file' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            if($request["helper"] == 0) {
+                \Session::flash('warnning', 'Chýbajuci súbor');
+                return Redirect::to('uploadfile/'.$request['event'])->withInput()->withErrors($validator);
+            } else return Redirect::to('upload');
+        }
+        $file= $request->file('file');
+        $destination_path = 'public/files/users';
+        $file_name = $file->getClientOriginalName();
+        $path = $request->file('file')->storeAs($destination_path,$file_name);
+        $events_file = new EventsFile();
+        $events_file->file = $file_name;
+        $events_file->event_id = $request['event'];
+        $events_file->user_id = $request['userId'];
+        $events_file->save();
+
+        if($request["helper"] == 0) {
+            \Session::flash('success', 'Súbor pridaný');
+            return Redirect::to('/uploadfile/'.$request['event']);
+        } else return Redirect::to('/eventlist');
+    }
+
 }
 

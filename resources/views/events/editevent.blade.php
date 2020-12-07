@@ -10,7 +10,7 @@
 
 
     <div class="container border border-dark">
-        <form method="post" action="{{action('EventsController@updateEventAction', ["id" => $event->id])}}">
+        <form method="post" action="{{action('EventsController@updateEventAction', ["id" => $event->id])}}" enctype="multipart/form-data">
         <h2>Edit eventu</h2><br>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
@@ -55,10 +55,17 @@
                             <input type="number" id="quantity" name="max_percipient" min="1" max="25" required class="form-control" value="{{ $event->max_percipient }}">
                         </div>
                         <div class=""><br>
+                        <label for="image"><b>Upload Image File</b></label>
+                        <input type="file" class="form-control-file" name="image" multiple><br>
+                        </div>
+
+                        <div class=""><br>
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <input class="btn effect01" type="submit" name="submit" value="Uložiť"><br><br>
                             <a class="btn effect01" href="{{action('EventsController@eventTagInfoView', ["id" => $event->id])}}" target="_blank">edit tagov</a>
                         </div>
+
+
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="param" value="{{$param}}">
                         <input type="hidden" name="userid" value="{{$userid}}">

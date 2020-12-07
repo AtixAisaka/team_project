@@ -197,5 +197,17 @@ Route::get('exportIcs/{id}', [
     "as" => "exportIcs", "uses" => 'EventsController@exportIcs'
 ]);
 
+Route::get('/uploadfile/{id}', [
+    "as" => "openFileUpload", "uses" => 'EventsController@openFileUpload'
+]);
+
+Route::get('/deletefile/{id}&{eventid}&{param}&{userid}&{admin}', [
+    "as" => "deletefile", "uses" => 'EventsController@deletefile'
+]);
+
+Route::post('/uploadfileaction', [
+    "as" => "uploadFile", "uses" => 'EventsController@uploadFile'
+]);
+
 
 

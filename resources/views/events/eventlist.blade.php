@@ -374,7 +374,7 @@
                                             @break
                                         @endif
                                     @endforeach
-                                    @if(Auth::User()->role==0)
+                                    @if(\Carbon\Carbon::parse($event->start_date)->isFuture() && Auth::User()->role==0)
                                         @if($helper == 0)
                                             <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">
@@ -442,7 +442,7 @@
                                             @break
                                         @endif
                                     @endforeach
-                                    @if(Auth::User()->role==0)
+                                    @if(\Carbon\Carbon::parse($event->start_date)->isFuture() && Auth::User()->role==0)
                                         @if($helper == 0)
                                             <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">person_add</i></div>

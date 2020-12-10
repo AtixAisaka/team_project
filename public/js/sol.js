@@ -110,7 +110,7 @@
                     if (this.config.modal) {
                         this.$selectionContainer
                             .css('top', Math.floor(selectionContainerYPos))
-                            .css('left', Math.floor(this.$container.offset().left) - 650)
+                            .css('left', Math.floor(this.$container.offset().left) - Math.floor($('#addModal').$container.offset().left))
                             .css('width', selectionContainerWidth);
                         // remember the position
                         this.config.displayContainerAboveInput = displayContainerAboveInput;

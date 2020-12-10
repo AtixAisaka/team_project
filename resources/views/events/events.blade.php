@@ -70,9 +70,9 @@
                                                 <input type="text" name="event_place" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="Miesto konania eventu" value="" required autocomplete="">
                                                 {!! $errors->first('event_place', '<p class="alert alert-danger">:message</p>') !!}
                                             </div>
-                                            <label for="max_percipient"><b>Maximálny počet zúčastnených</b></label><br>
                                             <div class="">
-                                                <input type="number" id="quantity" name="max_percipient" min="1" max="25" required class="form-control">
+                                                <label for="description"><b>Popis eventu</b></label>
+                                                <input type="text" name="description" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="Popis eventu" value="" required autocomplete="">
                                             </div>
                                             @if(Auth::User()->role == 3)
                                                 <input type="hidden" name="type" value="3">
@@ -100,14 +100,10 @@
                                                 <input type="hidden" name="idfakulty" value="0">
                                             @endif
                                             <div class=""><br>
-                                            <label for="image"><b>Upload Image File</b></label>
+                                            <label for="image"><b>Obrázok eventu</b></label>
                                             <input type="file" class="form-control-file" name="image">
                                             </div>
-                                            <div class=""><br>
-                                                <label for="description"><b>description</b></label>
-                                                <input type="text" name="description" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="description" value="" required autocomplete="">
-                                            </div>
-                                            <div class=""><br>
+                                            <div class=""><br><br>
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                 <input type="hidden" name="userid" value="{{$user -> id}}">
                                                 <input type="hidden" name="helper" value="0">
@@ -127,6 +123,10 @@
                                                 <input type="datetime-local" class="form-control" name="end_date">
                                                 {!! $errors->first('end_date', '<p class="alert alert-danger">:message</p>') !!}
                                             </div>
+                                            <label for="max_percipient"><b>Maximálny počet zúčastnených</b></label><br>
+                                            <div class="">
+                                                <input type="number" id="quantity" name="max_percipient" min="1" max="25" required class="form-control">
+                                            </div><br>
                                             <label for="name"><b>Tag</b></label><br>
                                             <div class="">
                                                 <select id="tags0"  name="tags0[]" multiple="multiple">

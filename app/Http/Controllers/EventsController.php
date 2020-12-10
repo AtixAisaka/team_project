@@ -834,22 +834,22 @@ class EventsController extends Controller
 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML('<h1 style="text-align: center;"><img src="https://cdn.discordapp.com/attachments/771749347154329611/771758340169924618/large_scheduletap.png" alt="logo"  /></h1>
-                        <p style="font-family: DejaVu Sans;
-                                   text-align: center;">'.$eventabout.'</p>
                         <h3 style="font-family: DejaVu Sans;
-                                   text-align: center;">'.$event->event_name.'</h3>
-                        <h4 style="font-family: DejaVu Sans;
-                                   text-align: center;">Meno zakladatela: '.$eventowner.'</h4>
-                        <h4 style="font-family: DejaVu Sans;
-                                   text-align: center;">Začiatok udalosti: '.$event->start_date.'</h4>
-                        <h4 style="font-family: DejaVu Sans;
-                                   text-align: center;">Koniec udalosti: '.$event->end_date.'</h4>
-                        <h4 style="font-family: DejaVu Sans;
-                                   text-align: center;">Miesto konania: '.$event->event_place.'</h4>
-                        <h4 style="font-family: DejaVu Sans;
-                                   text-align: center;">Tagy udalosti: '.$eventtags.'</h4>
-                        <h4 style="font-family: DejaVu Sans;
-                                   text-align: center;">Počet zúčastnených osôb: '.$count.'/'.$event->max_percipient.'</h4>');
+                                   text-align: center;">'.$eventabout.'</h3><br>
+                        <h1 style="font-family: DejaVu Sans;
+                                   text-align: center;">'.$event->event_name.'</h1><br><br>
+                        <h2 style="font-family: DejaVu Sans;
+                                   text-align: center;">Zakladateľ udalosti: <br>'.$eventowner.'</h2><br>
+                        <h2 style="font-family: DejaVu Sans;
+                                   text-align: center;">Miesto konania:  <br>'.$event->event_place.'</h2><br>
+                        <h3 style="font-family: DejaVu Sans;
+                                   text-align: center;">Začiatok udalosti: '.$event->start_date.'</h3>
+                        <h3 style="font-family: DejaVu Sans;
+                                   text-align: center; margin-top: -25px"> Koniec udalosti: &nbsp;&nbsp;&nbsp;'.$event->end_date.'</h3><br>
+                        <h3 style="font-family: DejaVu Sans;
+                                   text-align: center;">Tagy udalosti: <br>'.$eventtags.'</h3>
+                        <h3 style="font-family: DejaVu Sans;
+                                   text-align: center;">Počet zúčastnených osôb:  <br>'.$count.'/'.$event->max_percipient.'</h3>');
 
 
         return $pdf->stream();

@@ -4,11 +4,12 @@
     <link href="{{ asset('css/sol.css') }}" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('css/previous_ongoing_next_eventbutton.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/events.css')}}">
     <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
     <div class="container">
     @auth
         @if(Auth::User()->role!=4)
-                <div class="dropdown">
+<!--                <div class="dropdown">
                     <h2>Kalendár eventov<span class="caret"></span></h2>
                     <div class="dropdown-content" style="cursor: pointer;" >
                         @auth
@@ -23,6 +24,21 @@
                             <div class="valign-center" style="cursor: pointer;">Filtrovať eventy
                             </div>
                         </a>
+                    </div>
+                </div>-->
+                <div class="flex-container">
+                    <div class="flex-child green" style="padding-left: 5px">
+                        <div class="flex-child buttons" style="width: auto; height: 50px">
+                            <div style="font-size: 43px;color: #333334">
+                                Kalendár eventov
+                                <a class="a_icon" data-toggle="modal" data-target="#filterModal"><i class="fa fa-filter"></i></a>
+                                @auth
+                                    @if(Auth::user()->role!=4)
+                                        <a class="a_icon" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus-square"></i></a>
+                                    @endif
+                                @endauth
+                            </div>
+                        </div>
                     </div>
                 </div>
             <!-- Modal -->

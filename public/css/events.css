@@ -1,0 +1,18 @@
+.a_icon{
+    color: #333334;
+}
+.flex-container {
+    display: flex;
+    align-items: center;
+}
+
+.flex-child {
+    padding-right: 10px;
+}
+.fa:hover {
+    color: #797979;
+}
+.fa {
+    cursor: pointer;
+    user-select: none;
+}

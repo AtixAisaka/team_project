@@ -35,18 +35,25 @@
     </script>
 
 <div class="container">
-
-        <div style="width: 50px; border-right: 3px solid #474747; height: 50px">
+    <div class="flex-container">
+        <div class="flex-child buttons" style="width: auto; border-right: 3px solid #474747; height: 50px">
             <div style="font-size: 43px">
                 <i onclick="myFunction(this)" class="fa fa-th-large"></i>
             </div>
         </div>
+        <div class="flex-child green" style="padding-left: 5px">
+            <div class="flex-child buttons" style="width: auto; height: 50px">
+                <div style="font-size: 43px">
+                    Eventy
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
-        <div id="konec" style="display: none">
-            <br>
 
+        <div id="konec">
                 <li class="table-header">
                     <div class="col col-1">Názov</div>
                     <div class="col col-2">Začiatok eventu</div>
@@ -124,7 +131,13 @@
                         </div>
                             @endif
                         </form>
-                        <a href="{{ action("EventsController@showEventInfo",["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}"><img src="{{asset('img/meeting.jpg')}}"></a>
+                        <div class="div_img">
+                            <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}">@if($event->display_image != "none")
+                                    <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
+                                @else
+                                    <img src="{{asset('img/calendar.png')}}">
+                                @endif</a>
+                        </div>
                     </div>
                     <div class="event_description">
                         <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>
@@ -137,7 +150,7 @@
 </div>
 
 
-<br>
+<!--<br>
     <div class="container" style=" display: flex; justify-content: center; align-items: center; ">
 
         @if($admin != -1)
@@ -146,6 +159,6 @@
             <a class="btn effect01" style="width: 100px;" href="{{ route('eventlist') }}" role="button">Späť</a>
         @endif
 
-    </div>
+    </div>-->
 
 @endsection

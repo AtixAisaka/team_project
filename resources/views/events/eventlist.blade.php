@@ -281,48 +281,30 @@
         @endif
     </div>
 
-    <style>
-        .flex-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .flex-child {
-            padding-right: 10px;
-        }
-    </style>
 
     <div class="container">
         <div class="flex-container">
-            <div class="flex-child magenta" style="width: auto; border-right: 3px solid #474747; height: 50px">
+            <div class="flex-child buttons" style="width: auto; border-right: 3px solid #474747; height: 50px">
                 <div style="font-size: 43px">
                     <i onclick="myFunction(this)" class="fa fa-th-large"></i>
                 </div>
             </div>
-
             <div class="flex-child green" style="padding-left: 5px">
-                <div class="dropdown">
-                    <h2>Eventy  <span class="caret"></span></h2>
-                    <div class="dropdown-content" style="cursor: pointer;" >
+                <div class="flex-child buttons" style="width: auto; height: 50px">
+                    <div style="font-size: 43px">
+                        Eventy
+                        <a class="a_icon" data-toggle="modal" data-target="#filterModal"><i class="fa fa-filter"></i></a>
                         @auth
                             @if(Auth::user()->role!=4)
-                                <a type="button" data-toggle="modal" data-target="#addModal">
-                                    <div class="valign-center" style="cursor: pointer;">Pridať event
-                                    </div>
-                                </a>
+                                <a class="a_icon" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus-square"></i></a>
                             @endif
                         @endauth
-                        <a type="button" data-toggle="modal" data-target="#filterModal">
-                            <div class="valign-center" style="cursor: pointer;">Filtrovať eventy
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <div id="konec" style="display: none">
+        <div id="konec">
             <li class="table-header">
                 <div class="col col-1">Názov</div>
                 <div class="col col-2">Začiatok eventu</div>
@@ -332,7 +314,7 @@
 
             @foreach($events as $event)
                 @if($event->ishidden==false || Auth::user()->role==4)
-                    <li class="table-row">
+                    <li class="table-row" >
                         <div class="col col-1">{{$event-> event_name}}</div>
                         <div class="col col-2"></strong>{{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}}</div>
                         <div class="col col-3"></strong>{{\Carbon\Carbon::parse($event->end_date)->format('d.m.Y H:i:s')}}</div>
@@ -460,11 +442,13 @@
                                 @endif
                                 @endauth
                             </div>
+                            <div class="div_img">
                             <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}">@if($event->display_image != "none")
                                     <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
                                 @else
-                                    <img src="{{asset('img/calendar_icon.png')}}">
+                                    <img src="{{asset('img/calendar.png')}}">
                                 @endif</a>
+                            </div>
                         </div>
                         <div class="event_description">
                             <div style="font-size: 20px; font-weight: bold; " >{{$event-> event_name}}</div>

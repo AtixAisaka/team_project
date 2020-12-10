@@ -17,6 +17,7 @@
                     <div class="col-xs-3 col-sm-3 col-md-3">
                         <h3><b>Názov: </b><br>{{$event->event_name}}</h3><hr>
                         <h3><b>Zakladatel:</b><br> {{$eventowner}} </h3><hr>
+                        <h3><b>description:</b><br> {{$eventsdescription}} </h3><hr>
                         <h3><b>Miesto konania:</b><br> {{$event->event_place}} </h3><hr>
                         <h3><b>Typ eventu:</b><br>{{$eventabout}} </h3><hr>
                         <h3><b>Od:</b><br> {{\Carbon\Carbon::parse($event->start_date)->format('d.m.Y H:i:s')}} </h3>

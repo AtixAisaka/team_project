@@ -88,6 +88,10 @@
                                             <input type="file" class="form-control-file" name="image">
                                             </div>
                                             <div class=""><br>
+                                                <label for="description"><b>description</b></label>
+                                                <input type="text" name="description" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="description" value="" required autocomplete="">
+                                            </div>
+                                            <div class=""><br>
                                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                                 <input type="hidden" name="userid" value="{{$user -> id}}">
                                                 <input type="hidden" name="helper" value="0">

@@ -23,6 +23,11 @@
                             <label for="name"><b>Miesto konania eventu</b></label><br>
                             <input style="margin: 5px 0 22px 0; width: 100%; "type="text" name="event_place" class="form-control" value="{{$event->event_place}}">
                         </div>
+                        <div class="">
+                            <label for="name"><b>description</b></label><br>
+                            <input style="margin: 5px 0 22px 0; width: 100%; "type="text" name="eventdescription" class="form-control" value="{{$eventdescription}}">
+                            <input type="hidden" name="eventdescription_id" value="{{$eventdescription_id}}" >
+                        </div>
                         @if($event->type == 2)
                             <label for="name"><b>Fakulta</b></label><br>
                             <select class="form-control" style="margin: 5px 0 22px 0; width: 100%; " id="idfakulty" name="idfakulty" >

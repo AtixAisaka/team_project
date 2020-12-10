@@ -75,6 +75,10 @@
                                                     <label for="image"><b>Upload Image File</b></label>
                                                     <input type="file" class="form-control-file" name="image">
                                                 </div>
+                                                <div class=""><br>
+                                                    <label for="description"><b>description</b></label>
+                                                    <input type="text" name="description" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="description" value="" required autocomplete="">
+                                                </div>
                                                 @if(Auth::User()->role == 3)
                                                     <input type="hidden" name="type" value="3">
                                                     <input type="hidden" name="idkatedry" value="0">
@@ -374,7 +378,7 @@
                                             @break
                                         @endif
                                     @endforeach
-                                    @if(\Carbon\Carbon::parse($event->start_date)->isFuture() && Auth::User()->role==0)
+                                        @if(\Carbon\Carbon::parse($event->start_date)->isFuture() && Auth::User()->role==0)
                                         @if($helper == 0)
                                             <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">

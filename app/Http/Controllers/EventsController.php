@@ -11,6 +11,7 @@ use App\EventsHasTags;
 use App\UsersGoingEvents;
 use App\events_image;
 use App\EventsFile;
+use App\event_description;
 use Auth;
 use Calendar;
 use Illuminate\Support\Facades\Mail;
@@ -390,6 +391,14 @@ class EventsController extends Controller
                 $event_has_tags->save();
             }
         }
+        if($request->has('description')){
+            $find_event = Events::where('userid',$request['userid'])->orderBy('created_at', 'desc');
+            $event_id = $find_event->first('id');
+            $event_description = new event_description();
+            $event_description->event_id = $event_id->id;;
+            $event_description->description = $request['description'];
+            $event_description->save();
+        }
         if($request["helper"] == 0) {
             \Session::flash('success', 'Event Pridaný');
             return Redirect::to('/events');
@@ -400,7 +409,9 @@ class EventsController extends Controller
         $event = Events::find($id);
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
-        return view("events/editevent", compact("event", "fakulty", "katedry", "param", "userid", "admin"));
+        $eventdescription = event_description::where("event_id", "=", $id)->value("description");
+        $eventdescription_id = event_description::where("event_id", "=", $id)->value("id");
+        return view("events/editevent", compact("event", "fakulty", "katedry", "param", "userid", "admin", 'eventdescription', 'eventdescription_id'));
     }
 
     public function showEventsHistory($value, $id, $admin) {
@@ -439,7 +450,7 @@ class EventsController extends Controller
         $eventowner = DB::table('users')->where("id", "=", $event->userid)->value("name");
         $eventsImages = events_image::where("event_id", "=", $id)->get();
         $eventsfiles = EventsFile::where("event_id", "=", $id)->get();
-
+        $eventsdescription = event_description::where("event_id", "=", $id)->value("description");
         $eventabout = null; //katedra/fakulta
 
         if($event->type == 3) $eventabout = "Event Univerzity Konštantína Filozofa";
@@ -469,7 +480,7 @@ class EventsController extends Controller
 
 
         return view("events/showeventinfo", compact( "eventtags","usersgoing", "count", "eventowner",
-            "event", "eventsImages", "value", "param", "admin", "userid", "eventabout", 'max_percipient', 'eventsfiles'));
+            "event", "eventsImages", "value", "param", "admin", "userid", "eventabout", 'max_percipient', 'eventsfiles', 'eventsdescription'));
     }
 
     public function updateEventAction($id, Request $request) {
@@ -507,8 +518,14 @@ class EventsController extends Controller
         $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
         $events->max_percipient = $request['max_percipient'];
+        if($request->has('image')) {
         $events->display_image = $image_name;
+        }
         $events->save();
+
+        $eventdescription = event_description::find($request['eventdescription_id']);
+        $eventdescription->description = $request['eventdescription'];
+        $eventdescription->save();
 
         $mailData = array(
             'user_name'     => "",

@@ -46,20 +46,6 @@
     </script>
 
     <div class="container details">
-
-        <style>
-
-        </style>
-
-<!--        <div class="flex-container">
-            <div class="flex-child">
-
-            </div>
-            <div class="flex-child">
-
-            </div>
-        </div>-->
-
         <div class="flex-container first">
             <div class="flex-child">
                 <div class="div_img">
@@ -210,11 +196,6 @@
                 </div>
             </div>
         </div>
-        <style>
-            .upload_buttons{
-            }
-        </style>
-
 
         <div>
             @auth

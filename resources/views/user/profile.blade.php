@@ -19,16 +19,16 @@
 
                     <div class="header-col1">
                         <span>
-                            NAME<br>
-                            SURNAME<br><br>
+                            USERNAME<br><br>
+<!--                            SURNAME<br><br>-->
                             PASSWORD
                         </span>
                     </div>
 
                     <div class="header-col2">
                         <span>
-                            {{$user["name"]}}<br>
-                            Priezvisko<br><br>
+                            {{$user["name"]}}<br><br>
+<!--                            Priezvisko<br><br>-->
                             <a style="color: rgb(76, 175, 80)" href="{{route("password.edit",Auth::user()->id)}}">Change</a>
                         </span>
                     </div>

@@ -9,23 +9,6 @@
     <div class="container">
     @auth
         @if(Auth::User()->role!=4)
-<!--                <div class="dropdown">
-                    <h2>Kalendár eventov<span class="caret"></span></h2>
-                    <div class="dropdown-content" style="cursor: pointer;" >
-                        @auth
-                            @if(Auth::user()->role!=4)
-                                <a type="button" data-toggle="modal" data-target="#addModal">
-                                    <div class="valign-center" style="cursor: pointer;">Pridať event
-                                    </div>
-                                </a>
-                            @endif
-                        @endauth
-                        <a type="button" data-toggle="modal" data-target="#filterModal">
-                            <div class="valign-center" style="cursor: pointer;">Filtrovať eventy
-                            </div>
-                        </a>
-                    </div>
-                </div>-->
                 <div class="flex-container">
                     <div class="flex-child green" style="padding-left: 5px">
                         <div class="flex-child buttons" style="width: auto; height: 50px">
@@ -280,7 +263,7 @@
 
             <br>
         <div class="breadcrumb">
-            <div class="panel-heading">Informácie eventu</div>
+            <div class="panel-heading"></div>
                 {!! $calendar_details->calendar() !!}
 
             </div>

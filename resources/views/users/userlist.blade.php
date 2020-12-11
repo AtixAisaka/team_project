@@ -70,9 +70,12 @@
         <!-- Button trigger modal -->
 
         <div style="display: flex">
-            <button class="btn-filter" type="button"  data-toggle="modal" data-target="#filterModal">
+<!--            <button class="btn-filter" type="button"  data-toggle="modal" data-target="#filterModal">
                 <i class="fa fa-filter"></i>
-            </button>
+            </button>-->
+            <div style="font-size: 43px; padding-right: 10px;">
+            <a class="a_icon" data-toggle="modal" data-target="#filterModal"><i class="fa fa-filter"></i></a>
+            </div>
             <div style="display: inline;border-left: 3px solid #474747;height: 50px;padding-left: 8px;">
                 <h2>Zoznam používateľov</h2>
             </div>

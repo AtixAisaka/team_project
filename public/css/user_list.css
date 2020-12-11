@@ -166,3 +166,11 @@
     outline: none;
 }
 
+.a_icon{
+    color: #333334;
+}
+
+.a_icon:hover{
+    color: #797979;
+}
+

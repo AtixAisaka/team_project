@@ -27,12 +27,17 @@
 
 
                 <label for="psw"><b>Password</b></label><br>
-                <input id="password" style="margin: 5px 0 22px 0; width: 40%; " type="password" placeholder="Enter Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                <input id="password" style="margin: 5px 0 0px 0; width: 40%; " type="password" placeholder="Enter Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                 @error('password')
                 <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong><br>
             </span>
                 @enderror
+                @if (Route::has('password.request'))
+                    <a class="btn btn-link" href="{{ route('password.request') }}" style="color: rgb(76, 175, 80)">
+                        {{ __('Forgot Your Password?') }}
+                    </a>
+                @endif
 
 
                 <div class="checkbox">
@@ -44,25 +49,23 @@
                 <hr>
 
                 <button type="submit" class="registerbtn">Login</button>
-
-
-                @if (Route::has('password.request'))
-                    <a class="btn btn-link" href="{{ route('password.request') }}" style="color: rgb(76, 175, 80)">
-                        {{ __('Forgot Your Password?') }}
-                    </a>
-            @endif
-
-
-        </div>
-        <div class="col-md-16">
-            <h1>Or</h1>
-            <br><br><br><br><br><br><br>
-            <a href="http://localhost/team_project.git/public/login/github" class="btn btn-secondary btn-block">Login with github</a>
-            <a href="http://localhost/team_project.git/public/login/facebook" class="btn btn-secondary btn-block">Login with Facebook</a>
-            <a href="http://localhost/team_project.git/public/login/google" class="btn btn-secondary btn-block">Login with Google</a>
-            <hr>
+                <div class="login_links">
+                    <a href="http://localhost/team_project.git/public/login/github" class="btn btn-secondary btn-block">Login with github</a>
+                    <a href="http://localhost/team_project.git/public/login/facebook" class="btn btn-secondary btn-block">Login with Facebook</a>
+                    <a href="http://localhost/team_project.git/public/login/google" class="btn btn-secondary btn-block">Login with Google</a>
+                </div>
+            </form>
         </div>
     </div>
+
+    <style>
+        .login_links a{
+            text-align: left;
+        }
+    </style>
+
+
+
 
 
 

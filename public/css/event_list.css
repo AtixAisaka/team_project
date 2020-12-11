@@ -15,7 +15,7 @@ div.gallery:hover {
 }
 
 .div_img{
-    background-color: black;
+    background-color: #545454;
     text-align: center;
 }
 
@@ -151,8 +151,6 @@ div.gallery:hover {
     display: none;
     padding-top: 20px;
 }
-
-
 
 /*body {
     animation: theme 21s linear infinite;

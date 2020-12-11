@@ -58,7 +58,7 @@
                     <div class="col col-1">Názov</div>
                     <div class="col col-2">Začiatok eventu</div>
                     <div class="col col-3">Koniec eventu</div>
-                    <div class="col col-4"></div>
+                    <div class="col col-4">Akcie</div>
                 </li>
                             @foreach($allevents as $row)
                             <li class="table-row">
@@ -67,12 +67,17 @@
                                 <div class="col col-3"></strong>{{\Carbon\Carbon::parse($row->end_date)->format('d.m.Y H:i:s')}}</div>
                                 <div class="col col-4">
                                     <a class="btn-1" href="{{ action("EventsController@showEventInfo",
-                                                ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >Detaily</a>
+                                                ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >
+                                        <div class="valign-center"> <i class="material-icons">help_outline </i></div>
+                                    </a>
+
 
                                          @if($param == 0)
                                             @if(\Carbon\Carbon::parse($row->start_date)->isFuture() || Auth::user()->role==4)
-                                                | <a class="btn-1" href="{{ action("EventsController@showEditEvent",
-                                                    ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">Editovať</a>
+                                            <a class="btn-1" href="{{ action("EventsController@showEditEvent",
+                                                    ["id" => $row->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">
+                                                <div class="valign-center"> <i class="material-icons">build </i></div>
+                                            </a>
                                             @endif
                                          @endif
                                             <form action="{{ action("EventsController@deleteEventHistory") }}" method="POST" style="display: inline">
@@ -83,9 +88,13 @@
                                                 <input type="hidden" name="admin" value="{{$admin}}">
                                                 @if(\Carbon\Carbon::parse($row->start_date)->isFuture() || Auth::user()->role==4)
                                                     @if($param == 0)
-                                                        | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Mazať">
+                                                        <button class="btn-1" type="submit" name="submit" role="button">
+                                                            <div class="valign-center"> <i class="material-icons">delete </i></div>
+                                                        </button>
                                                     @elseif($param == 1)
-                                                        | <input class="btn-1" style="background-color: white; border: white; color: rgb(76, 175, 80);width: auto" type="submit" name="submit" value="Zrušiť účasť">
+                                                        <button class="btn-1" type="submit" name="submit" role="button">
+                                                            <div class="valign-center"> <i class="material-icons">cancel </i></div>
+                                                        </button>
                                                     @endif
                                                 @endif
                                             </form>
@@ -106,9 +115,10 @@
                             <input type="hidden" name="admin" value="{{$admin}}">
                             <!--                                    <input class="btn-1" style="background-color: white; border: white;
                                                                 color: rgb(30, 144, 255);width: auto" type="submit" name="submit" value="Mazať">-->
-                            @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
+
 
                         <div class="event_buttons_part1">
+                            @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
                             @if($param == 0)
                                     <a class="btn-1" href="{{ action("EventsController@showEditEvent",["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin])  }}" role="button">
                                         <div class="valign-center"> <i class="material-icons">build</i></div>
@@ -117,25 +127,27 @@
                                         <div class="valign-center"><i class="material-icons">delete</i></div>
                                     </button>
                             @endif
-
+                            @endif
                         </div>
                         <div class="event_buttons_part2">
                             <a class="btn-1" href="{{ action("EventsController@showEventInfo",["id" => $event->id, "param" => $param, "userid" => $id, "admin" => $admin]) }}" role="button" >
                                 <div class="valign-center"><i class="material-icons">help_outline</i></div>
                             </a>
+                            @if(\Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
                             @if($param == 1)
                                 <button class="btn-1" type="submit" name="submit" style="width: auto;background-color: rgba(225, 225, 225, .0); border: rgba(225, 225, 225, .0);">
                                     <div class="valign-center"><i class="material-icons">cancel</i></div>
                                 </button>
                             @endif
-                        </div>
                             @endif
+                        </div>
+
                         </form>
                         <div class="div_img">
                             <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}">@if($event->display_image != "none")
                                     <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
                                 @else
-                                    <img src="{{asset('img/calendar.png')}}">
+                                    <img style="margin: 5px;height: 202px" src="{{asset('img/calendar.png')}}">
                                 @endif</a>
                         </div>
                     </div>

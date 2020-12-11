@@ -446,7 +446,7 @@
                             <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}">@if($event->display_image != "none")
                                     <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
                                 @else
-                                    <img src="{{asset('img/calendar.png')}}">
+                                    <img style="margin: 5px;height: 202px" src="{{asset('img/calendar.png')}}">
                                 @endif</a>
                             </div>
                         </div>
@@ -461,6 +461,8 @@
                 @endif
             @endforeach
         </div>
+
+
 
 
 

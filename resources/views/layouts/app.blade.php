@@ -40,7 +40,7 @@
 <div class="container1">
     <div class="row">
         <div class="col-md-12">
-            <nav class="navbar navbar-default" role="navigation">
+            <nav class="navbar navbar-default nav_custom" role="navigation">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -76,15 +76,14 @@
                                         </a>
                                         <div class="dropdown-content">
                                             <a href="{{ action("EventsController@showEventsHistory",
-                                    ["value" => 0, "id" => Auth::user()->id, "admin" => -1])  }}">Založené</a><br>
+                                    ["value" => 0, "id" => Auth::user()->id, "admin" => -1])  }}">Založené</a>
                                             <a href="{{ action("EventsController@showEventsHistory",
-                                    ["value" => 1, "id" => Auth::user()->id, "admin" => -1])  }}">Zúčastnené</a><br>
+                                    ["value" => 1, "id" => Auth::user()->id, "admin" => -1])  }}">Zúčastnené</a>
                                         </div>
                                     </li>
                                 </li>
                             @endif
                         @endguest
-                        <li class={{ (request()-> is('aboutus'))? 'active': '' }}><a href="{{ url('/aboutus') }}">About Us</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
 
@@ -163,8 +162,8 @@
                                 </a>
 
                                 <div class="dropdown-content" aria-labelledby="navbarDropdown">
-                                    <a href="{{action("UserController@profile")}}">Profile</a><br>
-                                    <a href="{{action("EventsController@tagsView")}}">Zoznam tagov</a><br>
+                                    <a href="{{action("UserController@profile")}}">Profile</a>
+                                    <a href="{{action("EventsController@tagsView")}}">Zoznam tagov</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

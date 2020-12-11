@@ -156,11 +156,11 @@
                             <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" />
                         </a>
                         <!-- Facebook -->
-                        <a href="http://www.facebook.com/sharer.php?u=https://www.ukf.sk/verejnost/aktuality/kalendar" target="_blank">
+                        <a href="http://www.facebook.com/sharer.php?u=http://85.248.137.68" target="_blank">
                             <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
                         </a>
                         <!-- LinkedIn -->
-                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.ukf.sk/verejnost/aktuality/kalendar" target="_blank">
+                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://85.248.137.68" target="_blank">
                             <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
                         </a>
                         <!-- Pinterest -->
@@ -172,11 +172,11 @@
                             <img src="https://simplesharebuttons.com/images/somacro/print.png" alt="Print" />
                         </a>
                         <!-- Reddit -->
-                        <a href="http://reddit.com/submit?url=https://www.ukf.sk/verejnost/aktuality/kalendar&amp;title=Udalosť v kalendári" target="_blank">
+                        <a href="http://reddit.com/submit?url=http://85.248.137.68&amp;title=Udalosť v kalendári" target="_blank">
                             <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" />
                         </a>
                         <!-- Twitter -->
-                        <a href="https://twitter.com/share?url=https://www.ukf.sk/verejnost/aktuality/kalendar&amp;text=Schedule%20Tap&amp;hashtags=scheduletap" target="_blank">
+                        <a href="https://twitter.com/share?url=http://85.248.137.68&amp;text=Schedule%20Tap&amp;hashtags=scheduletap" target="_blank">
                             <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
                         </a>
                     </div>

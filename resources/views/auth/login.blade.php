@@ -50,9 +50,9 @@
 
                 <button type="submit" class="registerbtn">Login</button>
                 <div class="login_links">
-                    <a href="http://localhost/team_project.git/public/login/github" class="btn btn-secondary btn-block">Login with github</a>
-                    <a href="http://localhost/team_project.git/public/login/facebook" class="btn btn-secondary btn-block">Login with Facebook</a>
-                    <a href="http://localhost/team_project.git/public/login/google" class="btn btn-secondary btn-block">Login with Google</a>
+                    <a href="{{url('/')}}/login/github" class="btn btn-secondary btn-block">Login with github</a>
+                    <a href="{{url('/')}}/login/facebook" class="btn btn-secondary btn-block">Login with Facebook</a>
+                    <a href="{{url('/')}}/login/google" class="btn btn-secondary btn-block">Login with Google</a>
                 </div>
             </form>
         </div>

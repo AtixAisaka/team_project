@@ -368,7 +368,6 @@ class EventsController extends Controller
         $events = new Events;
         $events->event_name = $request['event_name'];
         $events->start_date = $request['start_date'];
-        $events->start_date = $request['start_date'];
         $events->end_date = $request['end_date'];
         $events->userid = $request['userid'];
         $events->type = $request['type'];
@@ -399,6 +398,16 @@ class EventsController extends Controller
             $event_description->description = $request['description'];
             $event_description->save();
         }
+
+        $mailData = array(
+            'event_name'     => $request['event_name'],
+            'start_date'     => $request['start_date'],
+            'end_date'     => $request['end_date'],
+            'event_place'     => $request['event_place'],
+        );
+
+        Mail::to(Auth::user()->email)->send(new App\Mail\EmailEventAdded($mailData));
+
         if($request["helper"] == 0) {
             \Session::flash('success', 'Event Pridaný');
             return Redirect::to('/events');

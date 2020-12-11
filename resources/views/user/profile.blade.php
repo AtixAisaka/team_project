@@ -41,7 +41,7 @@
                     <hr>
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="label-first-row">AGE</label></div>
-                        <div class="col-md-6"><label class="labels-second-row">30</label></div>
+                        <div class="col-md-6"><label class="labels-second-row">{{$user["age"]}}</label></div>
                     </div>
 
                     <div class="row mt-2">
@@ -50,15 +50,11 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="label-first-row">PHONE</label></div>
-                        <div class="col-md-6"><label class="labels-second-row">0912358479</label></div>
+                        <div class="col-md-6"><label class="labels-second-row">{{$user["phone"]}}</label></div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="label-first-row">COUNTRY</label></div>
-                        <div class="col-md-6"><label class="labels-second-row">Slovakia</label></div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6"><label class="label-first-row">UNIVERSITY</label></div>
-                        <div class="col-md-6"><label class="labels-second-row">UKF</label></div>
+                        <div class="col-md-6"><label class="labels-second-row">{{$user["country"]}}</label></div>
                     </div>
                     <hr>
 

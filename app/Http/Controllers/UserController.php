@@ -23,22 +23,33 @@ class UserController extends Controller
     }
 
     public function update(Request $request){
+
         $user = User::find(Auth::user()->id);
         if($user){
             $validate = null;
             if (Auth::user()->email === $request["email"]){
                 $validate=$request->validate([
                     "name"=>'required|min:3',
-                    "email"=>'required|email'
+                    "email"=>'required|email',
+                    "age"=>'required|digits_between:1,2',
+                    "phone"=>'required|min:3',
+                    "country"=>'required|min:3'
+
                 ]);
             }
             $validate=$request->validate([
                 "name"=>'required|min:3',
                 "email"=>'required|email|unique:users,email,'.$user->id,
+                "age"=>'required|digits_between:1,2',
+                "phone"=>'required|min:3',
+                "country"=>'required|min:3'
             ]);
             if($validate){
                 $user->name = $request["name"];
                 $user->email = $request["email"];
+                $user->age = $request["age"];
+                $user->phone = $request["phone"];
+                $user->country = $request["country"];
                 $user->save();
                 $request->session()->flash("success","Your profile have been updated!");
                 return redirect()->back();

@@ -26,11 +26,7 @@
                             <div class="header">
                                 <div class="header-avatar" ><img src="{{asset('img/img_avatar.png')}}" alt="Avatar" class="avatar"></div>
                                 <div class="header-col1">
-                                    <span>
-                                        <b>Profile Photo</b><br>
-                                        Accepted file type .png .jpg<br><br>
-                                        <a style="color: rgb(76, 175, 80)" href="">Upload</a>
-                                    </span>
+
                                 </div>
                             </div>
                             <hr>
@@ -47,22 +43,13 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label class="label-first-row">{{ __('SURNAME') }}</label>
-                                    <input id="surname" value="{{ __('Priezvisko') }}" type="text" class="form-control @error('surname') is-invalid @enderror"
-                                           name="surname" value="{{ old('surname') }}" required autocomplete="surname" autofocus>
-                                    @error('surname')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+
                             </div>
 
                             <div class="row mt-5">
                                 <div class="col-md-12">
                                     <label class="label-first-row">{{ __('AGE') }}</label>
-                                    <input id="age" value="{{ __('30') }}" type="text" class="form-control @error('age') is-invalid @enderror"
+                                    <input id="age" value="{{$user['age']}}" type="text" class="form-control @error('age') is-invalid @enderror"
                                            name="age" value="{{ old('age') }}" required autocomplete="age" autofocus>
                                     @error('age')
                                     <span class="invalid-feedback" role="alert">
@@ -84,7 +71,7 @@
 
                                 <div class="col-md-12">
                                     <label class="label-first-row">{{ __('PHONE') }}</label>
-                                    <input id="phone" value="{{ __('30') }}" type="text" class="form-control @error('phone') is-invalid @enderror"
+                                    <input id="phone" value="{{$user['phone']}}" type="text" class="form-control @error('phone') is-invalid @enderror"
                                            name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
                                     @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -95,31 +82,66 @@
 
                                 <div class="col-md-12">
                                     <label class="label-first-row">{{ __('COUNTRY') }}</label>
-                                    <input id="country" value="{{ __('Slovakia') }}" type="text" class="form-control @error('country') is-invalid @enderror"
-                                           name="country" value="{{ old('country') }}" required autocomplete="country" autofocus>
+                                    <select id="country" value="{{$user['country']}}" name="country" class="form-control @error('country') is-invalid @enderror"
+                                            name="country" value="{{ old('country') }}" required autocomplete="country" autofocus>
+                                        @if ($user['country']=='Czech Republic')
+                                            <option class="labels-second-row" value="Slovakia">Slovakia</option>
+                                            <option class="labels-second-row" selected="selected" value="Czech Republic">Czech Republic</option>
+                                            <option class="labels-second-row" value="United States">United States</option>
+                                            <option class="labels-second-row" value="Hungary">Hungary</option>
+                                            <option class="labels-second-row" value="Serbia">Serbia</option>
+                                            <option class="labels-second-row" value="Other">Other</option>
+                                        @elseif ($user['country']=='Slovakia')
+                                            <option class="labels-second-row" selected="selected" value="Slovakia">Slovakia</option>
+                                            <option class="labels-second-row" value="Czech Republic">Czech Republic</option>
+                                            <option class="labels-second-row" value="United States">United States</option>
+                                            <option class="labels-second-row" value="Hungary">Hungary</option>
+                                            <option class="labels-second-row" value="Serbia">Serbia</option>
+                                            <option class="labels-second-row" value="Other">Other</option>
+                                        @elseif ($user['country']=='United States')
+                                            <option class="labels-second-row" value="Slovakia">Slovakia</option>
+                                            <option class="labels-second-row" value="Czech Republic">Czech Republic</option>
+                                            <option class="labels-second-row" selected="selected" value="United States">United States</option>
+                                            <option class="labels-second-row" value="Hungary">Hungary</option>
+                                            <option class="labels-second-row" value="Serbia">Serbia</option>
+                                            <option class="labels-second-row" value="Other">Other</option>
+                                        @elseif ($user['country']=='Hungary')
+                                            <option class="labels-second-row" value="Slovakia">Slovakia</option>
+                                            <option class="labels-second-row" value="Czech Republic">Czech Republic</option>
+                                            <option class="labels-second-row" value="United States">United States</option>
+                                            <option class="labels-second-row" selected="selected" value="Hungary">Hungary</option>
+                                            <option class="labels-second-row" value="Serbia">Serbia</option>
+                                            <option class="labels-second-row" value="Other">Other</option>
+                                        @elseif ($user['country']=='Serbia')
+                                            <option class="labels-second-row" value="Slovakia">Slovakia</option>
+                                            <option class="labels-second-row" value="Czech Republic">Czech Republic</option>
+                                            <option class="labels-second-row" value="United States">United States</option>
+                                            <option class="labels-second-row" value="Hungary">Hungary</option>
+                                            <option class="labels-second-row" selected="selected" value="Serbia">Serbia</option>
+                                            <option class="labels-second-row" value="Other">Other</option>
+                                        @elseif ($user['country']=='Other')
+                                            <option class="labels-second-row" value="Slovakia">Slovakia</option>
+                                            <option class="labels-second-row" value="Czech Republic">Czech Republic</option>
+                                            <option class="labels-second-row" value="United States">United States</option>
+                                            <option class="labels-second-row" value="Hungary">Hungary</option>
+                                            <option class="labels-second-row" value="Serbia">Serbia</option>
+                                            <option class="labels-second-row" selected="selected" value="Other">Other</option>
+                                        @endif </select>
                                     @error('country')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
+
                                 </div>
 
-                                <div class="col-md-12">
-                                    <label class="label-first-row">{{ __('UNIVERSITY') }}</label>
-                                    <input id="university" value="{{ __('UKF') }}" type="text" class="form-control @error('university') is-invalid @enderror"
-                                           name="university" value="{{ old('university') }}" required autocomplete="university" autofocus>
-                                    @error('university')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <hr>
 
-                            <div class="mt-5 text-center">
-                                <button type="submit" class="registerbtn">
-                                    {{ __('Update') }}
+
+                                <hr>
+
+                                <div class="mt-5 text-center">
+                                    <button type="submit" class="registerbtn">
+                                        {{ __('Update') }}
                                 </button>
                             </div>
                         </div>

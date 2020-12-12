@@ -827,6 +827,7 @@ class EventsController extends Controller
 
     public function eventaddTagInfo(Request $request, $param, $userid, $admin) {
         if (Auth::check()) {
+        if ($request->tag == "" ){}else{
             $array = array();
             $length = count($request->tag);
             $eventhastag = EventsHasTags::where("idevent", '=', $request->idevent)->select("idtag")->get();
@@ -839,7 +840,7 @@ class EventsController extends Controller
                 $event_has_tags->idtag = $request->tag[$i];
                 $event_has_tags->idevent = $request->idevent;
                 $event_has_tags->save();}
-            }
+            }}
 
 
             return Redirect::to("/showEdit/".$request->idevent."&".$param."&".$userid."&".$admin );

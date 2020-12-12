@@ -12,9 +12,19 @@
 
 
 
-        @if(Auth::User()->role != 4) <h3>Zoznam vlastných tagov</h3>
-        @else <h3>Zoznam tagov</h3>
-        @endif
+        <div class="flex-child green" style="padding-left: 5px">
+            <div class="flex-child buttons" style="width: auto; height: 50px">
+                <div style="font-size: 43px">
+                    Tagy
+
+                    @auth
+                        @if(Auth::user()->role!=4)
+                            <a class="a_icon" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus-square"></i></a>
+                        @endif
+                    @endauth
+                </div>
+            </div>
+        </div>
 
 
         @foreach($user_Tags as $row)
@@ -92,39 +102,53 @@
 
 
 
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLabel">Pridať tag</h3>
+                    </div>
+                    <div class="modal-body">
+
+                            <div class="row justify-content-md-center">
+
+
+                                <div class="col-xs-3 col-sm-3 col-md-5">
+
+                                    <form method="post" action="{{action('EventsController@addtag')}}">
+
+
+                                        <label for="name"><h4><b>Názov</b></h4></label><br>
+
+                                        <input type="text" name="tag_name" style="margin: 5px 0 22px 0; width: 100%; " class="form-control">
+
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+
+                                        <input class="btn effect01" type="submit" name="submit" value="Uložiť"><br>
+
+                                    </form>
 
 
 
+                                </div>
 
+                            </div>
 
-
-    </div>
-
-    <div class="container">
-        <div class="row justify-content-md-center">
-
-
-            <div class="col-xs-3 col-sm-3 col-md-3">
-
-                <form method="post" action="{{action('EventsController@addtag')}}">
-
-
-                    <label for="name"><h4><b>Pridať tag</b></h4></label><br>
-
-                    <input type="text" name="tag_name" style="margin: 5px 0 22px 0; width: 100%; " class="form-control">
-
-                    <input type="hidden" name="_token" value="{{csrf_token()}}">
-
-                    <input class="btn effect01" type="submit" name="submit" value="Uložiť"><br>
-
-                </form>
-
-
-
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavri</button>
+                    </div>
+                </div>
             </div>
-
         </div>
+
+
+
+
+
     </div>
+
+
 
 
 @endsection

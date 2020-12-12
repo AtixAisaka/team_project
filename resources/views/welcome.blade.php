@@ -4,7 +4,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('css/landing_page.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/hover_button.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/retro_button.css')}}">
 
         <div id="Carousel" class="carousel slide col-lg-8 col-offset-2" style="width: 100%;background-color: rgba(0,0,0,0.5);margin-top: -20px;padding: 0px;">
             <ol class="carousel-indicators" style="padding-bottom: 40px">

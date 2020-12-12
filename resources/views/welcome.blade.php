@@ -25,7 +25,8 @@
                             @else
                                 <img style="height: 500px;overflow:visible" src="{{asset('img/calendar.png')}}">
                             @endif</a>
-                    <div class="event_info"><div style="font-size: 30px">{{$firstevent->event_name}}</div>
+                    <div class="event_info">
+                        <div class="event_title">{{$firstevent->event_name}}</div>
                         Od: {{\Carbon\Carbon::parse($firstevent->start_date)->format('d.m.Y H:i:s')}}
                         &nbsp; Do: {{\Carbon\Carbon::parse($firstevent->end_date)->format('d.m.Y H:i:s')}}
                         @auth
@@ -43,12 +44,12 @@
                                 @endforeach
                                 @if(\Carbon\Carbon::parse($firstevent->start_date)->isFuture() && Auth::User()->role==0)
                                     @if($helper == 0)
-                                        <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $firstevent->id, "param" => 1]) }}" role="button">
-                                            <div class="valign-center"> <i class="material-icons">person_add</i></div>
+                                        <a class="a_icon" href="{{ action("EventsController@addUserToEvent", ["id" => $firstevent->id, "param" => 1]) }}" role="button">
+                                            <i class="material-icons">person_add</i>
                                         </a>
                                     @else
-                                        <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $firstevent->id, "param" => 1]) }}" role="button">
-                                            <div class="valign-center"> <i class="material-icons">cancel</i></div>
+                                        <a class="a_icon" href="{{ action("EventsController@removeUserFromEvent", ["id" => $firstevent->id, "param" => 1]) }}" role="button">
+                                            <i class="material-icons">cancel</i>
                                         </a>
                                     @endif
                                 @endif
@@ -57,16 +58,16 @@
                     </div>
                 </div>
                 @foreach($events as $row)
-                    <div class="item">
+                    <div class="item" style="height: 500px">
                         <!--<img style="height: 500px;position: relative" src="asset('img/landing_page3.jpg')">-->
                             <a href="{{ action("EventsController@showEventInfo",  ["id" => $row->id, "param" => "-2", "userid" => "-1", "admin" => "-1"]) }}">
                                 @if($row->display_image != "none")
-                                    <img style="height: 500px;overflow:visible" src="{{ url('/') }}/storage/images/users/{{ $row-> display_image }}" class="img-responsive">
+                                    <img style="max-height: 500px;" src="{{ url('/') }}/storage/images/users/{{ $row-> display_image }}" class="img-responsive">
                                 @else
-                                    <img style="height: 500px;overflow:visible" src="{{asset('img/calendar.png')}}">
+                                    <img style="max-height: 500px;" src="{{asset('img/meeting.jpg')}}">
                                 @endif</a>
                         <div class="event_info">
-                            <div style="font-size: 30px">{{$row->event_name}}&nbsp;</div>
+                            <div class="event_title">{{$row->event_name}}&nbsp;</div>
                             Od: {{\Carbon\Carbon::parse($row->start_date)->format('d.m.Y H:i:s')}}
                             &nbsp; Do: {{\Carbon\Carbon::parse($row->end_date)->format('d.m.Y H:i:s')}}
                             @auth
@@ -84,12 +85,12 @@
                                     @endforeach
                                     @if(\Carbon\Carbon::parse($row->start_date)->isFuture() && Auth::User()->role==0)
                                         @if($helper == 0)
-                                            <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $row->id, "param" => 1]) }}" role="button">
-                                                <div class="valign-center"> <i class="material-icons">person_add</i></div>
+                                            <a class="a_icon" href="{{ action("EventsController@addUserToEvent", ["id" => $row->id, "param" => 1]) }}" role="button">
+                                                 <i class="material-icons">person_add</i>
                                             </a>
                                         @else
-                                            <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $row->id, "param" => 1]) }}" role="button">
-                                                <div class="valign-center"> <i class="material-icons">cancel</i></div>
+                                            <a class="a_icon" href="{{ action("EventsController@removeUserFromEvent", ["id" => $row->id, "param" => 1]) }}" role="button">
+                                                <i class="material-icons">cancel</i>
                                             </a>
                                         @endif
                                     @endif
@@ -108,9 +109,9 @@
         </div>
 
 
-    <div class="container" style="margin-bottom: 200px">
+    <div class="container">
         @guest
-        <div class="container_join">
+        <div class="container_join" style="margin-bottom: 230px">
             <div class="button_container">
                 <h1>Join ScheduleTap Today.</h1>
                 <a class="a_custom" href="{{ route('register') }}">
@@ -123,7 +124,7 @@
             </div>
         </div>
         @else
-        <div class="container_join">
+        <div class="container_join" style="margin-bottom: 260px">
             <div class="button_container">
                 <h1>You are signed in</h1>
                 <a class="a_custom" href="{{ url('/events') }}">

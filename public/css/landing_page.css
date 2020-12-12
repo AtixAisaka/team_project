@@ -29,3 +29,23 @@
     padding-top: 0px;
 }
 
+.active img{
+    max-width: 80%;margin: auto;
+}
+.event_info{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.a_custom:hover{
+    text-decoration: none;
+}
+

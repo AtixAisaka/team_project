@@ -130,6 +130,28 @@
                     </div>
 
                     <div class="rightDiv">
+                        <form method="post" action="{{action('EventsController@eventaddTagInfo')}}">
+                            <h3>Pridať tagy</h3>
+                            <br>
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <select id="tags0"  name="tag[]" multiple="multiple">
+
+                                    @foreach($alltags as $row)
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <input type="hidden" name="idevent" value="{{$event->id}}">
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <input class="btn effect01" type="submit" name="submit" value="Pridať tagy"><br>
+                            </div>
+                        </form>
+                        @foreach (array_combine($eventtagids, $eventtags) as $eventtagid => $eventtag)
+                        {{$eventtagid}},{{$eventtag}} <a href="{{action('EventsController@deletetagInfo',['id' => $eventtagid, 'idevent' => $event->id, 'param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">delete</a> </br>
+                            @endforeach
 
                     </div>
 
@@ -141,6 +163,7 @@
                 <input type="hidden" name="admin" value="{{$admin}}">
                 <div style="padding-top: 10px;text-align: center">
                     <input class="btn effect01" type="submit" name="submit" value="Uložiť">
+
                 </div>
             </form>
         </div>

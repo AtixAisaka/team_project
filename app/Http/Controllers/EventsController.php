@@ -415,12 +415,28 @@ class EventsController extends Controller
     }
 
     public function showEditEvent($id, $param, $userid, $admin) {
+        $eventtags = [];
+        $eventtagids = [];
         $event = Events::find($id);
         $fakulty = Fakulty::get();
         $katedry = Katedry::get();
         $eventdescription = event_description::where("event_id", "=", $id)->value("description");
         $eventdescription_id = event_description::where("event_id", "=", $id)->value("id");
-        return view("events/editevent", compact("event", "fakulty", "katedry", "param", "userid", "admin", 'eventdescription', 'eventdescription_id'));
+
+        $tag_ids= EventsHasTags::where("idevent", "=", $id)->get();
+        foreach($tag_ids as $row) {
+            $eventtagids[$row->idtag] = $row->idtag;
+                $eventtag = Tags::where("id", "=", $row->idtag)->get();
+            foreach($eventtag as $row) {
+                $eventtags[$row->id] = $row->name;
+            }
+        }
+
+        $event_tags = EventsHasTags::all()->where('idevent','=', $id)->pluck('idtag');;
+        $tags = Tags::find($event_tags);
+        $alltags = Tags::all();
+
+        return view("events/editevent", compact("event", "fakulty", "katedry", "param", "userid", "admin", 'eventdescription', 'eventdescription_id', "eventtags", "eventtagids", "event_tags", "tags", "alltags"));
     }
 
     public function showEventsHistory($value, $id, $admin) {
@@ -808,12 +824,12 @@ class EventsController extends Controller
         }
     }
 
-    public function deletetagInfo($id, $idevent){
+    public function deletetagInfo($id, $idevent, $param, $userid, $admin){
         if (Auth::check()) {
             $remove = EventsHasTags::where('idtag', '=', $id)->where('idevent','=',$idevent);
             $remove->delete();
 
-            return Redirect::to("/eventtags/".$idevent);
+            return Redirect::to("/showEdit/".$idevent."&".$param."&".$userid."&".$admin);
         }else {
             return redirect('/events');
         }

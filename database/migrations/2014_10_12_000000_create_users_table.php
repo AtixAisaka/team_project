@@ -18,9 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('name')->default("meno");
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('phone');
-            $table->string('country');
+            $table->string('password')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('country')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

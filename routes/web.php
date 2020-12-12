@@ -158,7 +158,7 @@ Route::post('eventaddTagInfo', [
     "as" => "eventaddTagInfo", "uses" => 'EventsController@eventaddTagInfo'
 ]);
 
-Route::get('deletetagInfo/{id}&{idevent}', [
+Route::get('deletetagInfo/{id}&{idevent}&{param}&{userid}&{admin}', [
     "as" => "deletetagInfo", "uses" => 'EventsController@deletetagInfo'
 ]);
 

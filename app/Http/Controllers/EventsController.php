@@ -747,7 +747,7 @@ class EventsController extends Controller
             $tag->name = $tag_name;
             $tag->user_id = Auth::id();
             $tag->save();
-            return  view('events/addtags');
+            return  redirect()->route('tagsView');
         } else {
             return redirect('/events');
         }
@@ -780,11 +780,11 @@ class EventsController extends Controller
     public function edittagAction(Request $request) {
         if (Auth::check()) {
         $tag = Tags::find($request->id);
-        $tag->name = $request['tag_name'];
+        $tag->name = $request->tag_name;
         $tag->save();
 
 
-        return Redirect::to('/tags');}
+        return redirect()->route('tagsView');}
         else return Redirect::to('/events');
     }
 
@@ -801,7 +801,7 @@ class EventsController extends Controller
         }
     }
 
-    public function eventaddTagInfo(Request $request) {
+    public function eventaddTagInfo(Request $request, $param, $userid, $admin) {
         if (Auth::check()) {
             $array = array();
             $length = count($request->tag);
@@ -818,7 +818,7 @@ class EventsController extends Controller
             }
 
 
-            return Redirect::to("/eventtags/".$request->idevent);
+            return Redirect::to("/showEdit/".$request->idevent."&".$param."&".$userid."&".$admin );
         }else {
             return redirect('/events');
         }

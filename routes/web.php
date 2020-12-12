@@ -154,7 +154,7 @@ Route::get('eventtags/{id}', [
     "as" => "eventtags", "uses" => 'EventsController@eventTagInfoView'
 ]);
 
-Route::post('eventaddTagInfo', [
+Route::post('eventaddTagInfo/{param}&{userid}&{admin}', [
     "as" => "eventaddTagInfo", "uses" => 'EventsController@eventaddTagInfo'
 ]);
 

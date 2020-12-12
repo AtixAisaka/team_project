@@ -128,12 +128,22 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <input type="hidden" name="param" value="{{$param}}">
+                    <input type="hidden" name="userid" value="{{$userid}}">
+                    <input type="hidden" name="admin" value="{{$admin}}">
+                    <div style="padding-top: 10px;text-align: center">
+                        <input class="btn effect01" type="submit" name="submit" value="Uložiť">
 
+                    </div>
+                </div>
+
+            </form>
                     <div class="rightDiv">
-                        <form method="post" action="{{action('EventsController@eventaddTagInfo')}}">
+                        <form method="post" action="{{action('EventsController@eventaddTagInfo',['param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">
                             <h3>Pridať tagy</h3>
                             <br>
-                            <div class="col-xs-3 col-sm-3 col-md-3">
+
                                 <select id="tags0"  name="tag[]" multiple="multiple">
 
                                     @foreach($alltags as $row)
@@ -141,7 +151,7 @@
                                     @endforeach
 
                                 </select>
-                            </div>
+
 
                             <div class="col-xs-3 col-sm-3 col-md-3">
                                 <input type="hidden" name="idevent" value="{{$event->id}}">
@@ -149,6 +159,7 @@
                                 <input class="btn effect01" type="submit" name="submit" value="Pridať tagy"><br>
                             </div>
                         </form>
+
                         @foreach (array_combine($eventtagids, $eventtags) as $eventtagid => $eventtag)
                         {{$eventtagid}},{{$eventtag}} <a href="{{action('EventsController@deletetagInfo',['id' => $eventtagid, 'idevent' => $event->id, 'param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">delete</a> </br>
                             @endforeach
@@ -157,15 +168,7 @@
 
                 </div>
             </div>
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <input type="hidden" name="param" value="{{$param}}">
-                <input type="hidden" name="userid" value="{{$userid}}">
-                <input type="hidden" name="admin" value="{{$admin}}">
-                <div style="padding-top: 10px;text-align: center">
-                    <input class="btn effect01" type="submit" name="submit" value="Uložiť">
 
-                </div>
-            </form>
         </div>
     </div>
 
@@ -249,7 +252,7 @@
 
                 <div class="col-xs-4 col-sm-4 col-md-7">
                     <div class="form-group" style="margin-left: 100px">
-                        <form method="post" action="{{action('EventsController@eventaddTagInfo')}}">
+                        <form method="post" action="{{action('EventsController@eventaddTagInfo',['param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">
                             <h2 style="font-size: 35px">Zoznam tagov eventu</h2><br>
 
                                 <li class="table-row">
@@ -293,7 +296,7 @@
         });
     </script>
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
 @endsection

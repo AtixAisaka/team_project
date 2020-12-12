@@ -25,6 +25,10 @@ Route::get('/', [
     "as" => "welcome", "uses" => 'EventsController@welcome'
 ]);
 
+Route::get('backToWelcome', [
+    "as" => "backToWelcome", "uses" => 'EventsController@backToWelcome'
+]);
+
 Auth::routes();
 
 Route::get('/home', [
@@ -85,11 +89,11 @@ Route::post('/deleteEventHistory', [
     "as" => "deleteEventHistory", "uses" => 'EventsController@deleteEventHistory'
 ]);
 
-Route::get('/addUserToEvent/{id}', [
+Route::get('/addUserToEvent/{id}{param}', [
     "as" => "addUserEvent", "uses" => 'EventsController@addUserToEvent'
 ]);
 
-Route::get('/removeUserFromEvent/{id}', [
+Route::get('/removeUserFromEvent/{id}{param}', [
     "as" => "removeUserEvent", "uses" => 'EventsController@removeUserFromEvent'
 ]);
 

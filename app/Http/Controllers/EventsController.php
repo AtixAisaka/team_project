@@ -31,9 +31,18 @@ class EventsController extends Controller
 {
     public function welcome(){
         $today = Carbon::now();
+        $authuser = null;
+        if(Auth::user()) $authuser = Auth::user();
+        $helpertable = UsersGoingEvents::all();
+        $firstevent = Events::whereDate('start_date', '>', $today->format('Y-m-d H:i:s'))
+            ->orderBy('start_date', 'ASC')->first();
         $events = Events::whereDate('start_date', '>', $today->format('Y-m-d H:i:s'))
-            ->orderBy('start_date', 'ASC')->paginate(3);
-        return view('welcome', compact("events"));
+            ->orderBy('start_date', 'ASC')->where("id", "!=", $firstevent->id)->paginate(2);
+        return view('welcome', compact("events", "firstevent", "authuser", "helpertable"));
+    }
+
+    public function backToWelcome() {
+        return Redirect::to("/");
     }
 
     public function index(){
@@ -631,7 +640,7 @@ class EventsController extends Controller
         return Redirect::to('/eventhistory/'.$value."&".$userid."&".$admin);
     }
 
-    public function addUserToEvent($id) {
+    public function addUserToEvent($id, $param) {
         $array = $this->getSessionData();
         $eventid = $id;
         $event = Events::find($eventid);
@@ -640,7 +649,7 @@ class EventsController extends Controller
         $percipient_count = $percipient->count();
         $userid = Auth::id();
 
-        if($percipient_count+1 < $max_percipient) {
+        if($percipient_count < $max_percipient) {
             $add = new UsersGoingEvents();
             $add->userid = $userid;
             $add->eventid = $eventid;
@@ -656,14 +665,16 @@ class EventsController extends Controller
             Mail::to(Auth::user()->email)->send(new App\Mail\EmailEventInfo($mailData));
 
             \Session::flash('success', 'Účastník pridaný');
-            return $this->doFilter($array);
+            if($param == 0) return $this->doFilter($array);
+            else return $this->backToWelcome();
         }else{
             \Session::flash('warnning', 'Udalosť je plná');
-            return $this->doFilter($array);
+            if($param == 0) return $this->doFilter($array);
+            else return $this->backToWelcome();
         }
     }
 
-    public function removeUserFromEvent($id) {
+    public function removeUserFromEvent($id, $param) {
         $array = $this->getSessionData();
 
         $eventid = $id;
@@ -675,7 +686,8 @@ class EventsController extends Controller
         ]);
         $remove->delete();
 
-        return $this->doFilter($array);
+        if($param == 0) return $this->doFilter($array);
+        else return $this->backToWelcome();
     }
 
     public function openImageUpload($id){

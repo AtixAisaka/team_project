@@ -362,12 +362,12 @@
                                     @endforeach
                                         @if(\Carbon\Carbon::parse($event->start_date)->isFuture() && Auth::User()->role==0)
                                         @if($helper == 0)
-                                            <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
+                                            <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id, "param" => 0]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">
                                                         person_add </i>
                                                 </div></a>
                                         @else
-                                            <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}" role="button">
+                                            <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id, "param" => 0]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">
                                                         cancel </i>
                                                 </div></a>
@@ -431,11 +431,11 @@
                                     @endforeach
                                     @if(\Carbon\Carbon::parse($event->start_date)->isFuture() && Auth::User()->role==0)
                                         @if($helper == 0)
-                                            <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id]) }}" role="button">
+                                            <a class="btn-1" href="{{ action("EventsController@addUserToEvent", ["id" => $event->id, "param" => 0]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">person_add</i></div>
                                             </a>
                                         @else
-                                            <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id]) }}" role="button">
+                                            <a class="btn-1" href="{{ action("EventsController@removeUserFromEvent", ["id" => $event->id, "param" => 0]) }}" role="button">
                                                 <div class="valign-center"> <i class="material-icons">cancel</i></div>
                                             </a>
                                         @endif
@@ -445,7 +445,8 @@
                                 @endauth
 
                             <div class="div_img">
-                            <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}">@if($event->display_image != "none")
+                            <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}">
+                                @if($event->display_image != "none")
                                     <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
                                 @else
                                     <img style="margin: 5px;height: 202px" src="{{asset('img/calendar.png')}}">

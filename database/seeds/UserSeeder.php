@@ -12,12 +12,12 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'test',
-            'email' => 'test@mail.test',
-            'password' => '$2y$10$/D.nVUJgkvqCxkSqNiGcuObsvx/CPc81VSDQ3x/nFWBoCRhtlvT/S',
+            'name' => 'admin',
+            'email' => 'admin@scheduletap',
+            'password' => '$2y$10$kVzMCzcKaRsv4PddAcy9Je71R9OaItBRDGo1lLn34QzddrqwV0Oky',
             'created_at' => '2020-11-07 23:06:32',
             'updated_at' => '2020-11-07 23:06:32',
-            'role' => '0',
+            'role' => '4',
         ]);
     }
 }

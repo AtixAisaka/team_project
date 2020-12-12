@@ -29,6 +29,13 @@ use DateTime;
 
 class EventsController extends Controller
 {
+    public function welcome(){
+        $today = Carbon::now();
+        $events = Events::whereDate('start_date', '>', $today->format('Y-m-d H:i:s'))
+            ->orderBy('start_date', 'ASC')->paginate(3);
+        return view('welcome', compact("events"));
+    }
+
     public function index(){
         $events = Events::get();
         $fakulty = Fakulty::get();
@@ -574,6 +581,11 @@ class EventsController extends Controller
 
         if($param != -1) return Redirect::to('/eventhistory/'.$param."&".$request->userid."&".$request->admin);
         else return $this->doFilter($array);
+    }
+
+    public function returnToEventList() {
+        $array = $this->getSessionData();
+        return $this->doFilter($array);
     }
 
     public function hideEventAction($id, $value) {

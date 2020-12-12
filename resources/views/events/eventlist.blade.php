@@ -414,7 +414,7 @@
                             </div>
 
                             <div class="event_buttons_part2">
-                                <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button" target="_blank">
+                                <a class="btn-1" href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}" role="button">
                                     <div class="valign-center"> <i class="material-icons">help_outline</i></div>
                                 </a>
                                 @if($event->userid != $authuser->id)

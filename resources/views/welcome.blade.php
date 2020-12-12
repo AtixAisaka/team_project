@@ -107,6 +107,10 @@
     <div class="container">
         <div class="container_text">
             <h1><img width="22" height="auto" src="{{asset('img/bullet_pointer.png')}}">Buď informovaný o podujatiach a najnovších akciách.</h1>
+            @foreach($events as $row)
+                <h1>{{$row->event_name}}&nbsp; {{\Carbon\Carbon::parse($row->start_date)->format('d.m.Y H:i:s')}}
+                    &nbsp; {{\Carbon\Carbon::parse($row->end_date)->format('d.m.Y H:i:s')}}</h1><br/>
+            @endforeach
         </div>
     </div>
 

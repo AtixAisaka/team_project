@@ -17,13 +17,13 @@ use Session\get;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
-Route::get('/aboutus', function () {
-    return view('aboutus');
-});
+Route::get('/', [
+    "as" => "welcome", "uses" => 'EventsController@welcome'
+]);
 
 Auth::routes();
 
@@ -39,6 +39,10 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('eventlist', [
     "as" => "eventlist", "uses" => 'EventsController@showEventList'
+]);
+
+Route::get('returnToEventList', [
+    "as" => "returnToEventList", "uses" => 'EventsController@returnToEventList'
 ]);
 
 Route::get('/eventhistory/{value}&{id}&{admin}', [
@@ -178,7 +182,7 @@ Route::post('/edit/user', 'UserController@update')->name('user.update');
 
 Route::get('/edit/password/user', 'UserController@passwordEdit')->name('password.edit');
 
-Route::post('/edit/password/user', 'UserController@passwordUpdate')->name('password.update');
+Route::post('/edit/password/user', 'UserController@passwordUpdate')->name('password.updates');
 
 Route::get('makeeventpdf/{id}', [
     "as" => "makeeventpdf", "uses" => 'EventsController@makeEventPDF'

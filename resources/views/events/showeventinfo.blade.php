@@ -282,6 +282,8 @@
         @if($param != -1)
             <a class="btn effect01" style="width: 100px;" href="{{ action("EventsController@showEventsHistory",
                     ["value" => $param, "id" => $userid, "admin" => $admin])  }}" role="button">Späť</a>
+        @else
+            <a class="btn effect01" style="width: 100px;" href="{{ action("EventsController@returnToEventList")  }}" role="button">Späť</a>
         @endif
     </div>
 

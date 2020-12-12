@@ -5,7 +5,7 @@
                 <div class="card" style="min-width: 500px; clear:both;">
                     <div class="card-header" style="text-align: center"><h1>Change Password</h1></div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('password.update') }}">
+                        <form method="POST" action="{{ route('password.updates') }}">
                             @csrf
                             @if(session("success"))
                                 <div class="alert alert-success" role="alert">

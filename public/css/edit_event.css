@@ -55,6 +55,10 @@
     text-align: center;
 }
 
+.h3{
+    font-size: 20px;
+}
+
 .info {
     margin-top: 3px;
     font-size: 20px;
@@ -144,4 +148,9 @@ textarea{
 
 .effect01{
     width: 100px;
+}
+
+.a_delete:hover{
+    text-decoration: none;
+    color: rgb(29, 29, 29);
 }

@@ -1,0 +1,38 @@
+.login_links a{
+    text-align: center;
+}
+
+.login_links i{
+    font-size: 20px;
+}
+
+.btn{
+    font-size: 15px;
+    color: white;
+    width: 250px;
+}
+.github{
+    background-color: rgb(131, 131, 131);
+}
+
+.facebook{
+    background-color: rgb(43, 141, 217);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.google{
+    background-color: rgb(226, 48, 48);
+}
+
+.github:hover{
+    background-color: rgba(155, 155, 155, 0.9);
+}
+
+.facebook:hover{
+    background-color: rgba(0, 143, 252, 0.6);
+}
+
+.google:hover{
+    background-color: rgba(231, 11, 11, 0.6);
+}

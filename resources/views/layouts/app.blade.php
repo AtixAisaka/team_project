@@ -16,6 +16,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/user_list.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/login.css')}}">
 
 
     <script>
@@ -116,33 +117,36 @@
                                                         @enderror
                                                     </div>
 
+                                                    @if (Route::has('password.request'))
+                                                            <a href="{{ route('password.request') }}" style="color: rgb(76, 175, 80);font-weight: lighter">
+                                                                {{ __('Forgot Your Password?') }}
+                                                            </a>
+                                                    @endif
+
                                                     <div class="checkbox">
                                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="remember">Remember me</label>
                                                     </div>
-
-
-
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-success btn-block">Sign in</button>
                                                     </div>
-                                                    <div class="a-button-links">
-                                                    <a href="http://localhost/team_project.git/public/login/github" class="btn btn-link">Login with github</a>
-                                                    <a href="http://localhost/team_project.git/public/login/facebook" class="btn btn-link">Login with Facebook</a>
-                                                    <a href="http://localhost/team_project.git/public/login/google" class="btn btn-link">Login with Google</a>
+                                                    <div class="divider"></div>
+                                                    <div class="login_links">
+                                                        <div>
+                                                            <a href="{{url('/')}}/login/github" class="btn github"><i class="fa fa-github-square"></i> Connect with Github</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="{{url('/')}}/login/facebook" class="btn facebook"><i class="fa fa-facebook-square"></i> Connect with Facebook</a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="{{url('/')}}/login/google" class="btn google"><i class="fa fa-google-plus-square"></i> Connect with Google</a>
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="divider"></li>
-                                    @if (Route::has('password.request'))
-                                        <div class="a-button-links">
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                        </div>
-                                    @endif
+                                    <div class="divider"></div>
                                 </ul>
                             </li>
                             @if (Route::has('register'))

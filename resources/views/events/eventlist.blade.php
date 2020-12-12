@@ -388,9 +388,10 @@
                     <div class="gallery">
                     <!--                            <div class="NAZOV">{{--{{$event-> event_name}}--}}</div>-->
                         <div class="event_preview" style="position: relative">
-                            <div class="event_buttons_part0"></div>
-                            <div class="event_buttons_part1">
+
+
                                 @auth
+                                <div class="event_buttons_part1">
                                     @if($event->userid == $authuser->id && \Carbon\Carbon::parse($event->start_date)->isFuture() || Auth::user()->role==4)
                                         <a class="btn-1" href="{{ action("EventsController@showEditEvent", ["id" => $event->id, "param" => -1, "userid" => -1, "admin" => -1]) }}" role="button">
                                             <div class="valign-center"> <i class="material-icons">build</i></div>
@@ -440,8 +441,9 @@
                                         @endif
                                     @endif
                                 @endif
-                                @endauth
                             </div>
+                                @endauth
+
                             <div class="div_img">
                             <a href="{{ action("EventsController@showEventInfo",  ["id" => $event->id, "param" => "-1", "userid" => "-1", "admin" => "-1"]) }}">@if($event->display_image != "none")
                                     <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">

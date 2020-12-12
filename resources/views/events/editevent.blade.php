@@ -7,49 +7,45 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/edit_event.css')}}">
     <script type="text/javascript" src="{{ asset('js/sol.js') }}"></script>
 
-    <style>
-
-    </style>
-
-
     <div class="container">
         <h1>Edit eventu</h1>
         <div class="container details">
-            <form method="post" action="{{action('EventsController@updateEventAction', ["id" => $event->id])}}" enctype="multipart/form-data">
-            <div class="flex-container first">
-                <div class="flex-child">
-                    <div class="div_img">
-                        @if($event->display_image != "none")
-                            <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
-                        @else
-                            <img style="margin: 5px;height: 202px" src="{{asset('img/calendar.png')}}">
-                            @endif</a>
+            <div class="row">
+                <form method="post" action="{{action('EventsController@updateEventAction', ["id" => $event->id])}}" enctype="multipart/form-data">
+
+                <div class="col-xs-9" style="width: 100%">
+                    <div class="flex-container first">
+                        <div class="flex-child">
+                            <div class="div_img">
+                                @if($event->display_image != "none")
+                                    <img src="{{ url('/') }}/storage/images/users/{{ $event-> display_image }}">
+                                @else
+                                    <img style="margin: 5px;height: 202px" src="{{asset('img/calendar.png')}}">
+                                    @endif</a>
+                            </div>
+                        </div>
+                        <div class="flex-child">
+                            <div style="font-size: 20px;margin-top: 10px;font-weight: bold">
+                                Názov: <input class="form-control" name="event_name" value="{{ $event->event_name }}">
+                            </div>
+                            <div style="font-size: 20px;margin-top: 10px;font-weight: bold">
+                                Popis eventu: <textarea rows="4" cols="50" type="text" name="eventdescription" class="form-control">{{$eventdescription}}</textarea>
+                                <input type="hidden" name="eventdescription_id" value="{{$eventdescription_id}}" >
+                            </div>
+                            <div>
+                                <label for="image"><b>Obrázok eventu</b></label>
+                                <input type="file" class="form-control-file" name="image" multiple><br>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="flex-child">
-                    <div style="font-size: 20px;margin-top: 10px;font-weight: bold">
-                        Názov: <input class="form-control" name="event_name" value="{{ $event->event_name }}">
-                    </div>
-                    <div style="font-size: 20px;margin-top: 10px;font-weight: bold">
-                        Popis eventu: <textarea rows="4" cols="50" type="text" name="eventdescription" class="form-control">{{$eventdescription}}</textarea>
-                        <input type="hidden" name="eventdescription_id" value="{{$eventdescription_id}}" >
-                    </div>
-                    <div>
-                        <label for="image"><b>Obrázok eventu</b></label>
-                        <input type="file" class="form-control-file" name="image" multiple><br>
-                    </div>
-                </div>
-            </div>
 
-            <div class="container">
-
-                <div class="outerDiv">
-                    <div class="leftDiv">
-                        <div class="flex-container">
-                            <div class="flex-child">
-                                <div class="icon">
-                                    <i class="fa fa-map-marker"></i>
-                                </div>
+                <div class="col-xs-4" style="width: 50%;margin-top: 15px">
+                    <div class="flex-container">
+                        <div class="flex-child">
+                            <div class="icon">
+                                <i class="fa fa-map-marker"></i>
+                            </div>
                             </div>
                             <div class="flex-child">
                                 <div class="info">
@@ -127,167 +123,41 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <input type="hidden" name="param" value="{{$param}}">
                     <input type="hidden" name="userid" value="{{$userid}}">
                     <input type="hidden" name="admin" value="{{$admin}}">
-                    <div style="padding-top: 10px;text-align: center">
+                    <div style="padding-top: 10px; padding-left: 110px">
                         <input class="btn effect01" type="submit" name="submit" value="Uložiť">
-
                     </div>
                 </div>
-
             </form>
-                    <div class="rightDiv">
-                        <form method="post" action="{{action('EventsController@eventaddTagInfo',['param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">
-                            <h3>Pridať tagy</h3>
-                            <br>
 
-                                <select id="tags0"  name="tag[]" multiple="multiple">
-
-                                    @foreach($alltags as $row)
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endforeach
-
-                                </select>
-
-
-                            <div class="col-xs-3 col-sm-3 col-md-3">
-                                <input type="hidden" name="idevent" value="{{$event->id}}">
-                                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                <input class="btn effect01" type="submit" name="submit" value="Pridať tagy"><br>
-                            </div>
-                        </form>
-
-                        @foreach (array_combine($eventtagids, $eventtags) as $eventtagid => $eventtag)
-                        {{$eventtagid}},{{$eventtag}} <a href="{{action('EventsController@deletetagInfo',['id' => $eventtagid, 'idevent' => $event->id, 'param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">delete</a> </br>
+                <div class="col-xs-6">
+                    <form method="post" action="{{action('EventsController@eventaddTagInfo',['param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">
+                        <h3><strong>Pridať tagy</strong></h3>
+                        <select id="tags0"  name="tag[]" multiple="multiple" style="width: 300px;margin-bottom: 10px">
+                            @foreach($alltags as $row)
+                                <option value="{{$row->id}}">{{$row->name}}</option>
                             @endforeach
+                        </select>
+                        <div>
+                            <input type="hidden" name="idevent" value="{{$event->id}}">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <input class="btn effect01" style="width: auto" type="submit" name="submit" value="Pridať tagy"><br>
+                        </div>
+                    </form>
+                    <h3><strong>Zoznam tagov eventu</strong></h3>
 
-                    </div>
+                    @foreach (array_combine($eventtagids, $eventtags) as $eventtagid => $eventtag)
+                        {{$eventtagid}},{{$eventtag}} <a class="a_delete" href="{{action('EventsController@deletetagInfo',['id' => $eventtagid, 'idevent' => $event->id, 'param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}"><strong>X</strong></a> </br>
+                    @endforeach
 
                 </div>
             </div>
-
         </div>
     </div>
-
-
-
-    <!--nove spravene moze sa vymazat po pridani tagov-->
-
-
-    <div class="container border border-dark" style="padding-top: 1000px">
-
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    <div class="form-group">
-                        <h2 style="font-size: 35px">Edit eventu</h2>
-                        <form method="post" action="{{action('EventsController@updateEventAction', ["id" => $event->id])}}" enctype="multipart/form-data">
-                        <div class="">
-                            <label for="name"><b>Meno eventu</b></label><br>
-                            <input style="margin: 5px 0 22px 0; width: 100%; " class="form-control" type="text" name="event_name" value="{{ $event->event_name }}">
-                        </div>
-                        <div class="">
-                            <label for="name"><b>Miesto konania eventu</b></label><br>
-                            <input style="margin: 5px 0 22px 0; width: 100%; "type="text" name="event_place" class="form-control" value="{{$event->event_place}}">
-                        </div>
-                        <div class="">
-                            <label for="name"><b>Popis eventu</b></label><br>
-                            <input style="margin: 5px 0 22px 0; width: 100%; "type="text" name="eventdescription" class="form-control" value="{{$eventdescription}}">
-                            <input type="hidden" name="eventdescription_id" value="{{$eventdescription_id}}" >
-                        </div>
-                        @if($event->type == 2)
-                            <label for="name"><b>Fakulta</b></label><br>
-                            <select class="form-control" style="margin: 5px 0 22px 0; width: 100%; " id="idfakulty" name="idfakulty" >
-                                @foreach($fakulty as $row)
-                                    @if($row->id == $event->idfakulty)) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
-                                    @else <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        @elseif($event->type == 1)
-                            <label for="name"><b>Katedra</b></label><br>
-                            <select class="form-control" style="margin: 5px 0 22px 0; width: 100%; " id="idkatedry" name="idkatedry">
-                                @foreach($katedry as $row)
-                                    @if($row->id == $event->idkatedry)) <option selected="selected" value="{{$row->id}}">{{$row->name}}</option>
-                                    @else <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        @endif
-                        <div class="">
-                            <label for="name"><b>Začiatok eventu</b></label><br>
-                            <input type="datetime-local" class="form-control" name="start_date" value="{{date('Y-m-d\TH:i:s', strtotime($event->start_date))}}"><br>
-                        </div>
-                        <div class="">
-                            <label for="name"><b>Koniec eventu</b></label><br>
-                            <input type="datetime-local" class="form-control" name="end_date" value="{{date('Y-m-d\TH:i:s', strtotime($event->end_date))}}"><br>
-                        </div>
-                        <label for="max_percipient"><b>Maximálny počet zúčastnených</b></label><br>
-                        <div class="">
-                            <input type="number" id="quantity" name="max_percipient" min="1" max="25" required class="form-control" value="{{ $event->max_percipient }}">
-                        </div>
-                        <div class=""><br>
-                        <label for="image"><b>Obrázok eventu</b></label>
-                        <input type="file" class="form-control-file" name="image" multiple><br>
-                        </div>
-
-                        <div class=""><br>
-                            <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <input class="btn effect01" type="submit" name="submit" value="Uložiť"><br><br>
-                            <a class="btn effect01" href="{{action('EventsController@eventTagInfoView', ["id" => $event->id])}}" target="_blank">edit tagov</a>
-                        </div>
-
-
-                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                        <input type="hidden" name="param" value="{{$param}}">
-                        <input type="hidden" name="userid" value="{{$userid}}">
-                        <input type="hidden" name="admin" value="{{$admin}}">
-                        </form>
-                    </div>
-                </div>
-
-                <!--nove spravene-->
-
-                <div class="col-xs-4 col-sm-4 col-md-7">
-                    <div class="form-group" style="margin-left: 100px">
-                        <form method="post" action="{{action('EventsController@eventaddTagInfo',['param' => $param, 'userid'=> $userid, 'admin'=>$admin])}}">
-                            <h2 style="font-size: 35px">Zoznam tagov eventu</h2><br>
-
-                                <li class="table-row">
-                                    <div class="col col-1"></div>
-                                    <div class="col col-3">  <a class="btn-1" href="" role="button" target="_blank">Vymazať</a></div>
-                                </li>
-
-
-
-
-                            <h3>Pridať tagy</h3>
-                            <br>
-                            <div class="col-xs-3 col-sm-3 col-md-3">
-                                <select id="tags0"  name="tag[]" multiple="multiple">
-
-
-                                        <option value=""></option>
-
-
-                                </select>
-                            </div>
-
-
-                            <div class="col-xs-3 col-sm-3 col-md-3">
-                                <input type="hidden" name="idevent" value="">
-                                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                <input class="btn effect01"  style="width: 200px" type="submit" name="submit" value="Pridať tagy"><br>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-    </div>
-
 
     <script type="text/javascript">
         $(function() {

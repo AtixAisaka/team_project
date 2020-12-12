@@ -31,8 +31,8 @@
                             </div>
                             <hr>
 
-                            <div class="row mt-2">
-                                <div class="col-md-6">
+                            <div class="row mt-5">
+                                <div class="col-md-12">
                                     <label class="label-first-row">{{ __('NAME') }}</label>
                                     <input id="name" value="{{$user['name']}}" type="text" class="form-control @error('name') is-invalid @enderror"
                                            name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>

@@ -6,8 +6,8 @@
     <div class="container">
 
         <div class="col-md-8">
-            <h1>Login</h1>
-            <p>Please fill in this form to login.</p>
+            <h1>Prihlásenie</h1>
+            <p>Prosím vyplňte nasledujúce údaje pre prihlásenie.</p>
             <hr>
 
             <form method="POST" action="{{ route('login') }}">
@@ -16,7 +16,7 @@
 
 
                 <label for="email"><b>Email</b></label><br>
-                <input id="email" type="email" style="margin: 5px 0 22px 0; width: 40%; " placeholder="Enter Email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                <input id="email" type="email" style="margin: 5px 0 22px 0; width: 40%; " placeholder="Email adresa" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                 @error('email')
                 <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong><br>
@@ -28,7 +28,7 @@
 
 
                 <label for="psw"><b>Password</b></label><br>
-                <input id="password" style="margin: 5px 0 5px 0; width: 40%; " type="password" placeholder="Enter Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                <input id="password" style="margin: 5px 0 5px 0; width: 40%; " type="password" placeholder="Heslo" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                 @error('password')
                 <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong><br>
@@ -36,26 +36,26 @@
                 @enderror
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}" style="color: rgb(76, 175, 80);">
-                        {{ __('Forgot Your Password?') }}
+                        {{ __('Zabudli ste heslo?') }}
                     </a>
                 @endif
 
 
                 <div class="checkbox">
                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="remember">Remember me</label>
+                    <label class="form-check-label" for="remember">Zapamätať si ma</label>
                 </div>
-                <button type="submit" class="registerbtn">Login</button>
+                <button type="submit" class="registerbtn">Prihlásiť sa</button>
                 <hr>
                 <div class="login_links">
                     <div>
-                    <a href="{{url('/')}}/login/github" class="btn github"><i class="fa fa-github-square"></i> Connect with Github</a>
+                    <a href="{{url('/')}}/login/github" class="btn github"><i class="fa fa-github-square"></i> Prihlásiť sa cez Github</a>
                     </div>
                     <div>
-                    <a href="{{url('/')}}/login/facebook" class="btn facebook"><i class="fa fa-facebook-square"></i> Connect with Facebook</a>
+                    <a href="{{url('/')}}/login/facebook" class="btn facebook"><i class="fa fa-facebook-square"></i> Prihlásiť sa cez Facebook</a>
                     </div>
                     <div>
-                    <a href="{{url('/')}}/login/google" class="btn google"><i class="fa fa-google-plus-square"></i> Connect with Google</a>
+                    <a href="{{url('/')}}/login/google" class="btn google"><i class="fa fa-google-plus-square"></i> Prihlásiť sa cez Google</a>
                     </div>
                 </div>
             </form>

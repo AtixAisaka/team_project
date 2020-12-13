@@ -112,12 +112,12 @@
         @guest
         <div class="container_join" style="margin-bottom: 230px">
             <div class="button_container">
-                <h1>Join ScheduleTap Today.</h1>
+                <h1>Pripojte sa do ScheduleTap dnes.</h1>
                 <a class="a_custom" href="{{ route('register') }}">
-                    <button  class="hover_btn"><span>{{ __('Register') }}</span></button>
+                    <button  class="hover_btn"><span>{{ __('Registrácia') }}</span></button>
                 </a>
                 <a class="a_custom" href="{{ route('login') }}">
-                    <button  class="hover_btn2"><span>{{ __('Sign In') }}</span></button>
+                    <button  class="hover_btn2"><span>{{ __('Prihláste sa') }}</span></button>
                 </a>
                 <a class="a_custom" href="{{ url('/events') }}"><h2>Pokračovať bez registrácie.</h2></a>
             </div>
@@ -125,9 +125,9 @@
         @else
         <div class="container_join" style="margin-bottom: 260px">
             <div class="button_container">
-                <h1>You are signed in</h1>
+                <h1>Ste prihlásený</h1>
                 <a class="a_custom" href="{{ url('/events') }}">
-                    <button  class="hover_btn"><span>{{ __('Open Callendar') }}</span></button>
+                    <button  class="hover_btn"><span>{{ __('Otvoriť kalendár') }}</span></button>
                 </a>
 
             </div>

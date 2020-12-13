@@ -56,19 +56,19 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class={{(request()->is('/'))? 'active': ''}}><a href="{{ url('/') }}">Home</a></li>
+                        <li class={{(request()->is('/'))? 'active': ''}}><a href="{{ url('/') }}">Domov</a></li>
                         @guest
-                            <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
-                            <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                            <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@index")}}">Kalendár eventov</a></li>
+                            <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam eventov</a></li>
                         @else
                             @if(Auth::user()->role==4)
                                 <li class="dropdown">
-                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam eventov</a></li>
                                 <li class={{ (request()-> is('userlist'))? 'active': '' }}><a href="{{action("UsersController@showUserList")}}">Zoznam používateľov</a></li>
                                 </li>
                             @else
-                                <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@index")}}">Kalendár udalostí</a></li>
-                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam udalostí</a></li>
+                                <li class={{ (request()-> is('events'))? 'active': '' }}><a href="{{action("EventsController@index")}}">Kalendár eventov</a></li>
+                                <li class={{ (request()-> is('eventlist'))? 'active': '' }}><a href="{{action("EventsController@showEventList")}}">Zoznam eventov</a></li>
                                 <li class={{ (request()-> is('eventhistory'))? 'active': '' }}>
                                     <li class="nav-item dropdown">
                                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -91,7 +91,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="dropdown">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown">Sign in <b class="caret"></b></a>
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown">Prihlásiť sa<b class="caret"></b></a>
                                 <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
                                     <li>
                                         <div class="row">
@@ -100,7 +100,7 @@
                                                     @csrf
 
                                                     <div class="form-group">
-                                                        <input id="email" type="email" placeholder="Email address" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                                        <input id="email" type="email" placeholder="Email adresa" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                                         @error('email')
                                                         <span class="invalid-feedback" role="alert">
                                                                  <strong>{{ $message }}</strong>
@@ -109,7 +109,7 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <input id="password" type="password"  placeholder="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                                        <input id="password" type="password"  placeholder="Heslo" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                                         @error('password')
                                                         <span class="invalid-feedback" role="alert">
                                                                  <strong>{{ $message }}</strong>
@@ -119,27 +119,27 @@
 
                                                     @if (Route::has('password.request'))
                                                             <a href="{{ route('password.request') }}" style="color: rgb(76, 175, 80);font-weight: lighter">
-                                                                {{ __('Forgot Your Password?') }}
+                                                                {{ __('Zabudli ste heslo?') }}
                                                             </a>
                                                     @endif
 
                                                     <div class="checkbox">
                                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="remember">Remember me</label>
+                                                        <label class="form-check-label" for="remember">Zapamätať si ma</label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <button type="submit" class="btn btn-success btn-block">Sign in</button>
+                                                        <button type="submit" class="btn btn-success btn-block">Prihlásiť sa</button>
                                                     </div>
                                                     <div class="divider"></div>
                                                     <div class="login_links">
                                                         <div>
-                                                            <a href="{{url('/')}}/login/github" class="btn github"><i class="fa fa-github-square"></i> Connect with Github</a>
+                                                            <a href="{{url('/')}}/login/github" class="btn github"><i class="fa fa-github-square"></i> Prihlásiť sa cez Github</a>
                                                         </div>
                                                         <div>
-                                                            <a href="{{url('/')}}/login/facebook" class="btn facebook"><i class="fa fa-facebook-square"></i> Connect with Facebook</a>
+                                                            <a href="{{url('/')}}/login/facebook" class="btn facebook"><i class="fa fa-facebook-square"></i> Prihlásiť sa cez Facebook</a>
                                                         </div>
                                                         <div>
-                                                            <a href="{{url('/')}}/login/google" class="btn google"><i class="fa fa-google-plus-square"></i> Connect with Google</a>
+                                                            <a href="{{url('/')}}/login/google" class="btn google"><i class="fa fa-google-plus-square"></i> Prihlásiť sa cez Google</a>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -150,7 +150,7 @@
                                 </ul>
                             </li>
                             @if (Route::has('register'))
-                                <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                                <li><a href="{{ route('register') }}">{{ __('Registrácia') }}</a></li>
                             @endif
                         @else
                             <li class="dropdown">
@@ -166,12 +166,12 @@
                                 </a>
 
                                 <div class="dropdown-content" aria-labelledby="navbarDropdown">
-                                    <a href="{{action("UserController@profile")}}">Profile</a>
+                                    <a href="{{action("UserController@profile")}}">Profil</a>
                                     <a href="{{action("EventsController@tagsView")}}">Zoznam tagov</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Odhlásiť sa') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

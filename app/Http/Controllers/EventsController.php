@@ -36,8 +36,10 @@ class EventsController extends Controller
         $helpertable = UsersGoingEvents::all();
         $firstevent = Events::whereDate('start_date', '>', $today->format('Y-m-d H:i:s'))
             ->orderBy('start_date', 'ASC')->first();
-        $events = Events::whereDate('start_date', '>', $today->format('Y-m-d H:i:s'))
-            ->orderBy('start_date', 'ASC')->where("id", "!=", $firstevent->id)->paginate(2);
+        if($firstevent != null) {
+            $events = Events::whereDate('start_date', '>', $today->format('Y-m-d H:i:s'))
+                ->orderBy('start_date', 'ASC')->where("id", "!=", $firstevent->id)->paginate(2);
+        } else $firstevent = "null";
         return view('welcome', compact("events", "firstevent", "authuser", "helpertable"));
     }
 

@@ -109,7 +109,7 @@
         </div>
         @else
                     <a href="{{ action("EventsController@showEventList")}}">
-                        <img style="height: 500px;overflow:visible" src="{{asset('img/calendar.png')}}"></a>
+                        <img style="height: 500px;overflow:visible; margin-left: auto;  margin-right: auto; display: block;" src="{{asset('img/calendar.png')}}"></a>
                     <div class="event_info">
                         <div class="event_title">Pridajte event práve teraz!</div>
         @endif

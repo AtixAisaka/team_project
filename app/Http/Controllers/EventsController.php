@@ -30,6 +30,7 @@ use DateTime;
 class EventsController extends Controller
 {
     public function welcome(){
+        $events = null;
         $today = Carbon::now();
         $authuser = null;
         if(Auth::user()) $authuser = Auth::user();

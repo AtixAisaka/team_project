@@ -69,9 +69,10 @@
                                                 </div>
                                                 <div class="">
                                                     <label for="description"><b>Popis eventu</b></label>
-                                                    <input type="text" name="description" style="margin: 5px 0 22px 0; width: 100%; " class="form-control" placeholder="Popis eventu" value="" required autocomplete="">
+                                                    <textarea name="description" style="margin: 5px 0 22px 0; width: 100%; resize: none;" class="form-control" value="" required autocomplete="" rows="4" cols="50"></textarea>
+
                                                 </div>
-                                                <div class=""><br>
+                                                <div class="">
                                                     <label for="image"><b>Obrázok eventu</b></label>
                                                     <input type="file" class="form-control-file" name="image">
                                                 </div>

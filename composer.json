@@ -1,5 +1,6 @@
 {
     "name": "laravel/laravel",
+    "version": "1.0.0",
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": [
@@ -9,9 +10,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "barryvdh/laravel-dompdf": "^0.8.7",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "~6.2",
+        "jorenvanhocht/laravel-share": "^3.3",
         "laravel/framework": "^6.18.35",
-        "laravel/tinker": "^2.0"
+        "laravel/socialite": "^5.1",
+        "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.5",
+        "laravelcollective/html": "^6.2",
+        "progcode/laravel-fullcalendar": "^1.3",
+        "spatie/calendar-links": "^1.4"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
@@ -53,9 +62,11 @@
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+
         ]
     }
 }

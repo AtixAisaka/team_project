@@ -1,0 +1,27 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 250px;
+    grid-template-rows: 250px 30px;
+    gap: 0px 0px;
+    grid-template-areas:
+            "OBRAZOK"
+            "DELETE";
+    background-color: #ffffff;
+    padding: 5px;
+    width: max-content;
+
+}
+.grid-container > div {
+    font-size: 20px;
+}
+
+.OBRAZOK { grid-area: OBRAZOK; color: #000000}
+
+.DELETE { grid-area: DELETE; color: #000000;    text-align: center; }
+
+
+
+
+
+
+

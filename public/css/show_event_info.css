@@ -1,0 +1,130 @@
+.gallery{
+    margin: 5px;
+    padding: 5px;
+    border: 3px solid rgb(104, 210, 108);
+    background: rgba(225, 225, 225, .8);
+    border-radius: 10px;
+    float: left;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+}
+
+.div_img{
+    width: 360px;
+    height: 212px;
+    margin:  20px 30px 20px 20px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 4px 6px rgba(0,0,0,0.45);
+    border-radius: 0px;
+    background-color: #545454;
+    text-align: center;
+    overflow: hidden;
+}
+
+.div_img img{
+    width:auto;
+    height:212px;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    padding-right: 10px;
+}
+
+.first{
+    margin-top: 20px;
+    background-color: rgba(93, 233, 64, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 4px 6px rgba(0,0,0,0.45);
+}
+
+.details {
+    background-color: rgb(233, 233, 233);
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 4px 6px rgba(0,0,0,0.45);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.icon{
+    width: 30px;
+    font-size: 23px;
+    text-align: center;
+}
+
+.info {
+    margin-top: 3px;
+    font-size: 20px;
+}
+
+#myDIV{
+    display: none;
+}
+#share-buttons{
+    text-align: left;
+    width: 250px;
+}
+
+#share-buttons img{
+    margin-right: 5px;
+    margin-bottom: 5px;
+    width: 45px;
+    height: 45px;
+}
+
+#share-buttons a:hover{
+    text-decoration: none;
+}
+
+
+.outerDiv
+{
+    padding: 30px 60px 0px 60px;
+}
+.leftDiv
+{
+    height: auto;
+    width: 56%;
+    float: left;
+}
+.rightDiv
+{
+    height: auto;
+    width: 25%;
+    float: right;
+    text-align: right;
+}
+
+.share_text{
+    text-align: left;
+    font-size: 25px;
+    padding-bottom: 5px;
+}
+
+.share_text a{
+    text-decoration: none;
+}
+
+.img_icon {
+    width: 40px;
+    height: 40px;
+}
+
+.upload_options a{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    color: #333334;
+}
+
+.upload_options a:hover{
+    color: rgb(29, 29, 29);
+}
+
+.files a:hover{
+    color: rgb(29, 29, 29);
+}
+

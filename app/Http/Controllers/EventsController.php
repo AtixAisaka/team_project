@@ -505,7 +505,7 @@ class EventsController extends Controller
         $today = Carbon::now();
 
         $value = 0;
-        if(Events::whereDate('end_date', '<', $today->format('Y-m-d'))->
+        if(Events::whereDate('end_date', '<', $today->format('Y-m-d H:i:s'))->
         where("id", "=", $id)->exists()) $value = 1;
 
         foreach($usereventtable as $row) {

@@ -16,7 +16,7 @@ class CreateEventDescriptionsTable extends Migration
         Schema::create('event_descriptions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('event_id');
-            $table->text('description')->default("");
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

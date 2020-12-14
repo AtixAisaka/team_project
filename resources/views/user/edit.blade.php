@@ -126,6 +126,13 @@
                                             <option class="labels-second-row" value="Hungary">Hungary</option>
                                             <option class="labels-second-row" value="Serbia">Serbia</option>
                                             <option class="labels-second-row" selected="selected" value="Other">Other</option>
+                                        @else
+                                            <option class="labels-second-row" value="Slovakia">Slovakia</option>
+                                            <option class="labels-second-row" value="Czech Republic">Czech Republic</option>
+                                            <option class="labels-second-row" value="United States">United States</option>
+                                            <option class="labels-second-row" value="Hungary">Hungary</option>
+                                            <option class="labels-second-row" value="Serbia">Serbia</option>
+                                            <option class="labels-second-row" value="Other">Other</option>
                                         @endif </select>
                                     @error('country')
                                     <span class="invalid-feedback" role="alert">
